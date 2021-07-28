@@ -1,0 +1,34 @@
+import java.util.*;
+ 
+class Solution {
+    public int solution(int N) {
+
+        String s = "";
+
+        while(N!=1){
+            s= N%2+s;
+            N=N/2;
+        } s=N+s;
+        
+        int zerosum=0;
+        int onesum=0;
+        int totalzerosum=0;
+
+        for(int i=0; i<s.length(); i++){
+
+            if(s.charAt(i)=='1') onesum++;
+            else zerosum++;
+
+            if(onesum==2) {            
+                onesum=1;
+                if(totalzerosum<zerosum && zerosum!=0){
+                    totalzerosum=zerosum;
+                }
+                zerosum=0;
+            }
+
+        }
+       
+        return totalzerosum;
+    }
+}
