@@ -1,0 +1,126 @@
+/*class Solution {
+    public int solution(int[] A) {
+
+        boolean flag [] = new boolean [A.length];
+        int answer=0;
+
+        for(int i=0; i<A.length; i++) flag[i]=false;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=i+1; j<A.length; j++){
+                if(flag[i]==true) break;
+                if(A[i]==A[j]){
+                    flag[i]=true;
+                    flag[j]=true;
+                    break;
+                }
+            }
+            if(flag[i]==false) answer=A[i];
+        }
+
+        return answer;
+        
+    }
+}//66%
+
+class Solution {
+    public int solution(int[] A) {
+
+        int []arr ={0,0,0,0,0,0,0,0,0,0};
+        int answer=99;
+
+        for(int i=0; i<A.length; i++){
+            arr[A[i]]++;
+        }
+
+        for(int i=0; i<arr.length; i++){
+            if(arr[i]%2!=0) answer=i;
+        }
+
+        return answer;
+        
+    }
+}//0%
+
+
+class Solution {
+    public int solution(int[] A) {
+
+        int []arr ={0,0,0,0,0,0,0,0,0,0};
+        int answer=99;
+        int check=99;
+
+        for(int i=0; i<A.length; i++){
+            arr[A[i]]++;
+            if(arr[A[i]]==1) check=i;
+        }
+
+        for(int i=0; i<arr.length; i++){
+            if(arr[i]%2==1) answer=A[check];
+        }
+
+        return answer;
+        
+    }
+}//0%
+
+class Solution {
+    public int solution(int[] A) {
+
+       int answer=0;
+       boolean [] flag= new boolean [A.length];
+       for(int i=0; i<A.length; i++) flag[i]=false;
+
+       for(int i=0; i<A.length; i++){
+           flag[i]=true;
+           for(int j=i; j<A.length; j++){
+               if(flag[j]==false && A[i]==A[j]) {
+                   flag[j]=true;
+                   break;
+               }
+               else if(flag[j]==false && A[i]!=A[j]){ 
+                   answer=A[i];
+                   break;
+               }
+           }
+       }
+        return answer;
+    }
+}//11%
+
+class Solution {
+    public int solution(int[] A) {
+
+        int answer=0;
+        boolean flag [] = new boolean [A.length];
+        for(int i=0; i<A.length; i++) flag[i]=false;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=i+1; j<A.length; j++){
+                if(flag[i]==true) break;
+                if(A[i]==A[j]){
+                    flag[i]=true;
+                    flag[j]=true;
+                    break;
+                }
+            }
+        }
+
+        for(int i=0; i<A.length; i++)
+            if(flag[i]==false) answer=A[i];
+
+        return answer;
+        
+    }
+}//66% timeout
+*/
+
+class Solution{
+	public int solution(int [] A){
+		int result=0;
+		for(int value : A){
+			result^=value;
+		}
+		return result;
+	}
+}//100%
