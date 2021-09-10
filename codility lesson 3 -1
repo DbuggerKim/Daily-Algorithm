@@ -1,0 +1,46 @@
+class Solution {
+    public int solution(int X, int Y, int D) {
+        
+        int round = 0;
+
+        for(int total=X; total<Y; total=total+D){
+            round++;
+        }
+
+        return round;
+    }
+}
+// 44% TIME OUT
+
+class Solution {
+    public int solution(int X, int Y, int D) {
+        
+        int remainder = 0;
+        int total=0;
+
+        total = Y-X;
+        total = total/D;
+        remainder=total%D;
+
+        if(remainder==0) return total;
+        else return (total+1);
+        
+    }
+}
+// 66%
+
+class Solution {
+    public int solution(int X, int Y, int D) {
+        
+        long remainder = 0;
+        int division=0;
+
+        division=(Y-X)/D;
+        remainder=(Y-X)%D;
+
+        if(remainder==0) return division;
+        else return (division+1);
+        
+    }
+}
+// 100%
