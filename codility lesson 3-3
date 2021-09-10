@@ -1,0 +1,177 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int [] arr = new int [A.length];
+        int partA=0;
+        int partB=0;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=0; j<i; j++){
+                partA=partA+A[j];
+            }
+            for(int k=i; k<A.length; k++){
+                partB=partB+A[k];
+            }
+            arr[i]=Math.abs(partA-partB);
+            partA=0;
+            partB=0;
+        }
+
+        Arrays.sort(arr);
+        
+        return arr[0];
+
+    }
+}//33%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int [] arr = new int [A.length];
+        int partA=0;
+        int partB=0;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=0; j<A.length; j++){
+                if(j>0 && j<i) partA=partA+A[j];
+                else partB=partB+A[j];
+            }
+            arr[i]=Math.abs(partA-partB);
+            partA=0;
+            partB=0;
+        }
+
+        Arrays.sort(arr);
+        
+        return arr[0];
+
+    }
+}//0%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int [] arr = new int [A.length];
+        int [] arr2 = new int [A.length-1];
+        int partA=0;
+        int partB=0;
+
+        for(int i=0; i<A.length-1; i++){
+            for(int j=0; j<i; j++){
+                partA=partA+A[j];
+            }
+            for(int k=i; k<A.length; k++){
+                partB=partB+A[k];
+            }
+
+            arr2[i]=Math.abs(partA-partB);
+            partA=0;
+            partB=0;
+        }
+
+        Arrays.sort(arr2);
+        
+        return arr2[0];
+
+    }
+}
+//30%
+
+// you can also use imports, for example:
+import java.lang.Math;
+
+// you can write to stdout for debugging purposes, e.g.
+// System.out.println("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int sum=0;
+        int sum2=0;
+        int sol=0;
+        int total=999;
+
+        for(int i=0; i<A.length-1; i++){
+            for(int j=0; j<i+1; j++) sum=sum+A[j];
+            for(int j=i+1; j<A.length; j++) sum2=sum2+A[j];
+            sol=Math.abs(sum-sum2);
+            //System.out.println(sum+" "+sum2+" "+sol);
+            sum=0; 
+            sum2=0;
+            if(total>=sol) total=sol;
+            //System.out.println(total);
+        }
+
+        return total;
+
+    }
+}
+//46%
+
+
+import java.lang.Math;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int sum=0;
+        int sum2=0;
+        int sol=0;
+        int total=4000;
+
+        for(int i=0; i<A.length-1; i++){
+            for(int j=0; j<i+1; j++) sum=sum+A[j];
+            for(int j=i+1; j<A.length; j++) sum2=sum2+A[j];
+            sol=Math.abs(sum-sum2);
+            //System.out.println(sum+" "+sum2+" "+sol);
+            sum=0; 
+            sum2=0;
+            if(total>=sol) total=sol;
+            //System.out.println(total);
+        }
+
+        return total;
+
+    }
+}
+//53% TIMEOUT
+
+class Solution {
+    public int solution(int[] A) {
+
+        int[] B= new int[A.length+3];
+//더 크게 잡아둠
+        final int size = A.length;
+        B[0] = A[0];
+
+        for(int i=1 ; i<size ; i++) {
+            B[I] = B[i-1] + A[i];
+        }
+        //A함수 값을 누적해서 더해서 각기 넣어줌
+
+        int smallest = Integer.MAX_VALUE;
+        //최솟값 비교를 위해 프로그램 내 자동으로 계산해주는 상수
+
+        for(int i=1; i<size ; i++) {
+            int left = B[i-1];
+            int right = B[size-1]-B[i-1];
+            int temp = Math.abs(left - right);
+            smallest = Math.min(temp,smallest);
+            //비교하여 둘중 작은 값
+        }
+        return mini;
+
+    }
+
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        System.out.println(s.solution(new int[] {3,1,2,4,3}));
+    }
+}
+//100%
