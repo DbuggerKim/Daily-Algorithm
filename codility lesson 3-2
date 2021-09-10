@@ -1,0 +1,52 @@
+class Solution {
+    public int solution(int[] A) {
+
+    int output=0;
+    boolean []check = new boolean [A.length];
+
+    for(int i=0; i<A.length; i++) 
+      check[i]=false;
+
+    for(int i=0; i<A.length; i++)
+      if(i==A[i]-1)
+        check[i]=true;
+
+    for(int i=0; i<A.length; i++)
+      if(check[i]==false)
+        output=i+1;
+
+    return output;
+
+    }
+} //0%
+
+class Solution {
+    public int solution(int[] A) {
+
+        int count=1;
+
+        for(int i=0; i<A.length; i++)
+            for(int j=0; j<A.length; j++)
+                if(A[j]==count) count++;
+
+        return count;
+
+    }
+}//50%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        Arrays.sort(A);
+        int count=1;
+
+        for(int i=0; i<A.length; i++)
+            if(count==A[i]) count++;
+       
+        return count;
+
+    }
+}//100%
