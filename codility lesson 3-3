@@ -145,15 +145,16 @@ class Solution {
 class Solution {
     public int solution(int[] A) {
 
+        //더 크게 잡아둠
         int[] B= new int[A.length+3];
-//더 크게 잡아둠
         final int size = A.length;
         B[0] = A[0];
-
-        for(int i=1 ; i<size ; i++) {
-            B[I] = B[i-1] + A[i];
-        }
+        
         //A함수 값을 누적해서 더해서 각기 넣어줌
+        for(int i=1 ; i<size ; i++) {
+            B[i] = B[i-1] + A[i];
+        }
+        
 
         int smallest = Integer.MAX_VALUE;
         //최솟값 비교를 위해 프로그램 내 자동으로 계산해주는 상수
@@ -162,8 +163,8 @@ class Solution {
             int left = B[i-1];
             int right = B[size-1]-B[i-1];
             int temp = Math.abs(left - right);
-            smallest = Math.min(temp,smallest);
             //비교하여 둘중 작은 값
+            smallest = Math.min(temp,smallest);
         }
         return mini;
 
