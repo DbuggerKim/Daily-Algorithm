@@ -42,11 +42,12 @@ class Solution {
 
         Arrays.sort(A);
         int count=1;
-
+        
+        //index 크기만큼 count 증가
         for(int i=0; i<A.length; i++)
             if(count==A[i]) count++;
        
         return count;
-
+        
     }
 }//100%
