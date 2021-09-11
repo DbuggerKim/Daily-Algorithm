@@ -28,7 +28,6 @@ class Solution {
                 }
                 zerosum=0;
             }
-
         }
    
         return totalzerosum;
