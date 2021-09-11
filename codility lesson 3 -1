@@ -43,7 +43,6 @@ class Solution {
         //나눠떨어지지 않으면 점프횟수 불충분
         if(remainder==0) return division;
         else return (division+1);
-        
     }
 }
 // 100%
