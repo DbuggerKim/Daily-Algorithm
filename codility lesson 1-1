@@ -4,14 +4,15 @@ class Solution {
     public int solution(int N) {
 
         String s = "";
-
+        
+        //십진수를 이진수화
         while(N!=1){
             s= N%2+s;
             N=N/2;
         } s=N+s;
         
-        int zerosum=0;
-        int onesum=0;
+        int zerosum=0; //0의 개수 세는 변수
+        int onesum=0;  //1의 개수 세는 변수
         int totalzerosum=0;
 
         for(int i=0; i<s.length(); i++){
@@ -19,7 +20,8 @@ class Solution {
             if(s.charAt(i)=='1') onesum++;
             else zerosum++;
 
-            if(onesum==2) {            
+        //1 사이의 누적 0의 개수 중 max 값 확인
+            if(onesum==2) {        
                 onesum=1;
                 if(totalzerosum<zerosum && zerosum!=0){
                     totalzerosum=zerosum;
