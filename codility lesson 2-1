@@ -1,9 +1,11 @@
 
 class Solution {
     public int[] solution(int[] A, int K) {
-
+        
+        //순환 불가
         if(A.length==1 || A.length==0) return A;
 
+        //마지막 인덱스 부터 채우기
         else{
             for(int j=0; j<K; j++){
                 int temp=A[A.length-1];
