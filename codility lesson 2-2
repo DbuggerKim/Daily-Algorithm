@@ -115,6 +115,9 @@ class Solution {
 }//66% timeout
 */
 
+//같은 수를 두번 xor 연산하면 상쇄
+//두 겂의 위치는 무관함 (붙어있든 떨어져있든)
+
 class Solution{
 	public int solution(int [] A){
 		int result=0;
