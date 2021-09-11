@@ -34,10 +34,13 @@ class Solution {
         
         long remainder = 0;
         int division=0;
-
+        
+        //도착지-출발지=총 이동거리
         division=(Y-X)/D;
         remainder=(Y-X)%D;
 
+        //나눠떨어지면 점프횟수 충분
+        //나눠떨어지지 않으면 점프횟수 불충분
         if(remainder==0) return division;
         else return (division+1);
         
