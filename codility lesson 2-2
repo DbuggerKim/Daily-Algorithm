@@ -125,5 +125,5 @@ class Solution{
 			result^=value;
 		}
 		return result;
-	}
+	} 
 }//100%
