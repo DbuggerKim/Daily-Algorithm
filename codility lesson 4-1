@@ -1,0 +1,91 @@
+import java.util.*;
+
+// you can write to stdout for debugging purposes, e.g.
+// System.out.println("this is a debug message");
+
+class Solution {
+    public int solution(int X, int[] A) {
+        // write your code in Java SE 8
+
+        int temp = A[0];
+        Arrays.sort(A);
+
+        for(int i=1; i<A.length ; i++){
+            if(temp==A[i]|| temp+1==A[i]) temp=A[i];
+            else return -1;
+        }
+        
+        return X+1;
+        
+    }
+} //9%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int X, int[] A) {
+
+        Arrays.sort(A);
+        int count=A[0];
+        boolean [] flag = new boolean [A.length];
+        for(int i=0; i<X; i++) flag[i]=false;
+
+        for(int i=0; i<A.length; i++){
+            if(flag[A[i]]==false){
+                flag[A[i]]=true;
+            }
+        }
+
+        for(int i=0; i<X; i++){
+            if(flag[i]==false) return -1;
+        }
+
+        return X+1;
+    
+    }
+}
+//9%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int X, int[] A) {
+
+        boolean [] flag = new boolean [A.length];
+        for(int i=0; i<X+1; i++) flag[i]=false;
+
+        for(int i=0; i<A.length; i++){
+            if(flag[A[i]]==false){
+                flag[A[i]]=true;
+            }
+        }
+
+        flag[0]=true;
+
+        for(int i=0; i<X+1; i++){
+            if(flag[i]==false) return -1;
+        }
+
+        return X+1;
+    
+    }
+}
+//18%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int X, int[] A) {
+        //hash 활용
+        Set<Integer> hash = new HashSet<>();
+
+        for (int i = 0; i < A.length; i++) {
+            if (A[i]<=X) hash.add(A[i]);
+            if(hash.size() == X) return i;
+        }
+
+        return -1;
+    }  
+}
+//100%
