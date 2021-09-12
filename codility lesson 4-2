@@ -1,0 +1,22 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        Arrays.sort(A);
+        int count=1;
+
+        if(A[A.length-1]<0) return 1;
+        
+        else{
+            for(int i=0; i<A.length; i++){
+                if(count==A[i]) count++;
+                if(count<A[i]) break;
+                if(count>A[i]) continue;
+            }
+        }
+        return count;
+    }
+}
+
+//100%
