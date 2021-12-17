@@ -1,0 +1,19 @@
+import java.util.*;
+import java.lang.Math;
+
+class Solution {
+    public int solution(int[] A) {
+        // write your code in Java SE 8
+        int temp=Integer.MAX_VALUE;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=0; j<A.length; j++){
+                temp=Math.min(temp, Math.abs(A[i]+A[j]));
+            }
+        }
+        
+        return temp;
+    }
+}
+
+//36%
