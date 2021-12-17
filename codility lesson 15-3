@@ -1,0 +1,60 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int count=0;
+
+        for(int i=0; i<A.length-2; i++){
+            int a=i;
+            int b=i+1;
+            int c=i+2;
+           
+            if(A[a]+A[b]<A[c] || A[b]+A[c]<A[a] || A[c]+A[a]<A[b]) count++;
+        }
+
+        return count;
+    }
+}
+//0%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int count=0;
+
+        for(int i=0; i<A.length-2; i++){
+            int a=i;
+            int b=i+1;
+            int c=i+2;
+           
+            if(A[a]+A[b]>A[c] && A[b]+A[c]>A[a] && A[c]+A[a]>A[b]) count++;
+        }
+
+        return count;
+    }
+}
+//0%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int count=0;
+
+        for(int i=0; i<A.length-2; i++){
+            for(int j=i+1; j<A.length-1; j++){
+                for(int k=j+1; k<A.length; k++){
+                if(A[i]+A[j]>A[k] && A[j]+A[k]>A[i] && A[k]+A[i]>A[j]) count++;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+//63%
+
