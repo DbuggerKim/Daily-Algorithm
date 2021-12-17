@@ -1,0 +1,64 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int sum=0;
+        int max=Integer.MIN_VALUE;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=i; j<A.length; j++){
+                sum=sum+A[j];
+                if(max<sum) max=sum;
+            }
+        }
+
+        return max;
+    }
+} //23%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int sum=0;
+        int max=Integer.MIN_VALUE;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=i; j<A.length; j++){
+                sum=sum+A[j];
+                if(max<sum) max=sum;
+            }
+            sum=0;
+        }
+
+	return max;
+    }
+} //84%
+
+
+//dynamic programming 카데인 알고리즘
+//https://myung6024.tistory.com/57
+//https://www.youtube.com/watch?v=86CQq3pKSUw
+
+class Solution {
+    public int solution(int[] A) {
+
+      if(A.length==1) return A[0];
+
+      int localMaxSum=A[0];
+      int globalMaxSum=A[0];
+
+      for(int i=1; i<A.length; i++){
+          localMaxSum=Math.max(A[i], localMaxSum+A[i]);
+          globalMaxSum=Math.max(globalMaxSum, localMaxSum);
+      }
+      
+      return globalMaxSum;
+
+    }
+}
+
+//100%
+
