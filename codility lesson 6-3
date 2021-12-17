@@ -1,0 +1,102 @@
+class Solution {
+    public int solution(int[] A) {
+
+        boolean check =false;
+
+        for(int i=0; i<A.length-2; i++){
+            for(int j=i+1; j<A.length-1; j++){
+                for(int k=j+1; k<A.length; k++){
+                    if(A[i]+A[j]>A[k] && A[j]+A[k]>A[i] && A[k]+A[i]>A[j]){
+                        check=true;
+                    }
+                }
+            }
+        }
+
+        if(check==false) return 0;
+        else return 1;
+
+    }
+}
+
+//56% Timeout
+
+
+class Solution {
+    public int solution(int[] A) {
+
+        boolean check =false;
+
+        for(int i=0; i<A.length-2; i++){
+            for(int j=i+1; j<A.length-1; j++){
+                for(int k=j+1; k<A.length; k++){
+                    if(A[i]+A[j]>A[k] && A[j]+A[k]>A[i] && A[k]+A[i]>A[j]){
+                        check=true;
+                    }
+                    if(check==true) return 1;
+                }
+            }
+        }
+
+        return 0;
+
+    }
+}
+
+//68%
+
+
+class Solution {
+    public int solution(int[] A) {
+
+        boolean check =false;
+
+        for(int i=0; i<A.length-2; i++){
+            for(int j=i+1; j<A.length-1; j++){
+                for(int k=j+1; k<A.length; k++){
+                    
+                    int a = A[i]+A[j];
+                    int b = A[j]+A[k];
+                    int c = A[k]+A[i];
+
+                    long a1=Long.valueOf(a);
+                    long b1=Long.valueOf(b);
+                    long c1=Long.valueOf(c);
+
+                    long a2=Long.valueOf(A[k]);
+                    long b2=Long.valueOf(A[i]);
+                    long c2=Long.valueOf(A[j]);
+
+                    if(a1>a2 && b1>b2 && c1>c2){
+                        check=true;
+                    }
+                    if(check==true) return 1;
+                }
+            }
+        }
+
+        return 0;
+
+    }
+}
+//68%
+
+//codility에서 주어주는 입력값에 의존하지지 않기
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.length;
+        if (N<3) return 0; //적어도 3자리 이상 숫자 포함한 배열
+        Arrays.sort(A);
+        //sort후 이기 때문에 A[Q] + A[R] > A[P], A[R] + A[P] > A[Q] 무조건 충족
+        for(int i=0; i<N-2; i++) {
+            long P=A[i], Q=A[i+1], R=A[i+2];
+            if (P+Q>R) return 1;
+        }
+        return 0;
+    }
+}
+
+//100%
