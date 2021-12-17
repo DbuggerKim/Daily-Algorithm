@@ -1,0 +1,35 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+    
+    Stack<Integer> down = new Stack<>();
+    int lastSize;
+    int aliveCount = 0;
+
+    for (int i=0; i<A.length; i++) {
+
+        if (B[i] == 1) down.push(A[i]);
+        else {
+            while (!down.isEmpty()) {
+                lastSize = down.peek();
+                if (lastSize > A[i]) break;
+                else down.pop();
+            }
+            if (down.isEmpty()) aliveCount++;
+        }
+    }
+
+    return aliveCount + down.size();
+    }
+}
+
+
+//문제 해석 
+
+/*
+* 하류로 이동하는 물고기만 Stack에 담는다.
+* 상류로 이동하는 물고기를 만날 때 사이즈 비교
+    * Stack이 비어 있지 않으면 사이즈 비교를 하고 상류로 이동하는 물고기가 더 클 경우 Stack에서 pop을 해준다.
+    * 상류로 올라가는 경우가 하류로 내려오는 물고기들 보다 클 경우 Stack은 비게 되고 상류로 올라가는 물고기 수가 증가된다.
+*/
