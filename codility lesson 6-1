@@ -1,0 +1,62 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        int count=0;
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int i=0; i<A.length; i++){
+            if(!map.containsValue(A[i])){
+                map.put(i, A[i]);
+                count++;
+            }
+        }
+        
+        return count;
+    }
+}
+//timeout 75%
+
+
+import java.util.*;
+
+class Solution {
+   
+    public int solution(int[] A) {
+
+       Arrays.sort(A);
+       int a=-1;
+       int count=0;
+
+       for(int i=0; i<A.length; i++){
+           if(a!=A[i]) count++;
+           a = A[i];
+       } 
+
+        return count;
+    }
+
+}
+
+//11%
+
+
+import java.util.*;
+
+class Solution {
+   
+    public int solution(int[] A) {
+
+       Arrays.sort(A);
+       int a=-1;
+       int count=0;
+
+       for(int i=0; i<A.length; i++){
+           if(a!=A[i]) count++; //다를때 ++
+           a = A[i];
+       } 
+
+        return count;
+    }
+
+} //100%
