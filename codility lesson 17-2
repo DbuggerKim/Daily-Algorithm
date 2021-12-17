@@ -1,0 +1,85 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        if()
+
+
+        return 
+        
+    }
+}
+
+
+        /*Queue <Integer> queue = new LinkedList <>();
+        boolean [] visited = new boolean [A.length];
+        Arrays.fill(visited, false);
+        int [] sign = {-1, 1};
+        int sum=0;
+        
+        visited[0]=true;
+        queue.offer(0);
+
+        while(!queue.isEmpty()){
+            int vertex=queue.poll();
+            //int temp = temp+sign[i]*A[vertex]
+
+            for(int i=0; i<A.length; i++){
+                if(temp==Math.min(sum, temp) && visited[i]==false){
+                    temp=Math.min(sum, temp);
+                    visited[vertex]=true;
+                    queue.offer(vertex);
+                }
+            }
+        }*/
+
+
+//0%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int []sum= new int [A.length];
+        int []sign={-1, 1};
+
+        for(int i=0; i<A.length; i++){
+            int min=Integer.MAX_VALUE;
+            for(int s=0; s<2; s++){
+                if(sum[i]<=min) min=Math.min(sum[i]+sign[s]*A[i],min);
+            }
+            sum[i]=min;
+        }
+        
+        return sum[A.length-1];
+    }
+}
+//0%
+
+import java.util.*;
+import java.lang.Math;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int [] sum= new int [A.length];
+        Arrays.fill(sum, 0);
+        int []sign={-1, 1};
+        int temp=Integer.MAX_VALUE;
+
+        for(int i=0; i<A.length; i++){
+            sum[i]=Math.abs(A[i]);
+            for(int s=0; s<2; s++){
+                temp=Math.min(Math.abs(sum[i]+sign[s]*A[i]),temp);
+            }
+            sum[i]=temp;
+        }
+
+        return sum[A.length-1];
+    }
+}
+
+ //0%
