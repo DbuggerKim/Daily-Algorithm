@@ -1,0 +1,24 @@
+// you can also use imports, for example:
+import java.util.*;
+import java.lang.Math;
+
+// you can write to stdout for debugging purposes, e.g.
+// System.out.println("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+
+        HashMap <Integer, Integer> map = new HashMap <Integer, Integer>();
+        for(int i=0; i<A.length; i++) A[i]=Math.abs(A[i]);
+
+        for(int i=0; i<A.length; i++) map.put(A[i], map.getOrDefault(A[i],0)+1);
+        for(Integer key : map.keySet()){
+            Integer value = map.get(key);
+            //System.out.println( String.format(key+":"+value));
+        }
+
+        return map.size();
+    }
+}
+
+//100%
