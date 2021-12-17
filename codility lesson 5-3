@@ -1,0 +1,274 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String S, int[] P, int[] Q) {
+
+        int arr[]= new int [P.length];
+        int totalSum=4;
+        int sum=0;
+
+        for(int i=0; i<P.length; i++){
+            int start = P[i];
+            int end = Q[i];
+
+            for(int j=start; j<end ;j++){
+                switch(S.charAt(j)){
+                   case 'A' :
+                   sum=1;
+                   break;
+                   case 'C' :
+                   sum=2;
+                   break;
+                   case 'G' :
+                   sum=3;
+                   break;
+                   case 'T' :
+                   sum=4;
+                   break;
+                   default :
+                   break;
+               }
+               if(totalSum>sum) totalSum=sum;
+            }
+
+            arr[i]=totalSum;
+            totalSum=4;
+        }
+
+        return arr;
+    }
+}  //15%
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String S, int[] P, int[] Q) {
+
+        int arr[]= new int [P.length];
+        int totalSum=5;
+        int sum=0;
+
+        for(int i=0; i<P.length; i++){
+            int start = P[i];
+            int end = Q[i];
+            if(start==end) end++;
+
+            for(int j=start; j<end ;j++){
+                switch(S.charAt(j)){
+                   case 'A' :
+                   sum=1;
+                   break;
+                   case 'C' :
+                   sum=2;
+                   break;
+                   case 'G' :
+                   sum=3;
+                   break;
+                   case 'T' :
+                   sum=4;
+                   break;
+                   default :
+                   sum=5;
+                   break;
+               }
+               //System.out.println(sum + " " +totalSum);
+               if(totalSum>sum) totalSum=sum;
+               
+            }
+
+            arr[i]=totalSum;
+            totalSum=5;
+        }
+
+        return arr;
+    }
+}  //25%
+
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String S, int[] P, int[] Q) {
+
+        int arr[]= new int [P.length];
+        int totalSum=5;
+        int sum=0;
+
+        for(int i=0; i<P.length; i++){
+            int start = P[i];
+            int end = Q[i];
+            
+            if(start>end){
+                start=Q[i];
+                end=P[i];
+            }
+            if(start==end) end++;
+
+            for(int j=start; j<end ;j++){
+                switch(S.charAt(j)){
+                   case 'A' :
+                   sum=1;
+                   break;
+                   case 'C' :
+                   sum=2;
+                   break;
+                   case 'G' :
+                   sum=3;
+                   break;
+                   case 'T' :
+                   sum=4;
+                   break;
+                   default :
+                   break;
+               }
+               //System.out.println(sum + " " +totalSum);
+               if(totalSum>sum) totalSum=sum;
+               
+            }
+
+            arr[i]=totalSum;
+            totalSum=5;
+        }
+
+        return arr;
+    }
+} //25%
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String S, int[] P, int[] Q) {
+
+        int []result = new int [P.length];
+        HashMap<Character,Integer> hashMap = new HashMap<Character,Integer>();
+        hashMap.put('A', 1);
+        hashMap.put('C', 2);
+        hashMap.put('G', 3);
+        hashMap.put('T', 4);
+
+        int smallest=Integer.MAX_VALUE;
+
+        for(int i=0; i<P.length; i++){
+            if(P[i]==Q[i]){
+                 for(int j=P[i]; j<Q[i]+1; j++){
+                    int temp=hashMap.get(S.charAt(j));
+                    if(smallest>temp) smallest=temp;
+                }
+                result[i]=smallest;
+            }
+            else{
+                for(int j=P[i]; j<Q[i]; j++){
+                    int temp=hashMap.get(S.charAt(j));
+                    if(smallest>temp) smallest=temp;
+                }
+                result[i]=smallest;
+            }
+            smallest=Integer.MAX_VALUE;
+        }
+
+        return result;
+
+    }
+}//25% 포함관계 문제를 잘못 읽음
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String S, int[] P, int[] Q) {
+
+        int []result = new int [P.length];
+        HashMap<Character,Integer> hashMap = new HashMap<Character,Integer>();
+        hashMap.put('A', 1);
+        hashMap.put('C', 2);
+        hashMap.put('G', 3);
+        hashMap.put('T', 4);
+
+        for(int i=0; i<P.length; i++){
+            int smallest=Integer.MAX_VALUE;
+            for(int j=P[i]; j<Q[i]+1; j++){
+                int temp=hashMap.get(S.charAt(j));
+                if(smallest>temp) smallest=temp;
+            }
+            result[i]=smallest;
+        }
+
+        return result;
+
+    }
+}//62% TO
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String S, int[] P, int[] Q) {
+
+        int []result = new int [P.length];
+        HashMap<Character,Integer> hashMap = new HashMap<Character,Integer>();
+        hashMap.put('A', 1);
+        hashMap.put('C', 2);
+        hashMap.put('G', 3);
+        hashMap.put('T', 4);
+
+        for(int i=0; i<P.length; i++){
+            int smallest=Integer.MAX_VALUE;
+            for(int j=P[i]; j<=Q[i]; j++){
+                int temp=hashMap.get(S.charAt(j));
+                if(smallest>temp) smallest=temp;
+            }
+            result[i]=smallest;
+        }
+
+        return result;
+
+    }
+}//62% TO
+
+
+import java.util.*;
+
+class Solution {
+
+    public final static Map<Character, Integer> HashMap = new HashMap<Character, Integer>(){
+        {
+            put('A', 0);
+            put('C', 1);
+            put('G', 2);
+            put('T', 3);
+        }
+    };
+
+    public int[] solution(String S, int[] P, int[] Q) {
+
+        char[] charArray=S.toCharArray(); //문자열을 char형 배열으로 바꿈
+        int[] count={0,0,0,0};
+        int[][] countArry = new int[charArray.length][count.length];
+
+        for(int i=0; i<charArray.length; i++){ //문자열 크기만큼 채우기
+            count[HashMap.get(charArray[i])]++;
+            for(int j=0; j<count.length; j++) countArry[i][j]=count[j];
+        }
+
+        int M=P.length;
+        int[] minArr = new int [M];
+
+        for(int i=0; i<M; i++){
+            for(int j=0; j<count.length; j++){
+
+                int end=countArry[Q[i]][j];
+                int before_start=(P[I] == 0 ? 0 : countArry[P[I]-1][j]);
+		//삼항연산 ?뒤 yes : no;
+
+                if(end-before_start > 0){
+                    minArr[i] = j+1;
+                    break;
+                }
+
+            }
+        }
+
+        return minArr;
+
+    }
+}
+
+//100%
