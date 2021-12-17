@@ -1,0 +1,105 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int answer=0;
+        int I=0;
+        int total=Integer.MAX_VALUE;
+        
+        for(int i=0; i<A.length; i++){
+            for(int j=i; j<A.length; j++){
+                for(int k=i; k<j+1; k++){
+                    answer=answer+A[k];
+                }
+                answer=answer/(j-i+1);
+                if(total>=answer){
+                    total=answer;
+                    I=i;
+                }
+                answer=0;
+            }
+        }
+        if(total==answer) total=I;
+
+        return total;
+    }
+}
+//0%
+
+class Solution {
+
+    public float output(int [] A, int start, int end){
+        
+        float sum1=0;
+        float sum2=0;
+        float total=0;
+
+        for(int i=start; i<end+1; i++) sum1+=A[i];
+        sum2=end-start+1;
+        total=sum1/sum2;
+
+        return total;
+    }
+
+    public int solution(int[] A) {
+
+        int answer=0;
+        int len=A.length;
+        double out = 0.0;
+        double min =Double.MAX_VALUE;
+
+        for(int i=0; i<len-1; i++){
+            for(int j=i+1; j<len; j++){
+                out=output(A, i, j);
+                if(out<min){ 
+                    min=out;
+                    answer=i;
+                }
+            }
+        }
+
+        return answer;
+    }
+}
+
+//timeout 50%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) { 
+//A는 크기가 2이상의 배열
+//2개 이상 인자의 평균
+
+        float minAvg = (A[0]+A[1])/2f;
+        int minIndex = 0;
+
+        for (int i=2; i<A.length; i++) {
+
+            float avg=(A[i-2]+A[i-1]+A[i])/3f;
+
+            if (minAvg>avg) {
+                minAvg=avg;
+                minIndex=i-2;
+            }
+
+            avg=(A[i-1]+A[i])/2f;
+
+            if(minAvg>avg) {
+                minAvg=avg;
+                minIndex=i-1;
+            }
+
+        }
+
+        return minIndex;
+    }
+}
+
+//수학적 지식
+/*
+1. 2개 인자의 평균은 항상 2개중 한개의 인자보다 값이 크다.
+2. 평균들의 평균은 각 인자들의 평균과 같다.
+*/
+//100%
