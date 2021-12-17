@@ -1,0 +1,29 @@
+import java.util.*;
+//bigger modular
+//smaller get rid of
+
+class Solution {
+
+    private int[] getFib(int length) {
+
+        int[] fib = new int[length + 2]; //reform
+        fib[1] = 1;
+        fib[2] = 2;
+
+        for (int i=3; i<=length; i++)
+            fib[i] = (fib[i-2]+fib[i-1])%(1<<30);
+
+        return fib;
+    }
+
+    public int[] solution(int[] A, int[] B) {
+
+        int[] result = new int[A.length];
+        int[] fib = getFib(A.length);
+
+        for (int i=0; i<A.length; i++)
+            result[i] = fib[A[i]]%(1<<B[i]);
+
+        return result;
+    }
+}
