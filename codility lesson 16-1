@@ -1,0 +1,115 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int total=0;
+        //int temp1=A[0];
+        //int temp2=B[0];
+        //map.put(A[0], B[0]-A[0]);
+
+        for (int i=0; i<A.length; i++) {
+            if(!map.containsKey(A[i])){ //&& !(temp1<=A[i] || A[i]<=temp2)) {
+                map.put(A[i], B[i]);
+            }
+            //temp1=A[i];
+            //temp2=B[i];
+        }
+
+        for(Integer key : map.keySet()) { 
+            int value = map.get(key);
+            System.out.println(key + " : " + value); 
+        }
+
+        total=map.size();
+
+        return total;
+    }
+}
+
+//0%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int total=0;
+        int temp1=A[0];
+        int temp2=B[0];
+        map.put(A[0], B[0]);
+
+        for (int i=1; i<A.length; i++) {
+            if(!map.containsKey(A[i])){
+                if(!(temp1<=A[i] && A[i]<=temp2)) map.put(A[i], B[i]);
+            }
+            temp1=A[i];
+            temp2=B[i];
+        }
+
+        /*for(Integer key : map.keySet()) { 
+            int value = map.get(key);
+            System.out.println(key + " : " + value); 
+        }*/
+
+        total=map.size();
+
+        return total;
+    }
+}
+
+//40%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int temp1=A[0];
+        int temp2=B[0];
+        map.put(A[0], B[0]);
+
+        for (int i=1; i<A.length; i++) {
+            if(!map.containsKey(A[i])){
+                if(!(temp1<=A[i] && A[i]<=temp2)){
+                    map.put(A[i], B[i]);
+                    temp1=A[i];
+                    temp2=B[i];
+                }
+            }   
+        }
+
+        return map.size();
+    }
+}
+
+//50%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int temp1=A[0]+1;
+        int temp2=B[0]-1;
+
+        for (int i=0; i<A.length; i++) {
+            if(!map.containsKey(A[i])){
+                if(!(temp1<=A[i] && A[i]<=temp2)){
+                    map.put(A[i], B[i]);
+                    temp1=A[i];
+                    temp2=B[i];
+                }
+            }   
+        }
+
+        return map.size();
+    }
+}
+
+//50%
