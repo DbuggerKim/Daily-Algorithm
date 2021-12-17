@@ -1,0 +1,22 @@
+class Solution {
+    public int solution(int A, int B, int K) {
+        
+        int count=0;
+
+        for(int i=A; i<=B; i++){
+            if(I%K==0) count++;
+        }
+        
+        return count;
+
+    }
+} //50% timeout
+
+class Solution {
+    public int solution(int A, int B, int K) {
+        //K의 배수만큼 개수 
+        //첫번째 수 포함
+        if(A%K==0) return B/K - A/K +1;
+        return B/K - A/K;
+    }
+} //100%
