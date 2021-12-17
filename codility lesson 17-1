@@ -1,0 +1,66 @@
+/*Queue <Integer> queue = new LinkedList <>();
+        boolean [] visited = new boolean [A.length];
+        Arrays.fill(visited, false);
+        int sum=0;
+        
+        visited[0]=true;
+        sum+=A[0];
+        queue.offer(0);
+
+        while(!queue.isEmpty()){
+            int vertex=queue.poll();
+            for(int i=1; i<=6; i++){
+                if(vertex+i<A.length && visited[i]==false){
+                    //vertex+=i;
+                    //System.out.println(vertex+" ");
+                    //Math.max(sum, sum+A[i])>sum+A[i]
+                    //sum+=A[i];
+                    visited[vertex]=true;
+                    queue.offer(vertex);
+                }
+            }
+        }*/
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        // write your code in Java SE 8
+        int pos=0;
+        int total=0;
+        total=total+A[0]+A[A.length-1];
+
+        for(int i=1; i<=6; i++){
+            if(pos+i<A.length-1 && total+A[pos+i]>0){
+                pos+=i;
+                total+=A[pos+i];
+                continue;
+            }
+        }
+        return total;
+    }
+}
+
+//0%
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int[]sum = new int[A.length];
+        sum[0]=A[0];
+
+        for(int i=1; i<A.length; i++){
+            int max = Integer.MIN_VALUE;            
+            for(int die=1; die<=6; die++){ //cant find one, go for previous value
+                if(i-die>=0){ //does not overflow index, lots of diff ways to get to index
+                    max=Math.max(sum[i-die]+A[i], max);
+                }
+            }    
+            sum[i]=max; // keep the best one as the sum value    
+        }
+        
+        return sum[A.length-1];
+    }
+}
+//100%
