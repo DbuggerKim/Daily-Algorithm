@@ -1,0 +1,38 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+    
+        int count=0;
+        int total=0;
+
+        for(int i=1; i<A.length-1; i++)
+            if(A[i-1]<A[i] && A[i+1]<A[i]) count++;
+
+        if(count>1) total++;
+        count=0;
+
+        for(int i=1; i<A.length-2; i++){
+            for(int j=i; j<A.length-1; j++){
+                if(A[i-1]<A[i] && A[i+1]<A[i] && A[j-1]<A[j] && A[j+1]<A[i]) count++;
+            }
+        }
+
+        if(count>1) total++;
+        count=0;
+
+        for(int i=1; i<A.length-3; i++){
+            for(int j=i; j<A.length-2; j++){
+                for(int k=j; k<A.length-1; k++)
+                    if(A[i-1]<A[i] && A[i+1]<A[i] && A[j-1]<A[j] && A[j+1]<A[i]&& A[k-1]<A[k] && A[k+1]<A[k]) count++;
+            }
+        }
+
+        if(count>1) total++;
+
+
+        return total;
+    }
+}
+
+//9%
