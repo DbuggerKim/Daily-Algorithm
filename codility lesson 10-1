@@ -1,0 +1,47 @@
+class Solution {
+    public int solution(int N) {
+        int count=0;
+        for(int i=1; i<=N; i++)
+            if(N%i==0) count++;
+        return count;
+    }
+} //71%
+
+class Solution {
+    public int solution(int N) {
+        int count=0;
+        int prev=1;
+        for(int i=1; i<=N; i++){
+            if(prev*i==N) break;
+            if(N%i==0) {
+                count++;
+                prev=i;
+            }
+        }
+        return count*2;
+    }
+} //38%
+
+
+// you can also use imports, for example:
+// import java.util.*;
+
+// you can write to stdout for debugging purposes, e.g.
+// System.out.println("this is a debug message");
+
+class Solution {
+    public int solution(int N) {
+    
+        int count = 0; 
+
+        for(long i=1; i*i<=N ; i++){ //절반만 검색 가능
+            if(N%i==0){ 
+                count++; 
+                if(i*i<N) count++;
+            }
+        }
+        
+        return count; 
+    }
+}
+//100%
