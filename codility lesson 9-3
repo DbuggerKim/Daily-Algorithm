@@ -1,0 +1,59 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int total=0;
+        int max=Integer.MIN_VALUE;
+
+        for(int i=0; i<A.length; i++){
+            for(int j=i; j<A.length; j++){
+                
+                for(int k=j; k<A.length; k++){
+                    if(i<j) total+=A[i++];
+                    if(j<k) {
+                        total+=A[j-1];
+                        j++;
+                    }
+                    total+=A[k-1];
+                    if(max<total) max=total;
+                    total=0;
+                }
+            }
+        }
+
+        return max;
+    }
+} //testcase 실패
+
+
+class Solution {
+    public int solution(int[] A) {
+
+        //DP 카데인 알고리즘 변형
+        // (X, Y, Z) 양끝은 가질 수 없음
+        // 1st slice: A[X+1] + ... + A[Y-1] 
+        // 2nd slice: A[Y+1] + ... + A[Z-1]
+        // split at "Y" , find "maxLeft" and "maxRight"
+        
+        int maxLeft[] = new int[A.length];
+        int maxRight[] = new int[A.length];
+
+        for(int i=1; i<A.length; i++){
+            maxLeft[i] = Math.max(0, maxLeft[i-1]+A[i]);
+        } 
+        
+        for(int i=A.length-2; i>=0; i--){
+            maxRight[i] = Math.max(0, maxRight[i+1]+A[i]);
+        } 
+        
+        int maxDoubleSlice =0;
+        for(int i=1; i<A.length-1; i++){
+            if(maxLeft[i-1]+maxRight[i+1]>maxDoubleSlice)
+                maxDoubleSlice=maxLeft[i-1]+maxRight[i+1];
+        } 
+        
+        return maxDoubleSlice;
+    }
+}
+//100%
