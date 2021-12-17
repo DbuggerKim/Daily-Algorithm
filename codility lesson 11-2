@@ -1,0 +1,132 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int N, int[] P, int[] Q) {
+
+        int [] arr = new int [P.length];
+
+        for(int i=0; i<P.length; i++){
+            for(int j=P[i]; j<=Q[i]; j++){
+                for(int k=1; k<j; j++){
+                    if(j%k==0 && isPrime(k) && isPrime(j/k)){
+                        arr[i]=j;
+                    }
+                }
+            }
+        }
+
+        return arr;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=1; i<a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+}
+
+//testcase TO
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int N, int[] P, int[] Q) {
+        
+        LinkedList<Integer> list = new LinkedList <Integer>();
+        HashMap<Integer,Integer> map = new HashMap <Integer,Integer>();
+        int count=0;
+        int [] arr= new int[P.length];
+
+        int n=N/=2;
+        while(n>1){
+            if(isPrime(n)) list.add(n);
+            n--;
+        }
+
+        for(int i=0 ; i<list.size(); i++)
+            System.out.println("answer:" + list.get(i));
+        
+        System.out.println(list.size());
+
+        for(int i=0; i<list.size(); i++){
+            for(int j=0; j<list.size(); j++){
+                int a=list.get(i); 
+                int b=list.get(j);
+                System.out.print(a+""+b+"  ");
+
+                if(a*b<=N && !map.containsValue(a*b)) {
+                    
+                    map.put(count++,a*b);
+                }
+            }
+        }
+
+        for(int i=0 ; i<map.size(); i++)
+            System.out.println("answer2:" + map.get(i));
+
+        /*for(int i=0; i<P.length; i++){
+            for(int j=P[i]; j<=Q[i]; j++){
+                for(int k=0; k<list2.size(); k++){
+                    if(j<=list2.get(k) && list2.get(k)<=j) arr[i]++;
+                }
+            }
+        }*/
+
+        return arr;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i<a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+}
+//11%
+
+
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int N, int[] P, int[] Q) {
+        
+        LinkedList<Integer> list = new LinkedList <Integer>();
+        HashMap<Integer,Integer> map = new HashMap <Integer,Integer>();
+        int count=0;
+        int [] arr= new int[P.length];
+
+        int n=N/2;
+        while(n>1){
+            if(isPrime(n)) list.add(n);
+            n--;
+        }
+
+        for(int i=0; i<list.size(); i++){
+            for(int j=0; j<list.size(); j++){
+                int a=list.get(i); 
+                int b=list.get(j);
+                if(a*b<=N && !map.containsValue(a*b)) map.put(count++,a*b);
+            }
+        }
+
+        for(int i=0; i<P.length; i++){
+            for(int j=P[i]; j<=Q[i]; j++){
+                for(int k=0; k<map.size(); k++){
+                    if(j<=map.get(k) && map.get(k)<=j) arr[i]++;
+                }
+            }
+        }
+
+        return arr;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i<a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+}
+//44% TO
