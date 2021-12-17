@@ -1,0 +1,294 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int count=0;
+        int leader1=0;
+        int leader2=0;
+
+        HashMap<Integer, Integer> map1 = new HashMap<>();
+        HashMap<Integer, Integer> map2 = new HashMap<>();
+
+        for(int i=0; i<A.length; i++){
+
+            int start=i;
+            int mid=i+1;
+
+            for(int j=0; j<start; j++){
+                map1.put(A[j], map1.getOrDefault(A[j],0)+1);
+                if(map1.get(A[j])>(start-0)/2+1) leader1=A[j];
+            }
+
+            for(int j=mid; j<A.length; j++){
+                map2.put(A[j], map2.getOrDefault(A[j],0)+1);
+                if(map2.get(A[j])>(A.length-mid)/2+1) leader2=A[j];
+            }
+
+            if(leader1!=0 && leader2!=0 && leader1==leader2) count++;
+            leader1=0;
+            leader2=0;
+        }
+
+        return count;
+
+    }
+} //test케이스 미통과
+
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int count=0;
+        int leader1=0;
+        int leader2=0;
+
+        HashMap<Integer, Integer> map1 = new HashMap<>();
+        HashMap<Integer, Integer> map2 = new HashMap<>();
+
+        for(int i=0; i<A.length; i++){
+
+            int start=i;
+            int mid=i+1;
+
+            for(int j=0; j<=start; j++){
+                map1.put(A[j], map1.getOrDefault(A[j],0)+1);
+                if(map1.get(A[j])>(start-0)/2+1) leader1=A[j];
+            }
+
+            for(int j=mid; j<A.length; j++){
+                map2.put(A[j], map2.getOrDefault(A[j],0)+1);
+                if(map2.get(A[j])>(A.length-mid-1)/2+1) leader2=A[j];
+            }
+
+            if((leader1!=0 && leader2!=0) || (leader1==leader2)) count++; //논리 파악
+
+            leader1=0;
+            leader2=0;
+            map1.clear(); //초기화를 잘해주자
+            map2.clear();
+        }
+
+        return count;
+    }
+}
+
+//0%
+
+
+
+import java.util.*;
+import java.lang.Math;
+
+class Solution {
+    public int solution(int[] A) {
+
+        HashMap <Integer, Integer> a1 = new HashMap <>(); 
+        HashMap <Integer, Integer> a2 = new HashMap <>();
+        float A1=0;
+        float A2=0;
+        int S1=0;
+        int S2=0;
+        int total=0;
+
+        for(int i=0; i<A.length-1; i++){
+            for(int j=i+1; j<A.length; j++){
+                a1.put(A[i], a1.getOrDefault(A[i],0)+1);
+                a2.put(A[j], a2.getOrDefault(A[j],0)+1);
+                S1=I+1/2;
+                S2=A.length-j/2;
+            }
+
+            for(Integer l : a1.keySet())
+                if(a1.get(l)>=S1) A1=a1.get(l);
+
+            for(Integer l : a2.keySet())
+                if(a2.get(l)>=S2) A2=a2.get(l);
+
+            if(A1==A2) total++;
+        }
+        return total;
+    }
+}
+
+//0%
+
+
+import java.util.*;
+import java.lang.Math;
+
+class Solution {
+    public int solution(int[] A) {
+
+        HashMap <Integer, Integer> a1 = new HashMap <>(); 
+        HashMap <Integer, Integer> a2 = new HashMap <>();
+        float A1=0;
+        float A2=0;
+        int S1=0;
+        int S2=0;
+        int total=0;
+
+        for(int i=0; i<A.length-1; i++){
+            for(int j=i+1; j<A.length; j++){
+                a1.put(A[i], a1.getOrDefault(A[i],0)+1);
+                a2.put(A[j], a2.getOrDefault(A[j],0)+1);
+                S1=(i+1)/2;
+                S2=(A.length-j)/2;
+            }
+
+            for(Integer l : a1.keySet())
+                if(a1.get(l)>=S1) A1=a1.get(l);
+
+            for(Integer l : a2.keySet())
+                if(a2.get(l)>=S2) A2=a2.get(l);
+
+            if(A1==A2) total++;
+        }
+        return total;
+    }
+}
+
+//0%
+
+
+import java.util.*;
+import java.lang.Math;
+
+class Solution {
+    public int solution(int[] A) {
+
+        HashMap <Integer, Integer> a1 = new HashMap <>(); 
+        HashMap <Integer, Integer> a2 = new HashMap <>();
+        int A1=0;
+        int A2=0;
+        int S1=0;
+        int S2=0;
+        int total=0;
+
+        for(int i=0; i<A.length-1; i++){
+
+            S1=(i+1)/2;
+            S2=(A.length-(i+1))/2;
+
+            //System.out.println("S1="+S1 + "  S2="+S2);
+
+            for(int k=0; k<i+1; k++){
+                a1.put(A[k], a1.getOrDefault(A[k],0)+1);
+            }
+            for(Integer m : a1.keySet()){
+                if(a1.get(m)>S1) A1=m;
+                //System.out.println(m +":"+ a1.get(m));
+            }
+            a1.clear();
+
+            //System.out.println("");
+
+            for(int j=i+1; j<A.length; j++){
+                a2.put(A[j], a2.getOrDefault(A[j],0)+1);
+            }
+            for(Integer l : a2.keySet()){
+                if(a2.get(l)>S2) A2=l;
+                //System.out.println(l +":"+ a2.get(l));
+            }
+            a2.clear();
+            /*System.out.println("A1="+A1 + "  A2="+A2);
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");*/
+            
+            if(A1==A2) {
+                total++;
+                A1=0;
+                A2=0;
+            }
+        }
+        return total;
+    }
+}
+//44%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        HashMap <Integer, Integer> a1 = new HashMap <>(); 
+        HashMap <Integer, Integer> a2 = new HashMap <>();
+        int total=0;
+
+        for(int i=0; i<A.length-1; i++){
+
+            int S1=(i+1)/2;
+            int S2=(A.length-(i+1))/2;
+            int A1=0;
+            int A2=0;
+            a1.clear();
+            a2.clear();
+
+            for(int k=0; k<i+1; k++){
+                a1.put(A[k], a1.getOrDefault(A[k],0)+1);
+            }
+            for(Integer m : a1.keySet()){
+                if(a1.get(m)>S1) A1=m;
+            }
+            
+            for(int j=i+1; j<A.length; j++){
+                a2.put(A[j], a2.getOrDefault(A[j],0)+1);
+            }
+            for(Integer l : a2.keySet()){
+                if(a2.get(l)>S2) A2=l;
+            }
+
+            if(A1==A2) total++;
+        }
+
+        return total;
+    }
+}
+//33%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        HashMap <Integer, Integer> a1 = new HashMap <>(); 
+        HashMap <Integer, Integer> a2 = new HashMap <>();
+        int total=0;
+
+        for(int i=0; i<A.length-1; i++){
+
+            int S1=(i+1)/2;
+            int S2=(A.length-(i+1))/2;
+            int A1=-1;
+            int A2=-2;
+            a1.clear();
+            a2.clear();
+
+            for(int k=0; k<i+1; k++){
+                a1.put(A[k], a1.getOrDefault(A[k],0)+1);
+            }
+            for(Integer m : a1.keySet()){
+                if(a1.get(m)>S1) A1=m;
+            }
+            
+            for(int j=i+1; j<A.length; j++){
+                a2.put(A[j], a2.getOrDefault(A[j],0)+1);
+            }
+            for(Integer l : a2.keySet()){
+                if(a2.get(l)>S2) A2=l;
+            }
+
+            if(A1==A2) total++;
+        }
+
+        return total;
+    }
+}
+//55% TO 
