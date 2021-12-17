@@ -1,0 +1,21 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int N, int M) {
+
+        boolean [] arr = new boolean [N];
+        int count=0;
+
+        for(int i=0; i<N; i=(i+M)%N){
+            if(arr[i]==false){
+                arr[i]=true;
+                count++;
+            }
+            else break;
+        }
+
+        return count;
+    }
+}
+
+//62% TO
