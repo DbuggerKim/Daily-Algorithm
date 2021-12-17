@@ -1,0 +1,180 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        int count=0;
+        int total=0;
+        LinkedList<Integer> list1= new LinkedList<>();
+        LinkedList<Integer> list2= new LinkedList<>();
+
+        for(int i=0; i<A.length; i++){
+            
+            for(int j=2; j<=A[i]; j++)
+                if(isPrime(j)&& isDivisor(j,A[i])) list1.add(j);
+
+            for(int j=2; j<=B[i]; j++)
+                if(isPrime(j)&& isDivisor(j,B[i])) list2.add(j);
+
+            /*System.out.println();
+            for(int k=0; k<list1.size(); k++)
+            System.out.print(list1.get(k)+" ");
+            System.out.println();
+            for(int k=0; k<list2.size(); k++)
+            System.out.print(list2.get(k)+" "); */
+            
+            if(list1.size()==list2.size()){
+                for(int j=0; j<list1.size(); j++){
+                    if(list1.get(j)==list2.get(j)) count++;
+                }
+                if(list1.size()==count){
+                    total++;
+                    count=0;
+                }
+            }
+            list1.clear();
+            list2.clear();
+        }
+        return total;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i<a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+
+    public boolean isDivisor(int a, int b){ //a는 검사 대상
+        boolean check=false;
+        if(b%a==0) check=true;
+        return check;
+    }
+}
+//38%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        int total=0;
+        LinkedList<Integer> list1= new LinkedList<>();
+        LinkedList<Integer> list2= new LinkedList<>();
+
+        for(int i=0; i<A.length; i++){
+            
+            for(int j=2; j<=A[i]; j++){
+                if(isPrime(j) && isDivisor(j,A[i])) list1.add(j);
+            }
+
+            for(int j=2; j<=B[i]; j++){
+                if(isPrime(j) && isDivisor(j,B[i])) list2.add(j);
+            }
+
+            if(list1.containsAll(list2)) total++; //list 비교
+
+            list1.clear();
+            list2.clear();
+        }
+        return total;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i<a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+
+    public boolean isDivisor(int a, int b){ //a는 검사 대상
+        boolean check=false;
+        if(b%a==0) check=true;
+        return check;
+    }
+}
+
+//11%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        int total=0;
+        LinkedList<Integer> list1= new LinkedList<>();
+        LinkedList<Integer> list2= new LinkedList<>();
+
+        for(int i=0; i<A.length; i++){
+            
+            for(int j=2; j<=A[i]; j++){
+                if(isPrime(j) && isDivisor(j,A[i])) list1.add(j);
+            }
+
+            for(int j=2; j<=B[i]; j++){
+                if(isPrime(j) && isDivisor(j,B[i])) list2.add(j);
+            }
+
+            if(list1.containsAll(list2) && list2.containsAll(list1)) total++; //list 비교
+
+            list1.clear();
+            list2.clear();
+        }
+        return total;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i<a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+
+    public boolean isDivisor(int a, int b){ //a는 검사 대상
+        boolean check=false;
+        if(b%a==0) check=true;
+        return check;
+    }
+}
+//46%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        int total=0;
+        LinkedList<Integer> list1= new LinkedList<>();
+        LinkedList<Integer> list2= new LinkedList<>();
+
+        for(int i=0; i<A.length; i++){
+            
+            for(int j=2; j<=A[i]; j++)
+                if(isPrime(j) && isDivisor(j,A[i])) list1.add(j);
+            for(int j=2; j<=B[i]; j++)
+                if(isPrime(j) && isDivisor(j,B[i])) list2.add(j);
+
+            if(list1.containsAll(list2) && list2.containsAll(list1)) total++; //list 비교
+            
+            list1.clear();
+            list2.clear();
+        }
+        return total;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i*i<=a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+
+    public boolean isDivisor(int a, int b){ //a는 검사 대상
+        boolean check=false;
+        if(b%a==0) check=true;
+        return check;
+    }
+}
+//61% TO
