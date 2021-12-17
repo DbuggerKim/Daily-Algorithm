@@ -1,0 +1,89 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        Arrays.sort(A);
+        int total=1;
+        int len = A.length;
+
+        for(int i=len-1; i>=len-4; i--){
+            total*=A[i];
+        }
+
+    return total;
+    }
+}
+
+//0%
+
+import java.util.Arrays;
+import java.util.Collections;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int total=1;
+        Integer[] B = new Integer[A.length];
+//역순 sort 활용 시 사용해야함
+        for(int i=0; i<A.length; i++) B[i]=A[i];
+
+        Arrays.sort(B, Collections.reverseOrder());
+
+        for(int j=0; j<3; j++) total=total*B[j];
+        
+        return total;
+    }
+}
+
+//44%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int total=0;
+        int max=-Integer.MIN_VALUE;
+        
+        for(int i=0; i<A.length-2; i++){
+            for(int j=i+1; j<A.length-1; j++){
+                for(int k=j+1; k<A.length; k++){
+                    total=A[i]*A[j]*A[k];
+                    if(total>=max) max=total;
+                }
+            }
+        }
+
+        return max;
+
+    }
+}
+//44%
+
+/*
+음수 나 0 없다면 소팅하고 가장 상단 세개만 추출해서 곱
+음수 또는 0이 1 개 1~3개인 경우별로 나눠서 생각 쁠마 왔다갔다
+
+*/
+
+// you can also use imports, for example:
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        Arrays.sort(A);
+
+        int i = A.length-1;
+        int answer = A[i]*A[i-1]*A[i-2];
+
+        if(A[0]<=0 && A[1]<=0 && A[i]>=0){
+            int answer2 = A[0]*A[1]*A[i];
+            if(answer2>answer) answer=answer2;
+        }
+
+        return answer;
+    }
+}
+
+//100%
