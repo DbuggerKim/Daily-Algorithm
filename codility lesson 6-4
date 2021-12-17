@@ -1,0 +1,61 @@
+import java.lang.Math;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        int count=0;
+
+        for(int i=0; i<A.length; i++){
+            int radius = A[i];
+            for(int j=0; j<A.length; j++){
+
+//두원의 위치관계  r+R >= 두원의 중심 사이 거리
+
+                if(i!=j && radius+A[j]>=Math.abs(i-j)){
+                    count++;
+                }
+            }
+        }
+
+//같은 pair 절반
+        return count/2;
+    }
+}//50% TIMEOUT
+
+
+import java.util.Arrays;
+
+public int solution(int[] A) {
+  int N = A.length;
+  long[] lower = new long[N];
+  long[] upper = new long[N];
+
+  for (int i = 0; i < N; i++) {
+    lower[i] = i - (long) A[i];
+    upper[i] = i + (long) A[i];
+  }
+
+  Arrays.sort(lower);
+  Arrays.sort(upper);
+
+  int intersection = 0;
+  int j = 0;
+
+  for (int i = 0; i < N; i++) {
+    while (j < N && upper[i] >= lower[j]) { //중심index 작은 원의 upper>= 중심index 큰 원의 lower
+      intersection += j;
+      intersection -= i;
+      j++;
+    }
+  }
+
+  if (intersection > 10000000) return -1;
+  return intersection;
+}
+
+//원간 겹치는가 여부만 판단하면 됨
+// upper 보다 작은 lower 들은 반드시 가장 작은 upper 보다 큰 반지름을 갖는다. = 접점
+//다음 upper 에서 겹치지 않게 현재 J 만큼 빼준다.
+//intersect : 선, 면 만나는 지점 모두 
+//get an intersecting pair
+//100%
