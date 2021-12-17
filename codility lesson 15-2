@@ -1,0 +1,101 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int M, int[] A) {
+
+        int count=0;
+        
+        for(int i=0; i<A.length; i++){
+            for(int j=0; j<A.length; j++){
+                if(i<=j && A[i]<=A[j] && A[i]<=M && A[j]<=M){
+                    System.out.println("i: "+i+"   j: "+j);
+                    count++;
+                    if(i!=j && A[i]==A[j]) count--;
+                }
+            }
+        }
+
+
+        return count;
+    }
+}
+//0%
+
+import java.util.*;
+
+
+class Solution {
+    public int solution(int M, int[] A) {
+
+        int count=0;
+
+        for(int top=0; top<A.length; top++){
+            for(int end=A.length-1; end>=top; end--){
+                for(int ans=A[top]; ans<=A[end]; ans++){
+                    if(top==end) count++;
+                    else if(ans>A[top]) continue;
+                    else break;
+                    count++;
+                }
+            }
+        }
+
+        return count;
+
+    }
+}
+
+//0%
+
+
+import java.util.*;
+
+
+class Solution {
+    public int solution(int M, int[] A) {
+
+        int count=0;
+
+        for(int top=0; top<A.length; top++){
+            int end=A.length-1;
+            int temp1=A[top];
+            int temp2=A[end];
+            while(top<=end){
+                if(top==end) count++;
+                else if(top!=end && temp1<temp2){
+                    end--;
+                    temp2=A[end];
+                }
+                else break;
+            }
+        }
+
+        return count;
+
+    }
+}
+
+//0%
+
+import java.util.*;
+import java.lang.Math;
+
+class Solution {
+    public int solution(int M, int[] A) {
+
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int total = 0;
+        int lastIndex = -1;
+
+        for (int i=0; i<A.length; i++) {
+            int preIndex = map.containsKey(A[i]) ? map.get(A[i]) : -1; 
+            lastIndex = Math.max(preIndex, lastIndex);
+            total+=i-lastIndex;
+            map.put(A[i], i);
+            if (total >= 1000000000) return 1000000000;
+        }
+
+        return total;
+    }
+}
+//100%
