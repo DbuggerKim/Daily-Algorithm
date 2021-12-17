@@ -1,0 +1,95 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+        int total=-1;
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int a : A){
+            map.put(a, map.getOrDefault(a, 0)+1);
+        }
+
+        /* 해시 key, value 출력
+        Set<Integer> keySet = map.keySet();
+        for(Integer key : keySet) System.out.println(key + " : " + map.get(key));
+        */
+
+        Set<Integer> keySet = map.keySet();
+
+        for(Integer key : keySet){
+            if(map.get(key)>=A.length/2) {
+                total=key;
+            }
+        }
+
+        for(int i=0; i<A.length; i++){
+            if(A[i]==total) return i;
+        }
+
+        return total;
+    }
+}
+//66%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+    // write your code in Java SE 8
+    int[] B = A.clone();
+    Arrays.sort(A);
+    int length = A.length;
+    if(length == 0){
+        return -1;
+    }
+    int count = 0;
+    //반이 넘는것이기 때문에 중앙은 항상 최고 값이다.
+    int cadidate = A[length / 2];
+    for (int a : A) {
+        if (a == cadidate) {
+            count++;
+        }
+    }
+    //반이상이 안넘으면 대표leader가 없다
+    if (count < (length / 2) + 1) {
+        return -1;
+    }
+    //clone 한곳에서 찾는다.
+    for (int i = 0; i < B.length; i++) {
+        if (B[i] == cadidate) {
+            return i;
+        }
+    }
+    return 0;
+    }
+}
+//100%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+
+    if(A.length == 0) return -1;
+    int[] B = A.clone(); //original 배열 복사
+    Arrays.sort(A);
+
+    //가정 : 정렬된 배열의 median은 항상 target
+    int count = 0;
+    int cadidate = A[A.length/2];
+    for (int a : B)
+        if (a==cadidate) count++;
+
+    //결과과 : 절반 이상 count안될 시(median 아니면) target 없음
+    if (count<(A.length/2)+1) return -1;
+    else{
+        for(int i=0; i<A.length; i++)
+            if(B[i]==cadidate)return i;
+    }
+
+    return -1;
+    }
+}
+//100%
