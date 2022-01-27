@@ -1,0 +1,81 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+    
+    //geometric progression
+    public static long countTriplets(List<Long> arr, long r) {
+        long ans = 0;
+        
+        Map<Long, Long> map1 = new HashMap<>();
+        Map<Long, Long> map2 = new HashMap<>();
+        
+        for(long num : arr) {
+            if(num%r==0) {
+                long prev=num/r;
+                Long end = map2.get(prev); // num is the last number
+                if(end != null) ans+=end;
+                Long mid = map1.get(prev); // num is the middle number
+                if(mid != null) map2.put(num, map2.getOrDefault(num, 0L)+mid);
+            }
+            map1.put(num, map1.getOrDefault(num, 0L)+1); // num is the first number , count consecutive nums
+        }
+        
+        return ans;
+    }
+    
+    /*static long countTriplets(List<Long> list, long r) {
+        long val = 0;
+        long [] arr = new long [list.size()];
+        
+        for(int i=0; i<arr.length; i++) arr[i]=list.get(i);
+        Arrays.sort(arr);
+        
+        for(int i=0; i<arr.length-2; i++){
+            for(int j=i+1; j<arr.length-1; j++){
+                for(int k=j+1; k<arr.length; k++){
+                    if(temp1!=j && temp2!=k && i<j && j<k) {
+                        System.out.println(i+" "+j+" "+k);
+                        val++;
+                        temp1 = j; 
+                        temp2 = k;
+                    }
+                }
+            }
+        }
+            
+        return val;
+    }*/
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] nr = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int n = Integer.parseInt(nr[0]);
+
+        long r = Long.parseLong(nr[1]);
+
+        List<Long> list = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Long::parseLong)
+            .collect(toList());
+
+        long ans = countTriplets(list, r);
+
+        bufferedWriter.write(String.valueOf(ans));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
