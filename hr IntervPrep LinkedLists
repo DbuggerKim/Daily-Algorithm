@@ -1,0 +1,33 @@
+boolean hasCycle(Node head) {
+    
+    if(head==null) return false;
+    
+    Node back = head;
+    Node front = head.next;
+    
+    while(back!=front){
+        if(front==null || front.next==null) return false;
+        back=back.next;
+        front=front.next.next; //cycle 생성
+    }
+    
+    return true;
+}
+
+
+/*boolean hasCycle(Node head) {
+    if (head == null) return false;
+    
+    Node slow = head;
+    Node fast = head.next;
+    while (slow != fast) {
+        if (fast == null || fast.next == null) return false;
+        
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    
+    return true;
+}
+
+*/
