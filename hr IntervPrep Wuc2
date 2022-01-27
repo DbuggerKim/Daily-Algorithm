@@ -12,28 +12,17 @@ import static java.util.stream.Collectors.toList;
 
 class Result {
 
-    /*
-     * Complete the 'countingValleys' function below.
-     * The function is expected to return an INTEGER.
-     * The function accepts following parameters:
-     *  1. INTEGER steps
-     *  2. STRING path
-     */
+    public static int jumpingOnClouds(List<Integer> c) {
+        int jumps = 0;
 
-    public static int countingValleys(int steps, String path) {
-    // Write your code here
-        int sum = 0;
-        int total = 0;
-        
-        for(int i=0; i<steps;i++){
-            if(path.charAt(i)=='U'){
-                if(++sum==0)
-                    total++;
-                }
-                else sum--;
+        for (int i=0; i<c.size()-1; i++) {
+            if (c.get(i).equals(c.get(i + 1))||c.get(i+1)==1){
+                i++;
+            }
+            jumps++;
         }
-        return total;
 
+        return jumps;
     }
 
 }
@@ -43,9 +32,13 @@ public class Solution {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-        int steps = Integer.parseInt(bufferedReader.readLine().trim());
-        String path = bufferedReader.readLine();
-        int result = Result.countingValleys(steps, path);
+        int n = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<Integer> c = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        int result = Result.jumpingOnClouds(c);
 
         bufferedWriter.write(String.valueOf(result));
         bufferedWriter.newLine();
