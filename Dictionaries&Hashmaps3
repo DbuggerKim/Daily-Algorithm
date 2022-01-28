@@ -1,0 +1,204 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static void checkMagazine(List<String> magazine, List<String> note) {
+        
+        String answer="Yes";
+        HashMap <String, Integer> map = new HashMap <>();
+        for(int i=0; i<note.size(); i++){
+            map.put(note.get(i), map.getOrDefault(note.get(i), 0)+1);
+        }
+        
+        for(int i=0; i<magazine.size(); i++){
+            map.put(magazine.get(i), map.getOrDefault(magazine.get(i), 0)-1);
+        }
+        
+        for(String key : map.keySet()){
+            int value = map.get(key);
+            if(value>0) answer="No";
+        }
+        
+        System.out.println(answer);
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int m = Integer.parseInt(firstMultipleInput[0]);
+
+        int n = Integer.parseInt(firstMultipleInput[1]);
+
+        List<String> magazine = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .collect(toList());
+
+        List<String> note = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .collect(toList());
+
+        Result.checkMagazine(magazine, note);
+
+        bufferedReader.close();
+    }
+}
+
+//100%
+
+
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static void checkMagazine(List<String> magazine, List<String> note) {
+        
+        HashMap <String, Integer> map = new HashMap <> ();
+        String result ="Yes";
+        int count=0;
+        
+        for(int i=0; i<magazine.size(); i++){
+            map.put(magazine.get(i), map.getOrDefault(magazine.get(i), 0)+1);
+        }
+        
+        Iterator<String> key = map.keySet().iterator();
+        while(key.hasNext()){
+            String val =key.next();
+            for(int i=0; i<note.size(); i++){
+                if(val.equals(note.get(i))) {
+                    map.put(val, map.get(val)-1);
+                    count++;
+                }
+            }
+        }
+        
+        for(String val : map.keySet()){
+            if(map.get(val)<0 || count!=note.size()) {
+                result="No";
+                break;
+            }
+        }
+        
+        System.out.println(result);
+        
+    }
+
+}
+
+/*
+class Result {
+
+    public static void checkMagazine(List<String> magazine, List<String> note) {
+        
+        HashMap <String, Integer> map = new HashMap <> ();
+        String result ="Yes";
+        int count=0;
+        
+        for(int i=0; i<magazine.size(); i++){
+            map.put(magazine.get(i), map.getOrDefault(magazine.get(i), 0)+1);
+        }
+        
+        Iterator<String> key = map.keySet().iterator();
+        while(key.hasNext()){
+            String val =key.next();
+            for(int i=0; i<note.size(); i++){
+                if(val.equals(note.get(i))) {
+                    map.put(val, map.get(val)-1);
+                    count++;
+                }
+            }
+        }
+        
+        for(String val : map.keySet()){
+            if(map.get(val)<0 || count!=note.size()) {
+                result="No";
+                break;
+            }
+        }
+        
+        System.out.println(result);
+        
+    }
+
+}
+*/ / 90% TO
+
+/*
+class Result {
+
+    public static void checkMagazine(List<String> magazine, List<String> note) {
+        
+        String [] map = new String [magazine.size()];
+        String result="";
+        int count=0;
+
+        for(int i=0; i<magazine.size(); i++){
+            map[i]=magazine.get(i);
+        }
+        
+        for(int i=0; i<magazine.size(); i++){
+            for(int j=0; j<note.size(); j++){
+                if(map[i].equals(note.get(j))){
+                    map[i]="";
+                    count++;
+                }
+            }
+        }
+        
+        if(count == note.size()) result="Yes";
+        else result="No";
+        
+        System.out.println(result);
+        
+    }
+
+}
+
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int m = Integer.parseInt(firstMultipleInput[0]);
+
+        int n = Integer.parseInt(firstMultipleInput[1]);
+
+        List<String> magazine = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .collect(toList());
+
+        List<String> note = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .collect(toList());
+
+        Result.checkMagazine(magazine, note);
+
+        bufferedReader.close();
+    }
+}
+
+*/ //100% TO
