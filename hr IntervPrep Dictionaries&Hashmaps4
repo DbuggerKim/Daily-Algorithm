@@ -1,0 +1,153 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static boolean isAnagrams(String s1, String s2) {
+        if(s1.length() != s2.length()) return false;
+        
+        int cnt = 0;
+        boolean[] visit = new boolean[s2.length()];
+        for(int i = 0; i < s1.length(); i++) {
+            for(int j = 0; j < s2.length(); j++) {
+                if(s1.charAt(i) == s2.charAt(j) && !visit[j]) {
+                    cnt++; visit[j] = true; break;
+                }
+            }
+        }
+        return cnt == s2.length()? true : false;
+    }
+    // Complete the sherlockAndAnagrams function below.
+    public static int sherlockAndAnagrams(String s) {
+        List<String>list = new ArrayList<>();
+        for(int i=0; i<s.length(); i++) {
+            for(int j=i+1; j<=s.length(); j++) list.add(s.substring(i, j));
+        }
+        
+        int ans = 0;
+        for(int i=0; i<list.size(); i++) {
+            for(int j=i+1; j<list.size(); j++) {
+                if(isAnagrams(list.get(i), list.get(j))) ans++;
+            }
+        }
+        return ans;
+    }
+    
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, q).forEach(qItr -> {
+            try {
+                String s = bufferedReader.readLine();
+
+                int result = Result.sherlockAndAnagrams(s);
+
+                bufferedWriter.write(String.valueOf(result));
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+//100%
+//https://geehye.github.io/hackerrank-02/#
+
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static int sherlockAndAnagrams(String s) {
+        
+        boolean output=true;
+        int count=0;
+        HashMap <Character, Integer> map = new HashMap<>();
+        //String temp = s.substring(0, 1);
+        
+        for(int index=1; index<s.length(); index++){
+            for(int i=0; i<s.length()-index+1; i++){
+                
+                String temp2=s.substring(i, i+index);
+                //if(temp.length()!=temp2.length())continue;
+                
+                for(int j=0; j<temp.length(); j++){
+                    map.put(temp.charAt(j), map.getOrDefault(temp.charAt(j),0)+1);
+                }
+                
+                for(int j=0; j<temp2.length(); j++){
+                    map.put(temp2.charAt(j), map.getOrDefault(temp2.charAt(j),0)-1);
+                }
+                System.out.println(temp+ " " + temp2+ " ");
+                output=true;
+                for(Character key : map.keySet()) { 
+                    int value = map.get(key);
+                    
+                    System.out.println(key +":"+ value);
+                    if(value!=0) output=false;
+                }
+                System.out.println("");
+                if(output==true && temp.length()==temp2.length()) count++;
+                map.clear();
+                temp=temp2;
+                
+            }
+        }
+        
+        return count;
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, q).forEach(qItr -> {
+            try {
+                String s = bufferedReader.readLine();
+
+                int result = Result.sherlockAndAnagrams(s);
+
+                bufferedWriter.write(String.valueOf(result));
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}*/
