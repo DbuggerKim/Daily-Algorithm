@@ -1,0 +1,536 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    // Complete the freqQuery function below.
+    static List<Integer> freqQuery (BufferedReader bufferedReader, int q)throws IOException {
+
+        HashMap<Integer, Integer> valuesToCounts = new HashMap<>();
+        HashMap<Integer, Set<Integer>> countsToValues = new HashMap<>();
+        ArrayList<Integer> results = new ArrayList<>(); 
+        int size = q;
+           
+        for (int i = 0; i < q; i++) {
+            String[] query = bufferedReader.readLine().split(" ");
+            int operation = Integer.parseInt(query[0]);
+            int number = Integer.parseInt(query[1]);
+
+            int oldCount = valuesToCounts.getOrDefault(number, 0); 
+            int newCount; 
+
+            if (operation == 1) {
+                newCount = oldCount + 1; 
+                valuesToCounts.put(number, newCount);
+                
+                if (countsToValues.containsKey(oldCount)) {
+                    countsToValues.get(oldCount).remove(number);
+                }
+                countsToValues.putIfAbsent(newCount, new HashSet<>());
+                countsToValues.get(newCount).add(number);
+            }
+
+            if (operation == 2) {
+                newCount = (oldCount > 1) ? oldCount - 1 : 0;
+                valuesToCounts.put(number, newCount);
+
+                if (countsToValues.containsKey(oldCount)) {
+                    countsToValues.get(oldCount).remove(number);
+                }
+
+                countsToValues.putIfAbsent(newCount, new HashSet<>());
+                countsToValues.get(newCount).add(number);
+            }
+
+            if (operation == 3) {
+                if (number > size) results.add(0);
+                else {
+                    results.add((number == 0 || countsToValues.getOrDefault(number, Collections.emptySet()).size() > 0) ? 1 : 0);
+                }
+            }
+        }
+
+        return results; 
+    }
+
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(System.in))) {
+            
+            int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+            List<Integer> ans = freqQuery(bufferedReader, q); 
+          
+            try (BufferedWriter bufferedWriter = new BufferedWriter(
+                        new FileWriter(System.getenv("OUTPUT_PATH")))) {
+            
+                bufferedWriter.write(ans.stream().map(Object::toString)
+                            .collect(joining("\n")) + "\n");
+            }
+        }
+    }
+}
+
+// refer from comments : initial code problem due to IO processing
+//100%
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    static List<Integer> freqQuery(List<List<Integer>> queries) {
+        LinkedList <Integer> list = new LinkedList<>();
+        LinkedList <Integer> list2 = new LinkedList<>();
+        HashMap <Integer, Integer> map = new HashMap<>();
+        
+        for(int i=0; i<queries.size(); i++){
+            int val1 = queries.get(i).get(0);
+            int val2 = queries.get(i).get(1);
+            
+            if(val1==1){
+                list.add(val2);
+                map.put(val2, map.getOrDefault(val2, 0)+1);
+                }
+                else if(val1==2){
+                    if(list.contains(val2)){
+                        list.remove(list.indexOf(val2));
+                        map.put(val2, map.getOrDefault(val2,0)-1);
+                        }
+                }
+                else if(val1==3){
+                    if(map.containsValue(val2) list2.add(1);
+                    else list2.add(0);
+                }
+        }
+        
+        return list2; 
+    }
+
+    public static void main(String[] args) throws IOException {
+        try (BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(System.in))) {
+            
+            int q = Integer.parseInt(bufferedReader.readLine().trim());
+            int[][] queries = new int[q][2];
+           
+            for (int i = 0; i < q; i++) {
+                String[] query = bufferedReader.readLine().split(" ");
+                queries[i][0] = Integer.parseInt(query[0]);
+                queries[i][1] = Integer.parseInt(query[1]);
+            }
+          
+            List<Integer> ans = freqQuery(queries);
+          
+            try (BufferedWriter bufferedWriter = new BufferedWriter(
+                        new FileWriter(System.getenv("OUTPUT_PATH")))) {
+            
+                bufferedWriter.write(ans.stream().map(Object::toString)
+                            .collect(joining("\n")) + "\n");
+            }
+        }
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+public class Solution {
+
+    public static int[] freqQuery(int queries[][]) {
+        
+        LinkedList <Integer> list = new LinkedList<>();
+        LinkedList <Integer> list2 = new LinkedList<>();
+        HashMap <Integer, Integer> map = new HashMap<>();
+        
+        for(int i=0; i<queries[0].length(); i++){
+            int val1 = queries[0][i];
+            int val2 = queries[1][i];
+            
+            if(val1==1){
+                list.add(val2);
+                map.put(val2, map.getOrDefault(val2, 0)+1);
+            }
+            else if(val1==2){
+                if(list.contains(val2)){
+                    list.remove(list.indexOf(val2));
+                    map.put(val2, map.getOrDefault(val2,0)-1);
+                }
+            }
+            else if(val1==3){
+                if(map.containsValue((int)val2)) list2.add(1);
+                else list2.add(0);
+            }
+        }
+        
+        int [] arr = new int[list2.size()];
+        for(int i=0; i<list2.size(); i++) arr[i]=list2.get(i);
+        
+        return arr; 
+    }
+
+    public static void main(String[] args) {
+        
+        Scanner scan = new Scanner(System.in);
+        int q = scan.nextInt();
+        int [][] queries = new int [2][q];
+        
+        int [] ans = freqQuery(queries);
+        for(Integer val : ans) System.out.println(val);
+
+    }
+}
+*/ //ASCII 문자
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    public static List<Integer> freqQuery(List<List<Long>> queries) {
+        
+        LinkedList <Long> list = new LinkedList<>();
+        LinkedList <Integer> list2 = new LinkedList<>();
+        HashMap <Long, Integer> map = new HashMap<>(); //freq
+        
+        for(int i=0; i<queries.size(); i++){
+            long val1 = queries.get(i).get(0);
+            long val2 = queries.get(i).get(1);
+            /*switch(val1){
+                case 1 : list.add(val2); 
+                         map.put(val2, map.getOrDefault(val2, 0)+1);
+                         break;
+                case 2 : if(list.contains(val2)) {
+                            list.remove(list.indexOf(val2));
+                            map.put(val2, map.getOrDefault(val2, 0)-1);
+                         }
+                         break;
+                case 3 : if(map.containsValue(val2)) list2.add(1);
+                         else list2.add(0);
+                         break;
+                default : break;
+            }*/ //cost more memories
+            if(val1==1){
+                list.add(val2);
+                map.put(val2, map.getOrDefault(val2, 0)+1);
+            }
+            else if(val1==2){
+                if(list.contains(val2)){
+                    list.remove(list.indexOf(val2));
+                    map.put(val2, map.getOrDefault(val2,0)-1);
+                }
+            }
+            else if(val1==3){
+                if(map.containsValue((int)val2)) {
+                    list2.add(1);
+                }
+                else list2.add(0);
+            }
+        }
+        
+        return list2; 
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim()); //
+
+        List<List<Long>> queries = new ArrayList<>();
+
+        IntStream.range(0, q).forEach(i -> { //
+            try {
+                queries.add(
+                    Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Long::parseLong)
+                        .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        List<Integer> ans = freqQuery(queries);
+
+        bufferedWriter.write(
+            ans.stream()
+                .map(Object::toString)
+                .collect(joining("\n"))
+            + "\n"
+        );
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+*/
+
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    static List<Integer> freqQuery(List<List<Integer>> queries) {
+        
+        LinkedList <Integer> list = new LinkedList<Integer>();
+        LinkedList <Integer> list2 = new LinkedList<Integer>();
+        HashMap <Integer, Integer> map = new HashMap<>();
+        
+        for(int i=0; i<queries.size(); i++){
+            int val1 = queries.get(i).get(0);
+            int val2 = queries.get(i).get(1);
+            switch(val1){
+                case 1 : list.add(val2); 
+                         map.put(val2, map.getOrDefault(val2, 0)+1);
+                         break;
+                case 2 : if(list.contains(val2)) {
+                            list.remove(list.indexOf(val2));
+                            map.put(val2, map.getOrDefault(val2, 0)-1);
+                         }
+                         break;
+                case 3 : if(map.containsValue(val2)) list2.add(1);
+                         else list2.add(0);
+                         break;
+                default : break;
+            }
+        }
+        return list2; 
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<List<Integer>> queries = new ArrayList<>();
+
+        IntStream.range(0, q).forEach(i -> {
+            try {
+                queries.add(
+                    Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Integer::parseInt)
+                        .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        List<Integer> ans = freqQuery(queries);
+
+        bufferedWriter.write(
+            ans.stream()
+                .map(Object::toString)
+                .collect(joining("\n"))
+            + "\n"
+        );
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+*/
+
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    static List<Integer> freqQuery(List<List<Integer>> queries) {
+        
+        LinkedList <Integer> list = new LinkedList<Integer>();
+        LinkedList <Integer> list2 = new LinkedList<Integer>();
+        HashMap <Integer, Integer> map = new HashMap<>();
+        
+        for(int i=0; i<queries.size(); i++){
+            int output = 0;
+            int val1 = queries.get(i).get(0);
+            int val2 = queries.get(i).get(1);
+            switch(val1){
+                case 1 : list.add(val2); 
+                         map.put(val2, map.getOrDefault(val2, 0)+1);
+                         break;
+                case 2 : if(list.contains(val2)) {
+                            list.remove(list.indexOf(val2));
+                            map.put(val2, map.getOrDefault(val2, 0)-1);
+                         }
+                         break;
+                case 3 : if(map.containsValue(val2)){ 
+                            output=1;
+                         }
+                         list2.add(output);
+                         break;
+                default : break;
+            }
+        }
+        return list2; 
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<List<Integer>> queries = new ArrayList<>();
+
+        IntStream.range(0, q).forEach(i -> {
+            try {
+                queries.add(
+                    Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Integer::parseInt)
+                        .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        List<Integer> ans = freqQuery(queries);
+
+        bufferedWriter.write(
+            ans.stream()
+                .map(Object::toString)
+                .collect(joining("\n"))
+            + "\n"
+        );
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}*/ //100%
+
+
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+public class Solution {
+
+    static List<Integer> freqQuery(List<List<Integer>> queries) {
+        
+        int output = 0;
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        LinkedList<Integer> list2 = new LinkedList<Integer>();
+        HashMap <Integer, Integer> map = new HashMap<>();
+        
+        for(int i=0; i<queries.size(); i++){
+            int val1 = queries.get(i).get(0);
+            int val2 = queries.get(i).get(1);
+            
+            switch(val1){
+                case 1 : list.add(val2); 
+                         map.put(val2, map.getOrDefault(val2, 0)+1);
+                         break;
+                case 2 : if(list.contains(val2)) {
+                            list.remove(list.indexOf(val2));
+                            map.put(val2, map.getOrDefault(val2, 0)-1);
+                         }
+                         break;
+                case 3 : for(Integer key : map.keySet()){
+                            int value=map.get(key);
+                            if(value==val2) output = 1;
+                         } list2.add(output);
+                         output=0; 
+                         break;
+                default : break;
+            }
+        }
+        return list2; 
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        List<List<Integer>> queries = new ArrayList<>();
+
+        IntStream.range(0, q).forEach(i -> {
+            try {
+                queries.add(
+                    Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                        .map(Integer::parseInt)
+                        .collect(toList())
+                );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        List<Integer> ans = freqQuery(queries);
+
+        bufferedWriter.write(
+            ans.stream()
+                .map(Object::toString)
+                .collect(joining("\n"))
+            + "\n"
+        );
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+} */
