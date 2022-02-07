@@ -1,0 +1,233 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    private static long countInversions(int[] arr) {
+        int[] aux = arr.clone(); //복제
+        return countInversions(arr, 0, arr.length - 1, aux);
+    }
+
+    private static long countInversions(int[] arr, int lo, int hi, int[] aux) {
+        if (lo >= hi) return 0; //하나짜리 배열 비교 불가
+
+        int mid = lo + (hi - lo) / 2; //홀수일 때 마지막 값
+
+        long count = 0;
+        count += countInversions(aux, lo, mid, arr); //재귀로 더해짐
+        count += countInversions(aux, mid + 1, hi, arr);
+        count += merge(arr, lo, mid, hi, aux);
+
+        return count;
+    }
+
+    private static long merge(int[] arr, int lo, int mid, int hi, int[] aux) {
+        long count = 0;
+        int i = lo, j = mid + 1, k = lo;
+        while (i <= mid || j <= hi) {
+            if (i > mid) {
+                arr[k++] = aux[j++];
+            } else if (j > hi) {
+                arr[k++] = aux[i++];
+            } else if (aux[i] <= aux[j]) { //이상 지점
+                arr[k++] = aux[i++];
+            } else {
+                arr[k++] = aux[j++];
+                count += mid + 1 - i; //전체-이상한개수
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        for(int a0 = 0; a0 < t; a0++){
+            int n = in.nextInt();
+            int arr[] = new int[n];
+            for(int arr_i=0; arr_i < n; arr_i++){
+                arr[arr_i] = in.nextInt();
+            }
+            System.out.println(countInversions(arr));
+        }
+    }
+} //100%
+
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+    
+    public static long mergeSort(int[] list, int start, int end){
+        
+        long count=0;
+        int[] temp = new int [list.length];
+        
+        if(start<end){
+            int mid=(start+end)/2;
+            mergeSort(list, start, mid);
+            mergeSort(list, mid+1, end);
+        
+            int p=start;
+            int q=mid+1;
+            int index=p;
+            
+            while(p<=mid || q<=end){
+                if(q<=end || (p<=mid && list[p]<list[q])){
+                    temp[index++]=list[p++];
+                }
+                else{
+                    temp[index++]=list[q++];
+                    count+=(mid+1)-(1-start);
+                }
+            }
+            
+            for(int i=start; i<=end; i++) list[i]=temp[i];
+        }
+        
+        return count;
+    }
+
+    public static long countInversions(List<Integer> arr) {
+    // Write your code here
+    
+        int[] list=new int [arr.size()];
+        for(int i=0; i<arr.size(); i++) list[i]=arr.get(i);
+        
+        long total=mergeSort(list, 0, arr.size()-1);
+        
+        return total;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int t = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, t).forEach(tItr -> {
+            try {
+                int n = Integer.parseInt(bufferedReader.readLine().trim());
+
+                List<Integer> arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                    .map(Integer::parseInt)
+                    .collect(toList());
+
+                long result = Result.countInversions(arr);
+
+                bufferedWriter.write(String.valueOf(result));
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+
+*/
+
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static void mergeSort(int[] list, int start, int end){
+        
+        int [] temp = new int [list.length];
+        
+        if(start<end){
+            int mid=(start+end)/2; 
+            mergeSort(list, start, mid);
+            mergeSort(list, mid+1, end);
+        
+            int p=start;
+            int q=mid+1;
+            int index=p;
+            
+            while(p<=mid || q<=end){
+                if(q>end || (p<=mid && list[p]<list[q])) temp[index++]=list[p++];
+                else{
+                    temp[index++]=list[q++];
+                    count+=(mid+1)-(start-p);
+                }
+            }
+            
+            for(int i=start; i<=end; i++) list[i]=temp[i];
+        }
+        
+    }
+
+    public static long countInversions(List<Integer> arr) {
+        
+        int[] list= new int [arr.size()];
+        for(int i=0; i<arr.size(); i++) list[i]=arr.get(i);
+        
+        mergeSort(list, 0, arr.size()-1);
+        
+        return 0;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int t = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, t).forEach(tItr -> {
+            try {
+                int n = Integer.parseInt(bufferedReader.readLine().trim());
+
+                List<Integer> arr = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                    .map(Integer::parseInt)
+                    .collect(toList());
+
+                long result = Result.countInversions(arr);
+
+                bufferedWriter.write(String.valueOf(result));
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+*/ //100%
