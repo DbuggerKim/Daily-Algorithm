@@ -1,0 +1,275 @@
+//counting sort
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+    
+    public static int activityNotifications(List<Integer> expenditure, int d){;
+
+        int count = 0;
+        int[] arr = new int[expenditure.size()];
+        for(int i=0; i<expenditure.size(); i++) arr[i]=expenditure.get(i);
+
+        int[] data = new int[10000];
+        for (int i=0; i<d; i++) data[arr[i]]++; //newbe
+
+        for (int i=d; i<arr.length; i++) {
+            double median=getMedian(data, d);
+            if (arr[i]>=2*median) count++;
+            data[arr[i]]++; //newbe
+            data[arr[i - d]]--; //past
+        }
+        
+        return count;
+    }
+
+    private static double getMedian(int[] data, int d) {
+        double median = 0; //even could be double
+
+        if (d%2==0) {
+            Integer m1 = null;
+            Integer m2 = null;
+            int count = 0;
+            
+            for(int j=0; j<data.length; j++) { //counting으로 length생성 1인부분만
+                count+=data[j];
+                if(m1==null && count>=d/2) {
+                    m1=j;
+                }
+                if(m2==null && count>=d/2+1) {
+                    m2=j;
+                    break;
+                }
+            }
+            median=(m1+m2)/2.0;
+        } else {
+            int count=0;
+            for(int j=0; j<data.length; j++) {
+                count+=data[j];
+                if(count>d/2) {
+                    median=j;
+                    break;
+                }
+            }
+        }
+        return median;
+    }
+
+    /*public static int activityNotifications(List<Integer> expenditure, int d) {
+        int total=0;
+        
+        int[] arr = new int [d];
+        int count=0;
+        int median=0;
+        
+        for(int i=0; i<expenditure.size()-d; i++){
+            for(int j=i; j<i+d; j++){
+                arr[count++]=expenditure.get(j);
+            }
+            count=0;
+            Arrays.sort(arr);
+            System.out.println();
+            for(int j=i; j<i+d; j++){
+                System.out.print(arr[count++]+" ");
+                if(d%2==0) median=expenditure.get((i+d+i)/2)+expenditure.get((i+d+i)/2+1)/2;        
+                else median=expenditure.get((i+d+i)/2);
+            }
+            if(expenditure.get(i+d)>=2*median) total++;
+        }
+        
+        return total;
+    }*/
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int n = Integer.parseInt(firstMultipleInput[0]);
+
+        int d = Integer.parseInt(firstMultipleInput[1]);
+
+        List<Integer> expenditure = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        int result = Result.activityNotifications(expenditure, d);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+//100%
+
+/* //한줄만 돌아감
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static int activityNotifications(List<Integer> expenditure, int d) {
+        int total=0;
+        
+        if(d%2==0){
+            int median=0;
+            int count=0;
+            int[] arr = new int [d];
+            for(int i=0; i<expenditure.size()-d; i++){
+                for(int j=i; j<i+d; j++){
+                    arr[count++]=expenditure.get(j);
+                }
+                count=0;
+                Arrays.sort(arr);
+                for(int j=i; j<i+d; j++){
+                    median=expenditure.get((i+d+i)/2)+expenditure.get((i+d+i)/2+1)/2;
+                }
+                if(expenditure.get(i+d)>=2*median) total++;
+            }
+        }
+        
+        else{
+            int median=0;
+            int count=0;
+            int[] arr = new int [d];
+            for(int i=0; i<expenditure.size()-d; i++){
+                for(int j=i; j<i+d; j++){
+                    arr[count++]=expenditure.get(j);
+                }
+                count=0;
+                Arrays.sort(arr);
+                for(int j=i; i<i+d; j++){
+                    median=expenditure.get((i+d+i)/2);
+                }
+                if(expenditure.get(i+d)>=2*median) total++;
+            }
+        }
+        
+        return total;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int n = Integer.parseInt(firstMultipleInput[0]);
+
+        int d = Integer.parseInt(firstMultipleInput[1]);
+
+        List<Integer> expenditure = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        int result = Result.activityNotifications(expenditure, d);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+*/
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static int activityNotifications(List<Integer> expenditure, int d) {
+        int total=0;
+        
+        //Collections.sort(expenditure);
+        
+        if(d%2==0){
+            int median=0;
+            for(int i=0; i<expenditure.size()-d; i++){
+                for(int j=i; j<i+d; j++){
+                    //sort
+                    median=expenditure.get((i+d+i)/2)+expenditure.get((i+d+i)/2+1)/2;
+                }
+                if(expenditure.get(i+d)>=2*median) total++;
+            }
+        }
+        
+        else{
+            int median=0;
+            for(int i=0; i<expenditure.size()-d; i++){
+                for(int j=i; i<i+d; j++){
+                    //sort
+                    median=expenditure.get((i+d+i)/2);
+                }
+                if(expenditure.get(i+d)>=2*median) total++;
+            }
+        }
+        
+        return total;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int n = Integer.parseInt(firstMultipleInput[0]);
+
+        int d = Integer.parseInt(firstMultipleInput[1]);
+
+        List<Integer> expenditure = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+            .map(Integer::parseInt)
+            .collect(toList());
+
+        int result = Result.activityNotifications(expenditure, d);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+*/
