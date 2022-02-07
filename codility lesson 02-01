@@ -5,12 +5,12 @@ class Solution {
         //순환 불가
         if(A.length==1 || A.length==0) return A;
 
+        //첫 인덱스 들어갈 값 저장해두 후 
         //마지막 인덱스 부터 채우기
         else{
             for(int j=0; j<K; j++){
                 int temp=A[A.length-1];
-                for(int i=A.length-2; i>=0 ; i--)
-                    A[i+1]=A[i];
+                for(int i=A.length-2; i>=0 ; i--) A[i+1]=A[i];
                 A[0]=temp;
             }
             return A;
