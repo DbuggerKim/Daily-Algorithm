@@ -166,7 +166,7 @@ class Solution {
             //비교하여 둘중 작은 값
             smallest = Math.min(temp,smallest);
         }
-        return mini;
+        return smallest;
 
     }
 
