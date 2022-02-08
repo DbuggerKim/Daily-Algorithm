@@ -1,0 +1,120 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    static String isValid(String s) {
+        HashMap<Character,Integer> map = new HashMap();
+        for(Character c : s.toCharArray()){
+            int cnt = map.containsKey(c) ?  map.get(c): 0;
+            map.put(c,cnt+1);
+        }
+        
+        int min_val = Integer.MAX_VALUE;
+        int max_val = Integer.MIN_VALUE;
+        for(int c : map.values()){
+            min_val = Math.min(min_val,c);
+            max_val = Math.max(max_val,c);
+        }
+
+        int count_min = 0;
+        int count_max = 0;
+
+        for(int c : map.values()){
+            if(c>0) count_min+=Math.abs(min_val-c);
+            if(c<max_val) count_max+=c;
+        }
+        //남은 최종 값은 1이상 안되도록 min_val 제거 후 남은 값 확인
+        return (count_min <= 1 || count_max <= 1) ? "YES" : "NO";               
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = bufferedReader.readLine();
+
+        String result = Result.isValid(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+} //100%
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static String isValid(String s) {
+        String output="NO";
+        int count=0;
+        
+        HashMap <Character, Integer> map = new HashMap <>();
+        
+        for(int i=0; i<s.length(); i++){
+            char c=s.charAt(i);
+            map.put(c, map.getOrDefault(c, 0)+1);
+        }
+        
+        int[] arr = new int [map.size()];
+        for(Character val : map.keySet()){
+            arr[count++]=map.get(val);
+        }
+        
+        count=0;
+        int temp=arr[0];
+        for(int i=0; i<arr.length; i++){
+            if(temp==arr[i]) count++;
+        }
+        
+        if(count==arr.length-1) output="YES";
+        
+        return output;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = bufferedReader.readLine();
+
+        String result = Result.isValid(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+*/
+//few errors 
