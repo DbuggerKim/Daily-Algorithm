@@ -1,0 +1,140 @@
+import java.util.*;
+
+public class Solution {
+
+    static int commonChild(String a, String b){
+        
+        int[][] c = new int[a.length()+1][b.length()+1];
+        
+        for(int i=0; i<a.length(); i++) {
+            for(int j=0; j<b.length(); j++) {
+                if(a.charAt(i)==b.charAt(j)) c[i+1][j+1]=c[i][j]+1;
+                else c[i+1][j+1]=Math.max(c[i+1][j], c[i][j+1]);
+            }
+        }
+        
+        return c[a.length()][b.length()];
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s1 = in.next();
+        String s2 = in.next();
+        int result = commonChild(s1, s2);
+        System.out.println(result);
+    }
+} //100%
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+    public static int commonChild(String s1, String s2) {
+        int total=0;
+        HashMap <Character, Integer> map = new HashMap <> ();
+        
+        for(int i=0; i<s1.length(); i++){
+            map.put(s1.charAt(i), map.getOrDefault(s1.charAt(i), 0)+1);
+        }
+        
+        for(int i=0; i<s1.length(); i++){
+            if(map.containsKey(s2.charAt(i))){
+                if(map.get(s2.charAt(i))>0){
+                    map.put(s2.charAt(i), map.getOrDefault(s2.charAt(i), 0)-1);
+                    total++;
+                }
+            }
+        }
+        
+        return total;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s1 = bufferedReader.readLine();
+
+        String s2 = bufferedReader.readLine();
+
+        int result = Result.commonChild(s1, s2);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}*/
+
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static int commonChild(String s1, String s2) {
+    // Write your code here
+    
+        int total=0;
+        HashMap <Character, Integer> map1 = new HashMap <> ();
+        HashMap <Character, Integer> map2 = new HashMap <> ();
+        
+        for(int i=0; i<s1.length(); i++){
+            map.put(s1.charAt(i), map.getOrDefault(s1.charAt(i), 0)+1);
+        }
+        
+        for(int i=0; i<s2.length(); i++){
+            map2.put(s2.charAt(i), map2.getOrDefault(s2.charAt(i), 0)+1);
+        }
+        
+        for(Character val : map.keySet()){
+            for(Character val : map2.keySet()){
+                if(map.get(val)==map2.get(val) && map.get(val)<map2.get(val)) total++;
+            }
+        }
+        
+        return total;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s1 = bufferedReader.readLine();
+
+        String s2 = bufferedReader.readLine();
+
+        int result = Result.commonChild(s1, s2);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}*// TO
