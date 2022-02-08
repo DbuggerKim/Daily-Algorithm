@@ -1,0 +1,368 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+
+public class Solution {
+
+    static long substrCount(int n, String s) {
+        
+        for(int i=0; i<s.length(); i++) {
+            char ichar=s.charAt(i);
+            int mid=0;
+            for(int j=i+1; j<s.length(); j++) {
+                char jchar=s.charAt(j);
+                if(ichar==jchar) {
+                    if((mid==0)||(j-mid)==(mid-i)) n++;
+                }
+                else if(mid==0) mid=j;
+                else break;
+            }
+        }
+        
+        return n;
+    }
+    /*static long substrCount(int n, String s) {
+        
+        long count=0;
+        LinkedList <String> list = new LinkedList <>();
+        
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<=n; j++){
+                String word = s.substring(i, j);
+                list.add(word);
+            }
+        }
+        
+        //for(int i=0; i<list.size(); i++) System.out.println(list.get(i));
+        
+        for(int i=0; i<list.size(); i++){
+            String word = list.get(i);
+            if(word.length()==1) {
+                System.out.println(list.get(i));
+                count++;
+            }
+            else if(word.length()>1 && word.length()%2==0){
+                char ch = word.charAt(0);
+                int num=1;
+                for(int j=1; j<word.length(); j++){
+                    if(ch==word.charAt(j)) num++;
+                }
+                if(num==word.length()) {
+                    System.out.println(list.get(i));
+                    count++;
+                }
+            }
+            else if(word.length()>1 && word.length()%2!=0){
+                String s1=word.substring(0, word.length()/2);
+                String s2=word.substring((word.length()/2)+1, word.length());
+                if(s1.equals(s2)==true) {
+                    count++;
+                    System.out.println(list.get(i));
+                }
+            }
+        }
+        
+        return count;
+
+    }*/
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String s = scanner.nextLine();
+
+        long result = substrCount(n, s);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
+
+//100%
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static long substrCount(int n, String s) {
+        
+        long count=0;
+        LinkedList <String> list = new LinkedList <>();
+        
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<=n; j++){
+                String word = s.substring(i, j);
+                list.add(word);
+            }
+        }
+        
+        //for(int i=0; i<list.size(); i++) System.out.println(list.get(i));
+        
+        for(int i=0; i<list.size(); i++){
+            String word = list.get(i);
+            if(word.length()==1) {
+                System.out.println(list.get(i));
+                count++;
+            }
+            else if(word.length()>1 && word.length()%2==0){
+                char ch = word.charAt(0);
+                int num=1;
+                for(int j=1; j<word.length(); j++){
+                    if(ch==word.charAt(j)) num++;
+                }
+                if(num==word.length()) {
+                    System.out.println(list.get(i));
+                    count++;
+                }
+            }
+            else if(word.length()>1 && word.length()%2!=0){
+                String s1=word.substring(0, word.length()/2);
+                String s2=word.substring((word.length()/2)+1, word.length());
+                if(s1.equals(s2)==true) {
+                    count++;
+                    System.out.println(list.get(i));
+                }
+            }
+        }
+        
+        return count;
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String s = scanner.nextLine();
+
+        long result = substrCount(n, s);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+} */
+
+//100% TO
+
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static long substrCount(int n, String s) {
+        
+        long count=0;
+        LinkedList <String> list = new LinkedList <>();
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<=n; j++){
+                String word = s.substring(i, j);
+                list.add(word);
+            }
+        }
+        
+        for(int i=0; i<list.size(); i++){
+            String word = list.get(i);
+            if(word.length()==1) count++;
+            else if(word.length()>1 && word.length()%2==0){
+                String s1=word.substring(0, word.length()/2);
+                String s2=word.substring(word.length()/2, word.length());
+                if(s1.equals(s2)==true) count++;
+            }
+            else if(word.length()>1 && word.length()%2==1){
+                String s1=word.substring(0, word.length()/2);
+                String s2=word.substring((word.length()/2)+1, word.length());
+                if(s1.equals(s2)==true) count++;
+            }
+            
+        }
+        
+        return count;
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String s = scanner.nextLine();
+
+        long result = substrCount(n, s);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
+*/ //100%
+
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static long substrCount(int n, String s) {
+        
+        long count=0;
+        LinkedList <String> list = new LinkedList <String>();
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                list.add(s.substring(i, j));
+            }
+        }
+        
+        for(int i=0; i<list.size(); i++){
+            String ss=list.get(i);
+            if(ss.length()>1){
+                String s1=s.substring(0, ss.length()/2);
+                String s2=s.substring(ss.length()/2+1, ss.length());
+                if(s1.equals(s2)) count++;
+            }
+            else count++;
+            
+        }
+        return count;
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String s = scanner.nextLine();
+
+        long result = substrCount(n, s);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}*/
+
+/*import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+    
+    static boolean sameCount(String s){
+        long count=0;
+        boolean result=false;
+        
+        for(int i=1; i<s.length(); i++){
+            if(s.charAt(0)==s.charAt(i)) count++;
+        }
+        
+        if(s.length()==count) result=true;
+        
+        return result;
+    }
+
+    static long substrCount(int n, String s) {
+        long count=0;
+        
+        for(int index=1; index<n+1; index++){
+            for(int i=0; i<(n+1)-index; i++){
+                String a=s.substring(i, i+index);
+                if(a.length()==1) count++;
+                else if (a.length()>1){
+                    if(a.length()%2==0){
+                        String b=a.substring(0, a.length()/2);
+                        String c=a.substring(a.length()/2, a.length());
+                        //String reversed = new StringBuffer(c).reverse().toString();
+                        //if(b.equals(c)==true) count++;
+                        if(b.equals(c)==true && sameCount(b) && sameCount(c)) count++;
+                    }
+                    else if(a.length()%2!=0){
+                        String b=a.substring(0, a.length()/2);
+                        String c=a.substring(a.length()/2+1, a.length());
+                        //String reversed = new StringBuffer(c).reverse().toString();
+                        //if(b.equals(c)==true) count++;
+                        if(b.equals(c)==true && sameCount(b) && sameCount(c)) count++;
+                    }
+                }   
+            }
+        }
+        
+        return count;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        String s = scanner.nextLine();
+
+        long result = substrCount(n, s);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}*/
+
+//0%
