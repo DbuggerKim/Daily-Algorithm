@@ -1,0 +1,66 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static String reverseShuffleMerge(String s) {
+        
+        //26 : alphabet size
+        int[] available = new int[26];
+        int[] required = new int[26];
+        int[] used = new int[26];
+        
+        for(char c : s.toCharArray()) available[c-'a']++;
+        for(int i=0; i<26; i++) required[i]=available[i]/2;
+        
+        StringBuilder sb = new StringBuilder();
+       
+        for(int i=s.length()-1; i>=0; i--) {
+            
+            char ch=s.charAt(i);
+            available[ch-'a']--;
+            if(used[ch-'a'] == required[ch-'a']) continue;
+            
+            while(sb.length()>0 && ch<sb.charAt(sb.length()-1) && 
+            available[sb.charAt(sb.length()-1)-'a']+used[sb.charAt(sb.length()-1)-'a']>required[sb.charAt(sb.length()-1)-'a']){    
+                char removedCh = sb.charAt(sb.length()-1);
+                sb.deleteCharAt(sb.length()-1);
+                used[removedCh-'a']--;
+            }
+            sb.append(ch);
+            used[ch-'a']++;
+            
+        }
+        
+        
+        return sb.toString();
+        
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String s = bufferedReader.readLine();
+
+        String result = Result.reverseShuffleMerge(s);
+
+        bufferedWriter.write(result);
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
