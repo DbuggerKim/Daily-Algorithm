@@ -1,0 +1,28 @@
+//JAVA
+
+boolean checkBST(Node root) {
+	return check(root,Integer.MIN_VALUE,Integer.MAX_VALUE);
+}
+boolean check(Node n, int min, int max){
+	if(n==null)
+		return true;
+	if(n.data <= min || n.data >= max)
+		return false;
+	return check(n.left, min, n.data) 
+		&& check(n.right, n.data, max);
+}
+
+
+//python
+
+#inorder
+a=[]
+def checkBST(root):
+    if root:
+        checkBST(root.left)
+        a.append(root.data)
+        checkBST(root.right)
+    if sorted(set(a))==a:
+        return True
+    else:
+        return False
