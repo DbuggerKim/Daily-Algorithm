@@ -19,3 +19,27 @@ class Solution {
 }
 
 //62% TO
+
+/https://mirae-kim.tistory.com/134
+
+import java.util.*;
+
+class Solution {
+    public int gcd(int a, int b) {
+        while(b!=0) {
+            int r=a%b;
+            a=b;        
+            b=r;
+        }return a;
+    }
+
+    public int lcm(int a, int b) {
+        return (a*b)/gcd(a, b);
+    }
+
+    public int solution(int N, int M) {
+        return N/gcd(N,M);
+    }
+}
+
+//100%
