@@ -178,3 +178,119 @@ class Solution {
     }
 }
 //61% TO
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0; i<A.length; i++){
+            for(int j=2; j<=A[i]; j++){
+                if(isPrime(j) && isDivisor(j,A[i])) set.add(j);
+            }
+            for(int j=2; j<=B[i]; j++){
+                if(isPrime(j) && isDivisor(j,B[i])){
+                    if(!set.isEmpty() && set.contains(j)) continue;
+                    else return 0;
+                }
+            }
+        }
+        return 1;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i*i<=a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+
+    public boolean isDivisor(int a, int b){ //a는 검사 대상
+        boolean check=false;
+        if(b%a==0) check=true;
+        return check;
+    }
+}
+// 7%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+
+        int total=0;
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0; i<A.length; i++){
+            int output=0;
+            for(int j=2; j<=A[i]; j++){
+                if(isPrime(j) && isDivisor(j,A[i])) set.add(j);
+            }
+            for(int j=2; j<=B[i]; j++){
+                if(isPrime(j) && isDivisor(j,B[i])){
+                    if(!set.isEmpty() && set.contains(j)){
+                        output=1;
+                        continue;
+                    }
+                    else{
+                        output=0;
+                        break;
+                    }
+                }
+            }
+            total+=output;
+            set.clear();
+        }
+
+        return total;
+    }
+
+    public boolean isPrime(int a){ //a는 양의 정수
+        boolean check=true;
+        for(int i=2; i*i<=a; i++)
+            if(a!=1 && a%i==0) check=false;
+        return check;
+    }
+
+    public boolean isDivisor(int a, int b){ //a는 검사 대상
+        boolean check=false;
+        if(b%a==0) check=true;
+        return check;
+    }
+}
+// 23%
+
+//https://mirae-kim.tistory.com/135
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+
+     private int gcd(int a, int b){ 
+        if(b==0) return a;
+        return gcd(b, a%b);
+    }
+    
+    private boolean divisor(int m, int gcd){
+        if(m==1) return true;
+        else if(gcd==1) return false;
+        else{
+            m=m/gcd;
+            gcd=gcd(m, gcd);
+            return divisor(m, gcd);
+        }
+    }
+
+    public int solution(int[] A, int[] B) {
+        int count = 0;
+        for(int i=0; i<A.length; i++){
+            int num1 = Math.max(A[i], B[i]);
+            int num2 = Math.min(A[i], B[i]);
+            int gcd = gcd(num1, num2);
+            if(divisor(num1, gcd) && divisor(num2, gcd)) count++;
+        }
+        return count;
+    }
+
+} //100%
