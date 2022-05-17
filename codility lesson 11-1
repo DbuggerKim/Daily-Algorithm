@@ -15,3 +15,62 @@ class Solution {
     }
 }
 //55% TO
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] A) {
+
+        //A 배열의 약수 구하기
+        int[] count=new int[A.length];
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int val : A) map.put(val, map.getOrDefault(val, 0)+1);
+        
+        for(int i=0; i<A.length; i++){
+            for(int j=1; j<=A[i]; j++){
+                if(A[i]%j==0 && map.containsKey(j)) count[i]+=map.get(j);
+            }
+        }
+
+        for(int i=0; i<count.length; i++) count[i]=A.length-count[i];
+
+        return count;
+
+    }
+}
+
+//55% TO
+
+//https://github.com/Mickey0521/Codility/blob/master/CountNonDivisible.java
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] A) {
+        HashMap<Integer, Integer> map1=new HashMap<>();
+        HashMap<Integer, Integer> map2=new HashMap<>();
+
+        for(int val : A) map1.put(val, map1.getOrDefault(val, 0)+1);
+        for(int val : map1.keySet()){ //           
+            int div1=0; 
+            for(int i=1; i<=(int)Math.sqrt(val); i++) {
+                if(val%i==0) {
+                    int div2=val/i; //
+                    if(map1.containsKey(i)) div1+=map1.get(i);
+                    if(div2!=i) {
+                        if(map1.containsKey(div2)){
+                            div1+=map1.get(div2);
+                        }
+                    }
+                }
+            }
+            map2.put(val,A.length-div1); 
+        }
+
+        int[] output=new int[A.length];
+        for(int i=0; i<A.length; i++) output[i]=map2.get(A[i]);
+        return output;
+
+    }
+}
+ //100%
