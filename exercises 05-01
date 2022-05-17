@@ -1,0 +1,78 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String E, String L) {
+        
+        int result=0;
+
+        String[] start=E.split(":");
+        String[] end=L.split(":");
+
+        int startH=Integer.parseInt(start[0]);
+        int endH=Integer.parseInt(end[0]);
+
+        int startE=Integer.parseInt(start[1]);
+        int endE=Integer.parseInt(end[1]);
+
+        int hr=0;
+        int min=0;
+
+        if(startH<=endH){
+            if(startE>endE){
+                min=60-(startE-endE);
+                startH++;
+                hr++;
+                hr+=endH-startH;
+            }
+            else if(startE<endE){        
+                min=endE-startE;
+                hr++;
+                hr+=endH-startH;
+            }
+            else{
+                min=endE-startE;
+                hr+=endH-startH;
+            }
+        }
+        else hr=0;
+
+        if(hr==0) result=2;
+        else if(hr==1) result=2+3;
+        else result=2+3+4*(hr-1);
+
+        return result;
+    }
+} //100%
+
+
+/*import java.util.*;
+
+class Solution {
+    public int solution(String E, String L) {
+        
+        int result=0;
+
+        String[] start=E.split(":");
+        String[] end=L.split(":");
+
+        int startH=Integer.parseInt(start[0]);
+        int endH=Integer.parseInt(end[0]);
+        int startE=Integer.parseInt(start[1]);
+        int endE=Integer.parseInt(end[1]);
+
+        int hr=0;
+        int min=0;
+
+        if(startE>endE) min=60-(startE-endE);
+        else min=endE-startE;
+        hr=endH-startH;
+
+        if(min!=0) hr++;
+
+        if(hr==0) result=2;
+        else if(hr==1) result=2+3;
+        else result=2+3+4*(hr-1);
+
+        return result;
+    }
+}//37%*/
