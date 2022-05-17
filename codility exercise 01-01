@@ -1,0 +1,193 @@
+import java.lang.*;
+
+class Solution {
+    public int solution(String S) {
+        // write your code in Java SE 8
+
+        int max = -1;
+        String[] sub=S.split(" ");
+
+        for(String val : sub){
+            
+            int alpha = 0;
+            int digit = 0;
+            int outlier = 0;
+
+            for(int i=0; i<val.length(); i++){
+                char c=val.charAt(i);
+                if(Character.isLetter(c)) alpha++;
+                else if(Character.isDigit(c)) digit++;
+                else outlier++;
+            }
+
+            if(outlier!=0) continue;
+            if(alpha%2==0 && digit%2!=0) max=Math.max(max, val.length());
+            
+        }
+
+        return max;
+    }
+} //100%
+
+/*
+class Solution {
+    public int solution(String S) {
+        // write your code in Java SE 8
+
+        int max = -1;
+        String[] sub=S.split(" ");
+
+        for(String val : sub){
+            int alpha = 0;
+            int digit = 0;
+            int outlier = 0;
+            for(int i=0; i<val.length(); i++){
+                char c=val.charAt(i);
+                if(c>=65 || c<=90  && c>=97 && c<=122) alpha++;
+                else if(c>=48 && c<=57) digit++;
+                else outlier++;
+            }
+            if(outlier>0)continue;
+            if(alpha+digit==val.length()){
+                if(alpha%2==0 && digit%2!=0){
+                    max=Math.max(max, val.length());
+                }
+            }
+        }
+
+        return max;
+    }
+}
+*/
+
+/*class Solution {
+    public int solution(String S) {
+        // write your code in Java SE 8
+
+        int max = -1;
+        String[] sub=S.split(" ");
+        
+        int alpha = 0;
+        int digit = 0;
+        int outlier = 0;
+
+        for(String val : sub){
+            for(int i=0; i<val.length(); i++){
+                char c=val.charAt(i);
+                if(c>=65 || c<=90  && c>=97 && c<=122) alpha++;
+                else if(c>=48 && c<=57) digit++;
+                else outlier++;
+            }
+            if(outlier>0) {
+                alpha=0;
+                digit=0;
+                outlier=0;
+                continue;
+            }
+            if(alpha+digit==val.length()){
+                if(alpha%2==0 && digit%2==1){
+                    max=Math.max(max, val.length());
+                }
+            }
+            alpha=0;
+            digit=0;
+            outlier=0;
+        }
+
+        return max;
+    }
+} //90% */
+
+/*class Solution {
+    public int solution(String S) {
+        // write your code in Java SE 8
+
+        int max = -1;
+        String[] sub=S.split(" ");
+        
+        int alpha = 0;
+        int digit = 0;
+        int outlier = 0;
+
+        for(String val : sub){
+            for(int i=0; i<val.length(); i++){
+                char c=val.charAt(i);
+                if(c>=65 || c<=90  && c>=97 && c<=122) alpha++;
+                else if(c>=48 && c<=57) digit++;
+                else outlier++;
+            }
+            if(outlier==0 && alpha+digit==val.length()){
+                if(alpha%2==0 && digit%2==1){
+                    max=Math.max(max, val.length());
+                }
+            }
+            alpha=0;
+            digit=0;
+            outlier=0;
+        }
+
+        return max;
+    }
+} //90% */
+
+
+/*
+class Solution {
+    public int solution(String S) {
+        // write your code in Java SE 8
+
+        int max = -1; //아닌값은 -1로 떨어지도록 함
+        String[] sub=S.split(" ");
+        
+        int alpha = 0;
+        int digit = 0;
+
+        for(String val : sub){
+            for(int i=0; i<val.length(); i++){
+                char c=val.charAt(i);
+                if(c>=65 || c<=90  && c>=97 && c<=122) alpha++;
+                if(c>=48 && c<=57) digit++;
+            }
+            if(alpha+digit==val.length()){
+                if(alpha%2==0 && digit%2==1){
+                    max=Math.max(max, val.length());
+                }
+            }
+            alpha=0;
+            digit=0;
+        }
+
+        return max;
+    }
+}
+*/ //90%
+
+/*class Solution {
+    public int solution(String S) {
+        // write your code in Java SE 8
+
+        int max = Integer.MIN_VALUE;
+        String[] sub=S.split(" ");
+        
+        int alpha = 0;
+        int num = 0;
+
+        for(String val : sub){
+            for(int i=0; i<val.length(); i++){
+                char c=val.charAt(i);
+                if(c>=65 || c<=90  && c>=97 && c<=122) alpha++;
+                if(c>=48 && c<=57) num++;
+            }
+            if(alpha+num==val.length()){
+                if(alpha%2==0 && num%2==1){
+                    max=Math.max(max, val.length());
+                }
+            }
+            alpha=0;
+            num=0;
+        }
+
+        return max;
+    }
+}*/ //50%
+
