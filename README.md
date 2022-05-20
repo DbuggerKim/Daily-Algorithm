@@ -5,4 +5,4 @@ dailycoding questions resources
 
 > Hacker Rank Interview preparation kits : https://www.hackerrank.com/interview/interview-preparation-kit
 
-> programmers : https://programmers.co.kr/learn/challenges (comming up)
+> Programmers : https://programmers.co.kr/learn/challenges (comming up)
