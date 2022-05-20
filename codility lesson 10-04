@@ -36,3 +36,32 @@ class Solution {
 }
 
 //9%
+
+
+//https://github.com/Mickey0521/Codility/blob/master/Peaks.java
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A) {
+        
+        ArrayList<Integer>list=new ArrayList<>();
+        for(int i=1; i<A.length-1; i++) {
+            if(A[i-1]<A[i] && A[i]>A[i+1]) list.add(i);
+        }
+
+        for(int num=A.length; num>=1; num--){
+            if(A.length%num==0) {
+                int block=0;
+                for(int index : list){
+                    if(index/(A.length/num)==block) block++;
+                }
+                if(block==num) return num;
+            }
+        } 
+
+        return 0;
+    }
+}
+
+//100%
