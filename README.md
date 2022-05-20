@@ -1,7 +1,9 @@
 # bugslife
 dailycoding questions resources
 
-> Codility Lesson : https://app.codility.com/programmers/lessons
+> Codility Exercises : https://app.codility.com/programmers/trainings/
+
+> Codility Lessons : https://app.codility.com/programmers/lessons
 
 > Hacker Rank Interview preparation kits : https://www.hackerrank.com/interview/interview-preparation-kit
 
