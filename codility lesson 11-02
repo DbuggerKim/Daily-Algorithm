@@ -130,3 +130,91 @@ class Solution {
     }
 }
 //44% TO
+
+//https://namget.tistory.com/entry/코딜리티-Lesson-11-CountSemiprimes
+
+import java.util.*;
+
+class Solution {
+     public int[] solution(int N, int[] P, int[] Q) {
+
+        int[] primeArray=new int[N+1];
+        primeArray[0]=1;
+        primeArray[1]=1;
+
+        int i=2;
+        while(i*i<=N) {
+            if(primeArray[i]==0) {
+                int k=i*i;
+                while(k<=N) {
+                    if(primeArray[k]==0) primeArray[k]=i;
+                    k+=i;
+                }
+            }
+            i++;
+        }
+
+        i=2;
+        while(i*i<=N) {
+            if(primeArray[i]==0) {
+                int k=i*i;
+                while(k<=N) {
+                    if(primeArray[k/i]==0) primeArray[k]=-1;
+                    k+=i;
+                }
+            }
+            i++;
+        }
+
+        int[] result=new int[P.length];
+        for(int a=0; a<P.length; a++) {
+            int count=0;
+            for(int k=P[a]; k<=Q[a]; k++) {
+                if(primeArray[k]==-1) count++;
+            }
+            result[a]=count;
+        }
+
+        return result;
+    }
+}
+//65%
+
+//https://deefer.tistory.com/127
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int N, int[] P, int[] Q) {
+
+        int[] array=new int[50001];
+        array[1]=1;
+
+        for(int i=2; i<array.length; i++){
+            for(int j=2; i*j<array.length; j++){
+                if(array[i]==1) break;
+                array[i*j]=1;
+            }
+        }
+
+        for(int i=2; i<array.length; i++){
+            for(int j=2; i*j<array.length; j++){
+                if(array[i]==0 && array[j]==0) array[i*j]=2;
+            }
+        }
+        
+        int[] flag=new int[50001];
+        int cnt=0;
+        
+        for(int i=0; i<array.length; i++){
+            if(array[i]==2) cnt++;
+            flag[i]=cnt;
+        }
+        
+        int[] ans=new int[P.length];
+        for(int i=0; i<ans.length; i++) ans[i]=flag[Q[i]]-flag[P[i]-1];
+        
+        return ans;
+    }
+}
+//100%
