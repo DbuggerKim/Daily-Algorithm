@@ -1,0 +1,115 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+    
+    private static Map<Integer,Node> map = new HashMap<>();
+    private static int max = 0; 
+    
+    public static class Node {
+      long data;
+      Node parent;
+      int rank;
+    }
+    
+    public static void makeSet(int data) {
+      Node node = new Node();
+      node.data = data;
+      node.parent = node;
+      node.rank = 1;
+      map.put(data, node);
+    }
+    
+    public static boolean union(int data1, int data2) {
+        Node node1 = map.get(data1);
+        Node node2 = map.get(data2);
+        Node parent1 = findSet(node1);
+        Node parent2 = findSet(node2);
+        if (parent1.data == parent2.data) {
+            return false;
+        }
+        if (parent1.rank >= parent2.rank) {
+            parent1.rank = parent1.rank + parent2.rank;
+            parent2.parent = parent1;
+            max = Math.max(max,parent1.rank);
+        } else {
+            parent2.rank = parent2.rank+parent1.rank;
+            parent1.parent = parent2;
+            max = Math.max(max,parent2.rank); 
+        }
+        return true;
+    }
+    
+    public static long findSet(int data) {
+        return findSet(map.get(data)).data;
+    }
+    
+    public static Node findSet(Node node) {
+        Node parent = node.parent;
+        if (parent == node) {
+            return parent;
+        }
+        node.parent = findSet(node.parent);
+        return node.parent;
+    }
+
+    public static int[] maxCircle(int[][] queries) {
+      int[] arr = new int[queries.length]; 
+      for(int[] a : queries) {
+        makeSet(a[0]);
+        makeSet(a[1]); 
+      }
+
+      int i = 0;
+      for(int[] a : queries) {
+        union(a[0], a[1]); 
+        arr[i] = max;
+        i++;
+      }
+      return arr;
+    }
+    
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[][] queries = new int[q][2];
+
+        for (int i = 0; i < q; i++) {
+            String[] queriesRowItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int j = 0; j < 2; j++) {
+                int queriesItem = Integer.parseInt(queriesRowItems[j]);
+                queries[i][j] = queriesItem;
+            }
+        }
+
+        int[] ans = maxCircle(queries);
+
+        for (int i = 0; i < ans.length; i++) {
+            bufferedWriter.write(String.valueOf(ans[i]));
+
+            if (i != ans.length - 1) {
+                bufferedWriter.write("\n");
+            }
+        }
+
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
+
+//100%
