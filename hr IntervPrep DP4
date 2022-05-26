@@ -1,0 +1,77 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static String abbreviation(String a, String b) {
+        boolean[][] isValid = new boolean[a.length()+1][b.length()+1];
+        isValid[0][0] = true;
+        boolean containsUppercase = false;
+        for(int k=1; k<=a.length(); k++) {
+            int i=k-1;
+            if(a.charAt(i)<=90 && a.charAt(i)>=65 || containsUppercase) {
+                containsUppercase = true;
+                isValid[k][0] = false;
+            } else isValid[k][0] = true;
+        }
+        for(int k=1; k<=a.length(); k++) {
+            for(int l=1; l<=b.length(); l++) {
+                int i=k-1; int j=l-1;
+                if(a.charAt(i)==b.charAt(j)) {
+                    isValid[k][l]=isValid[k-1][l-1];
+                    continue;
+                }
+                else if((int)(a.charAt(i)-32)==(int)b.charAt(j)) {
+                    isValid[k][l]=isValid[k-1][l-1]||isValid[k-1][l];
+                    continue;
+                }
+                else if(a.charAt(i)<=90 && a.charAt(i)>=65) {
+                    isValid[k][l]=false;
+                    continue;
+                }
+                else {
+                    isValid[k][l]=isValid[k-1][l];
+                    continue;
+                }
+            }
+        }
+        return isValid[a.length()][b.length()]? "YES" : "NO";
+    }
+    
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, q).forEach(qItr -> {
+            try {
+                String a = bufferedReader.readLine();
+
+                String b = bufferedReader.readLine();
+
+                String result = Result.abbreviation(a, b);
+
+                bufferedWriter.write(result);
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
