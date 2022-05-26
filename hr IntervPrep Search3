@@ -1,0 +1,63 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static long maximumSum(List<Long> a, long m) {
+        long max=0;
+        long cur=0;
+        TreeSet<Long> set = new TreeSet<Long>(); 
+//hashset보다 효율 높고 API 다양함 
+//레드 블랙 트리임
+        for(int i=0;i<a.size();i++){
+            cur=(cur+a.get(i)%m)%m;
+            max=Math.max(max, cur);
+            Long next=set.higher(cur); //입력값보다 큰 데이터중 최소값 출력 없으면 null
+            if(next!=null) max=Math.max(max,(cur-next+m)%m);
+            set.add(cur);
+        }
+        return max; 
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = Integer.parseInt(bufferedReader.readLine().trim());
+
+        IntStream.range(0, q).forEach(qItr -> {
+            try {
+                String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+                int n = Integer.parseInt(firstMultipleInput[0]);
+
+                long m = Long.parseLong(firstMultipleInput[1]);
+
+                List<Long> a = Stream.of(bufferedReader.readLine().replaceAll("\\s+$", "").split(" "))
+                    .map(Long::parseLong)
+                    .collect(toList());
+
+                long result = Result.maximumSum(a, m);
+
+                bufferedWriter.write(String.valueOf(result));
+                bufferedWriter.newLine();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
