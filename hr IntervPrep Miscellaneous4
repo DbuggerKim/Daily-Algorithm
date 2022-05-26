@@ -1,0 +1,179 @@
+/*
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static int[] maxXor(int[] arr, int[] queries) {
+        ArrayList<Integer> list=new ArrayList<>();
+        int max=0;
+        
+        for(int i=0; i<queries.length; i++) {
+            for(int j=0; j<arr.length; j++) {
+                max=Math.max(max, queries[i]^arr[j]);
+            }
+            list.add(max);
+            max=0;
+        } 
+        
+        int[] answer=new int[list.size()];
+        for(int i=0; i<list.size(); i++) answer[i]=list.get(i);
+        
+        return answer;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[] arr = new int[n];
+
+        String[] arrItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < n; i++) {
+            int arrItem = Integer.parseInt(arrItems[i]);
+            arr[i] = arrItem;
+        }
+
+        int m = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[] queries = new int[m];
+
+        for (int i = 0; i < m; i++) {
+            int queriesItem = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+            queries[i] = queriesItem;
+        }
+
+        int[] result = maxXor(arr, queries);
+
+        for (int i = 0; i < result.length; i++) {
+            bufferedWriter.write(String.valueOf(result[i]));
+
+            if (i != result.length - 1) {
+                bufferedWriter.write("\n");
+            }
+        }
+
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
+*/ //TO
+
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static class Node {
+        Map<Boolean, Node> children = new HashMap<>();
+    }
+    
+    static int[] maxXor(int[] arr, int[] queries) {
+        int[] res = new int[queries.length];
+        int mask;
+        Node root = new Node();
+        Node n;
+        Node child;
+        for (int i : arr) {
+            mask = 0x80000000;
+            n = root;
+            for (int j = 0; j < 32; j++) {
+                Boolean bit = (i & mask) == mask;
+                child = n.children.get(bit);
+                if (child == null) {
+                    child = new Node();
+                    n.children.put(bit, child);
+                }
+                n = child;
+                mask >>>= 1;
+            }
+        }
+        for (int i = 0; i < queries.length; i++) {
+            n = root;
+            mask = 0x80000000;
+            int num = 0;
+            for (int j = 0; j < 32; j++) {
+                Boolean bit = (~queries[i] & mask) == mask;
+                child = n.children.get(bit);
+                if (child == null) {
+                    child = n.children.get(!bit);
+                } else {
+                    num |= mask;
+                }
+                n = child;
+                mask >>>= 1;
+            }
+            res[i] = num;
+        }
+        return res;
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int n = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[] arr = new int[n];
+
+        String[] arrItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < n; i++) {
+            int arrItem = Integer.parseInt(arrItems[i]);
+            arr[i] = arrItem;
+        }
+
+        int m = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int[] queries = new int[m];
+
+        for (int i = 0; i < m; i++) {
+            int queriesItem = scanner.nextInt();
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+            queries[i] = queriesItem;
+        }
+
+        int[] result = maxXor(arr, queries);
+
+        for (int i = 0; i < result.length; i++) {
+            bufferedWriter.write(String.valueOf(result[i]));
+
+            if (i != result.length - 1) {
+                bufferedWriter.write("\n");
+            }
+        }
+
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
+
+//100%
