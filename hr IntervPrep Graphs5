@@ -1,0 +1,91 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    static int findShortest(int graphNodes, int[] graphFrom, int[] graphTo, long[] ids, int val) {
+        
+        int shortestPath=-1;
+        List<List<Integer>> graph=new ArrayList<List<Integer>>();
+        for(int i=0; i<=graphNodes; i++) graph.add(new ArrayList<Integer>());        
+        for(int i=0; i<graphFrom.length; i++) {
+            graph.get(graphFrom[i]).add(graphTo[i]);
+            graph.get(graphTo[i]).add(graphFrom[i]);
+        } if(graph.isEmpty()) return shortestPath;
+        
+        shortestPath=0;
+        Queue<Integer> queue=new LinkedList<Integer>();
+        boolean[] visited=new boolean[graphNodes+1];
+        
+        for(int i=0; i<ids.length; i++) {
+            if(ids[i]==val) queue.add(i+1);
+        } if(queue.size()<2) return -1;
+        
+        visited[queue.peek()]=true;        
+        while(!queue.isEmpty()) {
+            int top=queue.remove();
+            for(int vertex : graph.get(top)) {
+                if(!visited[vertex]) {
+                    visited[vertex]=true;
+                    queue.add(vertex);
+                    if(ids[vertex-1]==val) {
+                        queue.clear();
+                        break;
+                    }
+                    shortestPath++;
+                }
+            }
+        }
+        
+        return shortestPath;
+    
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] graphNodesEdges = scanner.nextLine().split(" ");
+        int graphNodes = Integer.parseInt(graphNodesEdges[0].trim());
+        int graphEdges = Integer.parseInt(graphNodesEdges[1].trim());
+
+        int[] graphFrom = new int[graphEdges];
+        int[] graphTo = new int[graphEdges];
+
+        for (int i = 0; i < graphEdges; i++) {
+            String[] graphFromTo = scanner.nextLine().split(" ");
+            graphFrom[i] = Integer.parseInt(graphFromTo[0].trim());
+            graphTo[i] = Integer.parseInt(graphFromTo[1].trim());
+        }
+
+        long[] ids = new long[graphNodes];
+
+        String[] idsItems = scanner.nextLine().split(" ");
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int i = 0; i < graphNodes; i++) {
+            long idsItem = Long.parseLong(idsItems[i]);
+            ids[i] = idsItem;
+        }
+
+        int val = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        int ans = findShortest(graphNodes, graphFrom, graphTo, ids, val);
+
+        bufferedWriter.write(String.valueOf(ans));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
+
+//100%
