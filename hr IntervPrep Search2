@@ -1,0 +1,76 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static boolean  check(long m , long w , long p , long n , long rounds) {
+        if(m>=(n+w-1)/w) return true;
+        long curr=m*w;
+        rounds--;
+        if(rounds == 0) return false;
+        while(true){
+            long rem=n-curr;
+            long required=(rem+m*w-1)/(m*w);
+            
+            if(rounds>=required) return true;
+            if(curr<p) {
+                rem=p-curr;
+                required=(rem+m*w-1)/(m*w);
+                rounds-=required;
+                if(rounds<1) return false;
+                curr+=required*m*w;
+            } curr-=p;
+            
+            if(m>w) w++;
+            else m++;
+        }
+    }
+
+    public static long minimumPasses(long m, long w, long p, long n) {
+        long min=1;
+        long max=10000000000000L; 
+        while(min<max) {
+            long mid=(min+max)/2;
+            if(check(m, w, p, n, mid)) max=mid;
+            else min=mid+1;
+        }
+        return min;
+    }
+    
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] firstMultipleInput = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        long m = Long.parseLong(firstMultipleInput[0]);
+
+        long w = Long.parseLong(firstMultipleInput[1]);
+
+        long p = Long.parseLong(firstMultipleInput[2]);
+
+        long n = Long.parseLong(firstMultipleInput[3]);
+
+        long result = Result.minimumPasses(m, w, p, n);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}
+
+//100%
