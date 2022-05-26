@@ -1,0 +1,97 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    private static int time;
+    private static Set<List<Integer>> added;
+    private static List<List<int[]>> graph;
+    // Complete the minTime function below.
+    static int minTime(int[][] roads, int[] machines) {
+        graph = new ArrayList<>();
+        int n = roads.length + 1;
+        for (int i = 0; i <= n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int[] road : roads) {
+            graph.get(road[0]).add(new int[]{road[1], road[2]});
+            graph.get(road[1]).add(new int[]{road[0], road[2]});
+        }
+        
+        time = 0;
+        boolean[] isMa = new boolean[n];
+        added = new HashSet<>();
+        for (int m : machines) {
+            isMa[m] = true;
+        }
+        for (int m : machines) {
+            dfs(m, m, new boolean[n], isMa, Arrays.asList(-1, -1, Integer.MAX_VALUE));
+            graph.set(m, new ArrayList<>());
+            isMa[m] = false;
+        }
+        
+        return time;
+    }
+    
+    private static void dfs(int start, int m, boolean[] visited, boolean[] isMa, List<Integer> pair) {
+        if (visited[m]) return;
+        if (m != start && isMa[m]) {
+            added.add(pair);
+            time += pair.get(2);
+            return;
+        }
+        
+        visited[m] = true;
+        for (int[] neigh : graph.get(m)) {
+            List<Integer> curPair = Arrays.asList(Math.min(m, neigh[0]), Math.max(m, neigh[0]), neigh[1]);
+            if (added.contains(pair) || added.contains(curPair)) continue;
+            dfs(start, neigh[0], visited, isMa, curPair.get(2) <= pair.get(2) ? curPair : pair);
+        }
+    }
+
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] nk = bufferedReader.readLine().split(" ");
+
+        int n = Integer.parseInt(nk[0]);
+
+        int k = Integer.parseInt(nk[1]);
+
+        int[][] roads = new int[n - 1][3];
+
+        for (int i = 0; i < n - 1; i++) {
+            String[] roadsRowItems = bufferedReader.readLine().split(" ");
+            // scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int j = 0; j < 3; j++) {
+                int roadsItem = Integer.parseInt(roadsRowItems[j]);
+                roads[i][j] = roadsItem;
+            }
+        }
+
+        int[] machines = new int[k];
+
+        for (int i = 0; i < k; i++) {
+            int machinesItem = Integer.valueOf(bufferedReader.readLine());
+            // scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+            machines[i] = machinesItem;
+        }
+
+        int result = minTime(roads, machines);
+
+        bufferedWriter.write(String.valueOf(result));
+        bufferedWriter.newLine();
+
+        bufferedWriter.close();
+        bufferedReader.close();
+        // scanner.close();
+    }
+}
