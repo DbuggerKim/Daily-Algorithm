@@ -1,6 +1,6 @@
 # bugslife
 
-questions resources
+resources
 
 > Codility Exercises : https://app.codility.com/programmers/trainings/
 
@@ -14,7 +14,7 @@ questions resources
 
 
 
-based language
+languages
 
 > JAVA
 
