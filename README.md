@@ -1,6 +1,6 @@
 # bugslife
 
-dailycoding questions resources
+questions resources
 
 > Codility Exercises : https://app.codility.com/programmers/trainings/
 
@@ -11,3 +11,13 @@ dailycoding questions resources
 > Programmers : https://programmers.co.kr/learn/challenges (comming up)
 
 > 동빈코딩 : 이것이 취업을 위한 코딩테스트다 with python (comming up)
+
+
+
+based language
+
+> JAVA
+
+> SQL
+
+> PYTHON
