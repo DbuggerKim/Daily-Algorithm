@@ -1,0 +1,21 @@
+import numpy as np
+
+my_str = input().strip()
+output=''
+
+arr=[0]*26
+for i in range(len(my_str)):
+    arr[ord(my_str[i])-97]+=1
+
+max=arr[0]
+for i in range(len(arr)):
+    if max<arr[i]: max=arr[i]
+
+output=''
+for i in range(len(arr)):
+    sub=''
+    if max==arr[i]: 
+        sub=chr(i+97)
+        output+=sub
+
+print(output)
