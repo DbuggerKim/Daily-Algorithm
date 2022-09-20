@@ -1,0 +1,16 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] nums) {
+        int answer = 0;
+        
+        HashMap <Integer, Integer> map = new HashMap <> ();
+        for(Integer val : nums) map.put(val, map.getOrDefault(val, 0)+1);
+        
+        int num = nums.length/2;
+        if(map.size()>=num) answer=num;
+        else answer=map.size();
+        
+        return answer;
+    }
+}
