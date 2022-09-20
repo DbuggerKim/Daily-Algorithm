@@ -1,0 +1,165 @@
+//https://asong-study-record.tistory.com/83
+
+import java.util.ArrayList;
+
+public class Solution {
+    static char[] prior = {'+', '-', '*'};
+    static boolean[] check = new boolean[3];
+    static ArrayList<Long> nums = new ArrayList<Long>();
+    static ArrayList<Character> ops = new ArrayList<Character>();
+    static long answer;
+
+    public long solution(String expression) {
+        answer = 0;
+
+        String num="";
+        for(int i=0;i<expression.length();i++){
+            if(expression.charAt(i) >= '0' && expression.charAt(i) <= '9'){
+                num += expression.charAt(i);
+            }else{
+                nums.add(Long.parseLong(num));
+                num = "";
+                ops.add(expression.charAt(i));
+            }
+        }
+        nums.add(Long.parseLong(num));
+        dfs(0, new char[3]);
+
+        return answer;
+    }
+
+    public static Long calc(Long num1, Long num2, char op){
+        long num = 0;
+        switch (op){
+            case '+' : return num1 + num2;
+            case '-' : return num1 - num2;
+            case '*' : return num1 * num2;
+        }
+        return num;
+    }
+
+    public static void dfs(int count, char[] p){
+        if(count == 3){
+            ArrayList<Long> cNums = new ArrayList<>(nums);
+            ArrayList<Character> cOps = new ArrayList<Character>(ops);
+
+            for(int i=0;i<p.length;i++){
+                for(int j=0; j< cOps.size(); j++){
+                    if(p[i] == cOps.get(j)){
+                        Long res = calc(cNums.remove(j), cNums.remove(j), p[i]);
+                        cNums.add(j, res);
+                        cOps.remove(j);
+                        j--;
+                    }
+                }
+            }
+            answer = Math.max(answer, Math.abs(cNums.get(0)));
+            return;
+
+        }
+
+        for(int i=0; i< 3; i++){
+            if(!check[i]){
+                check[i] = true;
+                p[count] = prior[i];
+                dfs(count+1,p);
+                check[i] = false;
+            }
+        }
+    }
+}
+
+/*
+class Solution {
+    boolean[] visit;
+    int answer=0;
+    
+    public void dfs(int sum, String[] num, char[] exp, HashSet<Character> set){
+        for(int i=0; i<set.size(); i++){
+            if(!visit[i] &&  ){
+                visit[i]=true;
+                /*
+                sum계산                
+                */
+                dfs(sum, num, exp, set)      
+                visit[i]=false;
+            }
+        }
+        answer=Math.max(answer, Math.abs(sum));
+    }
+    
+    public long solution(String expression) {
+        //구분자 여러개로 문자열 자르기
+        visit = new boolean [set.size()];
+        String[] num = expression.split("\\*|\\-|\\+");
+        char[] exp = new char [num.length-1];
+        
+        int count=0;
+        for(int i=0; i<expression.length(); i++){
+            if(expression.charAt(i)=='*') exp[count++]='*';
+            if(expression.charAt(i)=='-') exp[count++]='-';
+            if(expression.charAt(i)=='+') exp[count++]='+';
+        }
+        
+        HashSet <Character> set = new HashSet <> ();
+        for(int i=0; i<exp.length; i++) set.add(exp[i]);
+        
+        dfs(0, num, exp, set);
+        
+        return answer;
+    }
+}
+*/
+
+/*import java.lang.*;
+import java.util.*;
+
+class Solution {
+    
+    /*public void dfs(int vertex){
+        visited[vertex]=true;
+        for(int i=0; i<N; i++){
+            if(visit[vertex][i]==true && visited[i]==false){
+                dfs(i);
+            }
+        }
+    }*/
+    
+    public long calculation(String a, String b, String x){
+        long sum=0;
+        
+        if(x=="+") sum=Long.parseLong(a)+Long.parseLong(b);
+        else if(x=="-") sum=Long.parseLong(a)-Long.parseLong(b);
+        else if(x=="*") sum=Long.parseLong(a)*Long.parseLong(b);
+            
+        return sum;
+    }
+    
+    public long solution(String expression) {
+        long answer = 0;
+        String plus="";
+        String minus="";
+        String multiply="";
+        
+        String [] temp = expression.split("\\+|\\-|\\*");
+        //https://mytory.net/archives/285
+        //String [] temp = expression.split("\\+|\\-|\\*|0"); works
+        
+        for(int i=0; i<expression.length(); i++){
+            char c = expression.charAt(i);
+            switch(c){
+                case '+' : plus+=i; break;
+                case '-' : minus+=i; break;
+                case '*' : multiply+=i; break;
+                default: break;
+            }
+        }
+        
+        //answer=Math.max(temp, Math.abs(answer));
+        
+        for(int i=0; i<temp.length; i++)
+            System.out.println(temp[i]);
+        
+        return answer;
+    }
+}*/
