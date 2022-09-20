@@ -1,0 +1,44 @@
+//https://moonsbeen.tistory.com/371
+
+import java.util.*;
+
+class Food {
+    int index;
+    int time;
+    Food(int index, int time) {
+        this.index=index;
+        this.time=time;
+    }
+}
+
+class Solution {
+    public int solution(int[] food_times, long k) {
+        
+        int len=food_times.length;
+        LinkedList<Food>list=new LinkedList<>();
+        for(int i=0; i<len; i++) {
+            list.add(new Food(i+1, food_times[i]));
+        } Collections.sort(list, (o1,o2)->(o1.time-o2.time));
+        
+        int cur=0;
+        int num=0;
+        for(Food f : list) {
+            long diff=f.time-cur;
+            if(diff!=0) {
+                long spend=diff*len;
+                if(spend<=k) {
+                    k-=spend;
+                    cur=f.time;
+                }
+                else {
+                    k%=len;
+                    list.subList(num,food_times.length).sort((o1,o2)->o1.index-o2.index);
+                    return list.get(num+(int)k).index;
+                }
+            }
+            num++;
+            len--;
+        }
+        return -1;
+    }
+} //100%
