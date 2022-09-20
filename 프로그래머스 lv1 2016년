@@ -1,0 +1,95 @@
+class Solution {
+    public String solution(int a, int b) {
+        String answer = "";
+        int start = 0;
+        int num = 0;
+        
+        if(a>1){
+            for(int i=1; i<a; i++){
+                switch (i){
+                    case 1 : num=31; break;
+                    case 2 : num=29; break;
+                    case 3 : num=31; break;
+                    case 4 : num=30; break;
+                    case 5 : num=31; break;
+                    case 6 : num=30; break;
+                    case 7 : num=31; break;
+                    case 8 : num=31; break;
+                    case 9 : num=30; break;
+                    case 10 : num=31; break;
+                    case 11 : num=30; break;
+                    case 12 : num=31; break;
+                    default : break;
+                }
+                start+=num;
+            }
+            start+=b;
+        }
+        else{
+            start=b;
+        }
+        
+        System.out.println(start);
+        start=start%7;
+        System.out.println(start);
+        
+        switch (start){
+                case 3 : answer="SUN"; break;
+                case 4 : answer="MON"; break;
+                case 5 : answer="TUE"; break;
+                case 6 : answer="WED"; break;
+                case 0 : answer="THU"; break;
+                case 1 : answer="FRI"; break;
+                case 2 : answer="SAT"; break;
+                default : break;
+        }
+        
+        return answer;
+    }
+} //100%
+
+
+/*class Solution {
+    public String solution(int a, int b) {
+        String answer = "";
+        int start = 5;
+        int num = 0;
+        
+        for(int i=1; i<=a; i++){
+            switch (i){
+                case 1 : num=31; break;
+                case 2 : num=29; break;
+                case 3 : num=31; break;
+                case 4 : num=30; break;
+                case 5 : num=31; break;
+                case 6 : num=30; break;
+                case 7 : num=31; break;
+                case 8 : num=31; break;
+                case 9 : num=30; break;
+                case 10 : num=31; break;
+                case 11 : num=30; break;
+                case 12 : num=31; break;
+                default : break;
+            }
+            
+            for(int j=1; j<=num; j++){
+                start=(start+num)%7;
+            }
+        }
+        
+//기준점 잘 챙기기
+        switch (start){
+                case 1 : answer="MON"; break;
+                case 2 : answer="TUE"; break;
+                case 3 : answer="WED"; break;
+                case 4 : answer="THU"; break;
+                case 5 : answer="FRI"; break;
+                case 6 : answer="SAT"; break;
+                case 7 : answer="SUN"; break;
+                default : break;
+            }
+        
+        
+        return answer;
+    }
+}*/
