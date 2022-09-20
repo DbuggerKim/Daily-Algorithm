@@ -1,0 +1,145 @@
+//https://ukyonge.tistory.com/215
+import java.util.*;
+import java.awt.Point;
+ 
+class Solution {
+    public static int moveX[] = {-1,0,1,0};
+    public static int moveY[] = {0,1,0,-1};
+    
+    public static int[] solution(String[][] places){
+        int[] answer = new int[places.length];
+        for(int i=0; i<places.length; i++){
+            String tmp[] = places[i];
+            boolean isCheck = true;
+            for(int r=0; r<5 && isCheck; r++){
+                for(int c=0; c<5 && isCheck; c++){
+                    if(tmp[r].charAt(c)=='P' && !bfs(r,c,tmp)) isCheck=false;
+                }
+            }
+            answer[i]=isCheck? 1 : 0;
+        }
+        return answer;
+    }
+    
+     public static boolean bfs(int r, int c, String[] places) {
+         Queue<Point> queue = new LinkedList<Point>();
+         queue.add(new Point(r,c));
+         
+         while(!queue.isEmpty()) {
+             Point p = queue.poll();
+             
+             for(int d=0; d<4; d++) {
+                 int nextRow=p.x+moveY[d];
+                 int nextCol=p.y+moveX[d];
+                 
+                 if(nextCol<0 || nextRow<0 || nextCol>=5 || nextRow>=5 || (nextCol==c && nextRow==r)) continue;
+                 int dist=Math.abs(nextCol-c)+Math.abs(nextRow-r);
+                 
+                 if(places[nextRow].charAt(nextCol)=='P' && dist<=2) return false;
+                 else if(places[nextRow].charAt(nextCol)=='O' && dist<2) queue.offer(new Point(nextRow, nextCol));
+             }
+         }
+         
+         return true;
+     }
+} //100%
+
+
+import java.util.*;
+
+class Point {
+    int x;
+    int y;
+    Point(int x, int y) {
+        this.x=x;
+        this.y=y;
+    }
+}
+ 
+class Solution {
+    
+    public int dx[] = {-1,0,1,0};
+    public int dy[] = {0,1,0,-1};
+    
+    public int[] solution(String[][] places){
+        int[] answer=new int[places.length];
+        for(int i=0; i<places.length; i++){
+            String tmp[]=places[i];
+            boolean isCheck = true;
+            for(int r=0; r<5 && isCheck; r++){
+                for(int c=0; c<5 && isCheck; c++){
+                    if(tmp[r].charAt(c)=='P' && !bfs(r,c,tmp)) isCheck=false;
+                }
+            }
+            answer[i]=isCheck? 1:0;
+        }
+        return answer;
+    }
+    
+     public boolean bfs(int r, int c, String[] places) {
+         Queue<Point> queue = new LinkedList<>();
+         queue.add(new Point(r,c));
+         while(!queue.isEmpty()) {
+             Point p=queue.poll();
+             for(int d=0; d<4; d++) {
+                 int nextRow=p.x+dx[d];
+                 int nextCol=p.y+dy[d];                 
+                 if(nextCol<0 || nextRow<0 || nextCol>=5 || nextRow>=5 || (nextCol==c && nextRow==r)) continue;
+                 int dist=Math.abs(nextCol-c)+Math.abs(nextRow-r);
+                 if(places[nextRow].charAt(nextCol)=='P' && dist<=2) return false;
+                 else if(places[nextRow].charAt(nextCol)=='O' && dist<2) queue.offer(new Point(nextRow, nextCol));
+             }
+         }
+         return true;
+     }
+} //100%
+
+
+import java.util.*;
+
+class Point {
+    int x;
+    int y;
+    Point(int x, int y) {
+        this.x=x;
+        this.y=y;
+    }
+}
+
+class Solution {
+    
+    public int[] dx={-1,0,1,0};
+    public int[] dy={0,-1,0,1};
+    
+    public int[] solution(String[][] places) {
+        int[] answer=new int[places.length];
+        for(int i=0; i<places.length; i++) {
+            String temp[]=places[i];
+            boolean flag=true;
+            for(int r=0; r<5 && flag; r++) {
+                for(int c=0; c<5 && flag; c++) {
+                    if(temp[r].charAt(c)=='P' && !bfs(r,c,temp)) flag=false;
+                }
+            }
+            answer[i]=flag==true? 1:0;
+        }
+        return answer;
+    }
+    
+    public boolean bfs(int r, int c, String[] places) {
+        Queue<Point> queue=new LinkedList<>();
+        queue.add(new Point(r,c));
+        while(!queue.isEmpty()) {
+            Point p=queue.poll();
+            for(int i=0; i<4; i++) {
+                int nextRow=p.x+dx[i];
+                int nextCol=p.y+dy[i];
+                if(nextRow<0 || nextCol<0 || nextRow>=5 || nextCol>=5 || (nextCol==c&& nextRow==r)) continue;
+                int dist=Math.abs(nextCol-c)+Math.abs(nextRow-r);
+                if(places[nextRow].charAt(nextCol)=='P' && dist<=2) return false;
+                else if(places[nextRow].charAt(nextCol)=='O' && dist<2) queue.offer(new Point(nextRow, nextCol));
+            }
+        }
+        return true;
+    }
+} //100%
