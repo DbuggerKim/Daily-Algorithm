@@ -1,0 +1,121 @@
+import java.util.*;
+class Solution {
+    
+    static int n;
+    static boolean[] visit;
+    static String[] airport, ans = {"1빠이기를","aaa"};
+
+    public String[] solution(String[][] tickets) {
+        
+        n = tickets.length;
+        visit = new boolean[n];
+        airport = new String[n+1];
+        airport[0] = "ICN";
+
+        for (int i=0; i<n; i++) {
+            if (!visit[i] && tickets[i][0].equals("ICN")) {
+                visit[i] = true;
+                dfs(1, i, tickets);
+                visit[i] = false;
+            }
+        }
+
+        return ans;
+    }
+
+    static void dfs(int depth, int idx, String[][] tickets) {
+        
+        if (depth == n) {
+            boolean isSmaller = false;
+            for (int i=1; i<=n; i++) {
+                if (ans[i].compareTo(airport[i]) > 0) {
+                    isSmaller = true;
+                    break;
+                } 
+                else if (ans[i].compareTo(airport[i]) < 0) {
+                    isSmaller = false;
+                    break;
+                } 
+            }
+
+            if (isSmaller) {
+                ans = new String[n+1];
+                ans[0] = "ICN";
+                for (int i=1; i<=n; i++) 
+                    ans[i] = airport[i];
+            }
+            return;
+        }
+
+        
+        for (int i=0; i<n; i++) {
+            if (!visit[i] && tickets[idx][1].equals(tickets[i][0])) {
+                airport[depth] = tickets[i][0];
+                if (depth == n-1) airport[n] = tickets[i][1];
+
+                visit[i] = true;
+                dfs(depth + 1, i, tickets);
+                visit[i] = false;
+            }
+        }
+    }
+} //100%
+
+import java.util.*;
+
+class Solution {
+    
+    public int n;
+    public boolean[] visit;
+    public String[] airport;
+    public String[] answer= {"aaa","bbb"};
+    
+    public String[] solution(String[][] tickets) {
+        n=tickets.length;
+        visit=new boolean[n];
+        airport=new String[n+1];
+        airport[0]="ICN";
+        
+        for(int i=0; i<n; i++) {
+            if(!visit[i] && tickets[i][0].equals("ICN")) {
+                visit[i]=true;
+                dfs(1,i,tickets);
+                visit[i]=false;
+            }
+        }
+        return answer;
+    }
+    
+    public void dfs(int depth, int index, String[][] tickets) {
+        if(depth==n) {
+            boolean flag=false;
+            for(int i=1; i<=n; i++) {
+                if(answer[i].compareTo(airport[i])>0) {
+                    flag=true;
+                    break;
+                }
+                else if(answer[i].compareTo(airport[i])<0) {
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag) {
+                answer=new String[n+1];
+                answer[0]="ICN";
+                for(int i=1; i<=n; i++) answer[i]=airport[i];
+            }
+            return;
+        }
+        
+        for(int i=0; i<n; i++) {
+            if(!visit[i] && tickets[index][1].equals(tickets[i][0])) {
+                airport[depth]=tickets[i][0];
+                if(depth==n-1) airport[n]=tickets[i][1];
+                visit[i]=true;
+                dfs(depth+1,i,tickets);
+                visit[i]=false;
+            }
+        }
+    }
+    
+} //100%
