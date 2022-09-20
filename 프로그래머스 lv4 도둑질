@@ -1,0 +1,50 @@
+class Solution {
+    public int solution(int[] money) {
+        int answer = 0;
+        
+        // 처음 집 훔치고 마지막 집 안훔칠 때
+        int[] stealMoney1 = new int[money.length-1];
+        // 처음 집 안 훔칠 때
+        int[] stealMoney2 = new int[money.length];
+        
+        stealMoney1[0] = money[0];
+        stealMoney1[1] = money[0];
+        stealMoney2[0] = 0;
+        stealMoney2[1] = money[1];
+        
+        for(int i=2; i<stealMoney1.length; i++){
+            stealMoney1[i] = Math.max(stealMoney1[i-2] + money[i], stealMoney1[i-1]);
+        }
+        
+        for(int i=2; i<stealMoney2.length; i++){
+            stealMoney2[i] = Math.max(stealMoney2[i-2] + money[i], stealMoney2[i-1]);
+        }
+        
+        answer = Math.max(stealMoney1[stealMoney1.length-1], stealMoney2[stealMoney2.length-1]);
+        
+        return answer;
+    }
+}
+
+//https://doohong.github.io/2019/03/14/Algorithm-%20thievery/
+
+class Solution {
+    public int solution(int[] money) {
+        
+        int[]dp=new int[money.length-1]; //처음집 훔치고 마지막 집 안 훔침 누적
+        dp[0]=money[0];
+        dp[1]=money[0];
+        for(int i=2; i<dp.length; i++) {
+            dp[i]=Math.max(dp[i-2]+money[i], dp[i-1]);
+        }
+        
+        int[]dp2=new int[money.length]; //처음집 안훔침 바로 다음집 훔침 누적
+        dp2[0]=0;
+        dp2[1]=money[1];
+        for(int i=2; i<dp2.length; i++) {
+            dp2[i]=Math.max(dp2[i-2]+money[i], dp2[i-1]);
+        }
+        
+        return Math.max(dp[dp.length-1], dp2[dp2.length-1]);
+    }
+}
