@@ -1,0 +1,390 @@
+//https://howtolivelikehuman.tistory.com/277
+//https://hyunjiishailey.tistory.com/301
+
+import java.util.*;
+
+class Solution {
+    public String solution(String sentence) {
+        
+	StringBuilder answerList = new StringBuilder();
+        LinkedHashMap <Character, ArrayList<Integer>> lowerCount = new LinkedHashMap<>();
+        String invalid = "invalid";
+
+        try{
+            int size = sentence.length();
+            for(int i=0; i<size; i++){
+                char c = sentence.charAt(i);
+                if(Character.isLowerCase(c)){
+                    if(!lowerCount.containsKey(c)) lowerCount.put(c, new ArrayList<Integer>());
+                    lowerCount.get(c).add(i);
+                }
+            }
+
+            int stringIdx = 0;
+            int startChar, endChar;
+            int lastStartChar = -1, lastEndChar = -1;
+            int startWord = 0, endWord = 0;
+            int lastStartWord = -1, lastEndWord = -1;
+            int count, distance;
+            int rule = 0;
+
+            ArrayList<Integer> temp;
+            for(char c : lowerCount.keySet()){
+                temp = lowerCount.get(c);
+                count = temp.size();
+                startChar = temp.get(0);
+                endChar = temp.get(count-1);
+
+                if(count==1 || count>=3){
+                    for(int i=1; i<count; i++){
+                        if(temp.get(i)-temp.get(i-1)!=2) return invalid;
+                    }
+                    rule = 1;
+                }
+                else if(count==2){
+                    distance=endChar-startChar;
+                    if(distance==2 &&(endChar<lastEndChar && startChar>lastStartChar)) rule=1;
+                    else if(distance>=2) rule=2;
+                    else return invalid;
+                }
+
+                if(rule==1){
+                    startWord = startChar-1;
+                    endWord = endChar+1;
+                    if(lastStartWord<startWord && lastEndWord>endWord){
+                        if(startChar-lastStartChar==2 &&lastEndChar-endChar==2) continue;
+                        else return invalid;
+                    }
+                }
+                else if(rule==2){
+                    startWord=startChar;
+                    endWord=endChar;
+                    if(lastStartWord<startWord && lastEndWord>endWord) return invalid;
+                }
+
+                if(lastEndWord>=startWord) return invalid;
+                if(stringIdx<startWord){
+                    answerList.append(makeWord(sentence,stringIdx, startWord-1));
+                    answerList.append(" ");
+                }
+
+                answerList.append(makeWord(sentence, startWord, endWord));
+                answerList.append(" ");
+                lastStartWord = startWord;
+                lastEndWord = endWord;
+                lastStartChar = startChar;
+                lastEndChar = endChar;
+                stringIdx = endWord+1;
+            }
+
+            if(stringIdx<size) answerList.append(makeWord(sentence, stringIdx, size-1));
+        }
+	
+	catch(Exception e){
+            return invalid;
+        }
+        
+        return answerList.toString().trim();
+	}
+    
+    public String makeWord(String sentence, int start, int end){
+        String word = sentence.substring(start, end+1);
+        return word.replaceAll("[a-z]", "");
+    }
+    
+}
+
+
+/*
+import java.util.*;
+
+class Solution {
+    public String solution(String sentence) {
+        HashMap <Character, String > map = new HashMap <>();
+        
+        for(int i=0; i<sentence.length(); i++){
+            char c = sentence.charAt(i);
+            String answer = Integer.toString(i);
+            if(Character.isLowerCase(c)){
+                if(!map.containsKey(c)) map.put(c, answer);
+                else map.put(c, map.get(c)+" "+answer);
+            }
+        }
+        
+        for(Character val : map.keySet()) {
+            String a=Integer.toString(0);
+            String b=Integer.toString(sentence.length()-1);
+            int num = sentence.indexOf(val);
+            if(map.get(val).contains(a) || map.get(val).contains(b)){
+                sentence=sentence.replace(val+"", " ");
+            }            
+        }
+        
+        if(sentence.charAt(sentence.length()-1)==' ' || sentence.charAt(0)==' '){
+            if(sentence.charAt(0)==' ') sentence=sentence.substring(1, sentence.length()-1);
+            else sentence=sentence.substring(0, sentence.length()-1);
+        }
+        
+        
+        
+        
+        return sentence;
+        //return "n0";
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+class Solution {
+    public String solution(String sentence) {
+        HashMap <Character, String > map = new HashMap <>();
+        
+        for(int i=0; i<sentence.length(); i++){
+            char c = sentence.charAt(i);
+            String answer = Integer.toString(i);
+            
+            if(Character.isLowerCase(c)){
+                if(!map.containsKey(c)) map.put(c, answer);
+                else map.put(c, map.get(c)+" "+answer);
+            }
+        }
+        
+        /*for(Character c : map.keySet()){
+            
+            String arr[]=map.get(c).split(" ");
+            char cha = 'a';
+            int index=Integer.parseInt(arr[arr.length-1]);
+            if(index==sentence.length()-1) cha=sentence.charAt(index);
+                
+            if(arr[0]=="0" && Character.isUpperCase(cha)) ;
+            
+        }*/
+        
+        return "n0";//answer;
+    }
+}
+*/
+
+/*
+class Solution {
+    public String solution(String sentence) {
+        String answer = "invalid";
+        char temp='x';
+        if(Character.isLowerCase(sentence.charAt(1))) temp=sentence.charAt(1);
+        
+        for(int i=0; i<sentence.length(); i++){
+            char c = sentence.charAt(i);
+            
+            if(temp==c && Character.isLowerCase(c)){
+                String a = sentence.substring(0, i);
+                String b = sentence.substring(i+1);
+                sentence = a + b;
+                temp=c;
+            }
+            
+            if(temp!=c && Character.isLowerCase(c)){
+                if(Character.isUpperCase(sentence.charAt(i-1))){
+                    String a = sentence.substring(0, i-1);
+                    String b = sentence.substring(i-1);
+                    sentence = a +" "+ b;
+                    break;
+                }
+                else{
+                    String a = sentence.substring(0, i);
+                    String b = sentence.substring(i+1);
+                    sentence = a +" "+ b;
+                    break;
+                }
+            }
+        }
+        
+        System.out.println(sentence);
+        
+        return answer;
+    }
+}
+*/
+
+/*
+class Solution {
+    public String solution(String sentence) {
+        String answer = "invalid";
+        char temp = 'X';
+        
+        for(int i=0; i<sentence.length(); i++){
+            char c = sentence.charAt(i);
+            
+            /*if(c!=temp || temp!='X'){
+                String a = sentence.substring(0, i);
+                String b = sentence.substring(i+1);
+                sentence = a +" "+ b;
+            }*/
+            
+            if(Character.isLowerCase(c)){
+                String a = sentence.substring(0, i);
+                String b = sentence.substring(i+1);
+                sentence = a + b;
+                
+                if(temp!=c && temp!='X'){
+                    String a1 = sentence.substring(0, i);
+                    String b1 = sentence.substring(i);
+                    sentence = a1 +" "+ b1;
+                    break;
+                }
+                
+                temp=c;
+            }
+        }
+        
+        System.out.println(sentence);
+        
+        return answer;
+    }
+}
+*/
+
+/*
+class Solution {
+    public String solution(String sentence) {
+        String answer = "invalid";
+        char temp = 'X';
+        
+        for(int i=0; i<sentence.length(); i++){
+            char c = sentence.charAt(i);
+            
+            if(c!=temp || temp!='X'){
+                String a = sentence.substring(0, i);
+                String b = sentence.substring(i+1);
+                sentence = a +" "+ b;
+            }
+                
+            if(Character.isLowerCase(c)){
+                String a = sentence.substring(0, i);
+                String b = sentence.substring(i+1);
+                sentence = a + b;
+            }
+            
+            temp=c;
+        }
+        
+        System.out.println(sentence);
+        
+        return answer;
+    }
+}
+*/
+
+/*
+class Solution {
+    public String solution(String sentence) {
+        String answer = "invalid";
+        
+        String front = sentence.charAt(0)+"";
+        String back = sentence.charAt(sentence.length()-1)+"";
+        int[] case2 = new int [2];
+        
+        for(int i=0; i<sentence.length(); i++){
+            if(sentence.contains(front)) case2[0]=i;
+            if(sentence.contains(back)) case2[1]=i;
+        }
+        
+        for(int i=1; i<sentence.length()-2; i+=2){
+            char c1 = sentence.charAt(i);
+            char c2 = sentence.charAt(i+2);
+            if(c1==c2) sentence=sentence.replace(c1+"", "");
+            else{
+                String a= sentence.substring(0, i+2);
+                String b= sentence.substring(i+2);
+                sentence=a+" "+b;
+                break;
+            }
+        }
+        
+        return sentence;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    
+    public String cal(String sentence, int start, int end) {
+        String word=sentence.substring(start, end+1);
+        return word.replaceAll("[a-z]","");
+    }
+        
+    public String solution(String sentence) {
+        StringBuilder answer=new StringBuilder();
+        LinkedHashMap<Character, LinkedList<Integer>> map=new LinkedHashMap<>();
+        try {
+            for(int i=0; i<sentence.length(); i++) {
+                char c=sentence.charAt(i);
+                if(Character.isLowerCase(c)) {
+                    if(!map.containsKey(c)) map.put(c, new LinkedList<Integer>());
+                    map.get(c).add(i);
+                }
+            }
+            
+            LinkedList<Integer> temp=new LinkedList<>();
+            int index=0;
+            int prevStartChar=-1, prevEndChar=-1;
+            int startWord=0, endWord=0;
+            int prevStartWord=-1, prevEndWord=-1;
+            
+            for(char c : map.keySet()) {
+                temp=map.get(c);
+                int count=temp.size();
+                int startChar=temp.get(0);
+                int endChar=temp.get(count-1);
+
+                int rule=0;
+                if(count==1 || count>=3) {
+                    for(int i=1; i<count; i++) {
+                        if(temp.get(i)-temp.get(i-1)!=2) return "invalid";
+                    } rule=1;
+                }
+                else if(count==2) {
+                    int dist=endChar-startChar;
+                    if(dist==2 && (endChar<prevEndChar && startChar>prevStartChar)) rule=1;
+                    else if(dist>=2) rule=2;
+                    else return "invalid";
+                }
+                if(rule==1) {
+                    startWord=startChar-1;
+                    endWord=endChar+1;
+                    if(prevStartWord<startWord && prevEndWord>endWord) {
+                        if(startChar-prevStartChar==2 && prevEndChar-endChar==2) continue;
+                        else return "invalid";
+                    }
+                }
+                else if(rule==2) {
+                    startWord=startChar;
+                    endWord=endChar;
+                    if(prevStartWord<startWord && prevEndWord>endWord) return "invalid";
+                }
+                
+                if(prevEndWord>=startWord) return "invalid";
+                if(index<startWord) {
+                    answer.append(cal(sentence, index, startWord-1));
+                    answer.append(" ");
+                }
+                answer.append(cal(sentence,startWord,endWord));
+                answer.append(" ");
+                prevStartWord=startWord;
+                prevEndWord=endWord;
+                prevStartChar=startChar;
+                prevEndChar=endChar;
+                index=endWord+1;
+            }
+            if(index<sentence.length()) answer.append(cal(sentence,index,sentence.length()-1));
+        }
+        catch(Exception e){
+            return "invalid";
+        }
+        
+        return answer.toString().trim();
+    }
+} //100%
