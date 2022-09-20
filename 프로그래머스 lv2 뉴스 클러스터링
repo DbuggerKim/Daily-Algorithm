@@ -1,0 +1,190 @@
+import java.util.*;
+import java.util.regex.*;
+
+class Solution {
+    
+    public HashMap <String, Integer> map1, map2;
+    
+    public int solution(String str1, String str2) {
+        
+        int answer = 0;
+        map1 = new HashMap<String, Integer>();
+        map2 = new HashMap<String, Integer>();
+        str1 = str1.toUpperCase();
+        str2 = str2.toUpperCase();
+        
+        Pattern p = Pattern.compile("[^A-Z]");
+        Matcher m = null;
+        int total=0;
+        
+        for(int i=0; i<=str1.length()-2; i++){
+            String key = str1.substring(i, i+2);
+            m = p.matcher(key);
+            if(m.find()) continue;  //대문자 제외한 문자 체크
+            map1.put(key, map1.getOrDefault(key, 0) + 1);
+            total++;
+        }
+        
+        for(int i=0; i<=str2.length()-2; i++){
+            String key = str2.substring(i, i+2);
+            m = p.matcher(key);
+            if(m.find()) continue;
+            map2.put(key, map2.getOrDefault(key, 0) + 1);
+            total++;
+        }
+        
+        int inter=0;
+        for(String key : map1.keySet()){
+            if(map2.get(key)==null) continue; //같은게 없으면 다시 돌리기
+            inter+=Math.min(map2.get(key), map1.get(key)); //교집합 중 작은 값
+        }
+        int union=total-inter;
+        if(union == 0) return 65536;
+        return inter*65536/union;
+    }
+} //100%
+
+/*
+import java.util.*;
+import java.util.regex.*;
+
+class Solution {
+    
+    public HashMap <String, Integer> map1, map2;
+    
+    public int solution(String str1, String str2) {
+        
+        int answer = 0;
+        map1 = new HashMap<String, Integer>();
+        map2 = new HashMap<String, Integer>();
+        str1 = str1.toUpperCase();
+        str2 = str2.toUpperCase();
+        /*Pattern p = Pattern.compile("[^A-Za-z]");
+        Matcher m = null;*/
+        int total=0;
+        
+        for(int i=0; i <=str1.length()-2; i++){
+            String key=str1.substring(i, i+2);
+            //m = p.matcher(key);
+            //if(m.find()) continue;
+            String sub1="";
+            char c1=key.charAt(0);
+            char c2=key.charAt(1);
+            if(c1>=65 && c1<=90) sub1+=c1;
+            if(c2>=65 && c2<=90) sub1+=c2;
+
+            map1.put(sub1, map1.getOrDefault(sub1, 0) + 1);
+            total++;
+        }
+        
+        for(int i=0; i<=str2.length()-2; i++){
+            String key = str2.substring(i, i+2);
+            //m = p.matcher(key);
+            //if(m.find()) continue;
+            String sub2="";
+            char c1=key.charAt(0);
+            char c2=key.charAt(1);
+            if(c1>=65 && c1<=90) sub2+=c1;
+            if(c2>=65 && c2<=90) sub2+=c2;
+            
+            map2.put(sub2, map2.getOrDefault(sub2, 0) + 1);
+            total++;
+        }
+        
+        int inter=0;
+        for(String key : map1.keySet()){
+            if(map2.get(key)==null) continue; //같은게 없으면 다시 돌리기
+            inter+=Math.min(map2.get(key), map1.get(key)); //교집합 중 작은 값
+        }
+        
+        int union=total-inter;
+        if(union == 0) return 65536;
+        
+        return inter*65536/union;
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(String str1, String str2) {
+        int answer = 0;
+        
+        str1=str1.toUpperCase();
+        str2=str2.toUpperCase();
+        
+        String sub1="";
+        String sub2="";
+        
+        for(int i=0; i<str1.length(); i++){
+            char c=str1.charAt(i);
+            if(c>=65 && c<=90) sub1+=c;
+        }
+        
+        for(int i=0; i<str2.length(); i++){
+            char c=str2.charAt(i);
+            if(c>=65 && c<=90) sub2+=c;
+        }
+        
+        HashMap <Character, Integer> map = new HashMap <>();
+        for(int i=0; i<sub1.length(); i++)
+            map.put(sub1.charAt(i), map.getOrDefault(sub1.charAt(i), 0)+1);
+        
+        for(int i=0; i<sub2.length(); i++)
+            map.put(sub2.charAt(i), map.getOrDefault(sub2.charAt(i), 0)-1);
+        
+        int count=0;
+        for(Character val : map.keySet())
+            if(map.get(val)==0) count++;
+        
+        answer=65536*count/map.size();
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+import java.util.regex.*;
+
+class Solution {
+    public int solution(String str1, String str2) {
+        
+        int total = 0;
+        HashMap<String, Integer> map1 = new HashMap<>();
+        HashMap<String, Integer> map2 = new HashMap<>();        
+        str1=str1.toUpperCase();
+        str2=str2.toUpperCase();
+        
+        Pattern p=Pattern.compile("[^A-Z]");
+        Matcher m=null;
+        
+        for(int i=0; i<=str1.length()-2; i++){
+            String s=str1.substring(i, i+2);
+            m=p.matcher(s);
+            if(m.find()) continue;
+            map1.put(s, map1.getOrDefault(s,0)+1);
+            total++;
+        }
+        
+        for(int i=0; i<=str2.length()-2; i++){
+            String s=str2.substring(i, i+2);
+            m=p.matcher(s);
+            if(m.find()) continue;
+            map2.put(s, map2.getOrDefault(s,0)+1);
+            total++;
+        }
+        
+        int inter=0;
+        for(String key : map1.keySet()){
+            if(map2.get(key)==null) continue;
+            inter+=Math.min(map2.get(key), map1.get(key));
+        }
+        
+        int union=total-inter;
+        if(union==0) return 1*65536;
+        else return inter*65536/union;
+    }
+} //100%
