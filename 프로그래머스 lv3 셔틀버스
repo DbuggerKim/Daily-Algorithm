@@ -1,0 +1,114 @@
+//https://moonsbeen.tistory.com/372
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solution(int n, int t, int m, String[] timetable) { /
+        String answer = "";
+        PriorityQueue<Integer> pq = new PriorityQueue<>();/timetable 오름차순
+        for(int i=0; i<timetable.length; i++){
+            String hour = timetable[i].substring(0, 2);
+            String min = timetable[i].substring(3, 5);
+            pq.add(Integer.parseInt(hour)*60+Integer.parseInt(min));
+        }
+        
+        int startTime=9*60;
+        int lastTime=0;
+        int currentTime=0;
+        int total=0;
+        
+        for(int i=0; i<n; i++){
+            total=0;
+            while(!pq.isEmpty()){
+                currentTime=pq.peek();
+                if(currentTime<=startTime&&total<m){
+                    pq.poll();
+                    total++;
+                }
+                else break;
+                lastTime=currentTime-1;
+            }
+            startTime+=t;
+        }
+        if(total<m) lastTime=startTime-t;
+        
+        String hour = String.format("%02d", lastTime/60);
+        String min = String.format("%02d", lastTime%60);
+        answer = hour+":"+min;
+        
+        return answer;
+    }
+}
+
+
+/*
+class Solution {
+    public String solution(int n, int t, int m, String[] timetable) {
+        String answer = "";
+        
+        for(int i=0; i<timetable.length; i++){
+            String hour = timetable[i].substring(0, 2);
+            String min = timetable[i].substring(3, 5);
+            timetable[i]=Integer.toString(Integer.parseInt(hour)*60+Integer.parseInt(min));
+        }
+        
+        //for(String val : timetable) System.out.println(val);
+        int min=Integer.MAX_VALUE;
+        for(int i=0; i<timetable.length; i++){
+            if(n*m>timetable.length && 540>Integer.parseInt(timetable[i])) answer="09:00";
+            if(n*m==timetable.length){
+                min=Math.min(min, Integer.parseInt(timetable[i]));
+                int hour = min/60;
+                if(hour<12) answer="0"+Integer.toString(hour);
+                else answer+=Integer.toString(hour);
+                if(min<10) answer=":0"+Integer.toString(min);
+                else answer=":0"+Integer.toString(min);
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public String solution(int n, int t, int m, String[] timetable) {
+        
+        PriorityQueue<Integer> pq=new PriorityQueue<>();
+        for(int i=0; i<timetable.length; i++) {
+            String time[]=timetable[i].split(":");
+            int hour=(Integer.parseInt(time[0]))*60;
+            int min=(Integer.parseInt(time[1]));
+            pq.add(hour+min);
+        }
+        
+        int startTime=9*60; //오전 9시 시작
+        int prevTime=0;
+        int curTime=0;
+        
+        int total=0;
+        
+        for(int i=0; i<n; i++) {
+            total=0;
+            while(!pq.isEmpty()) {
+                curTime=pq.peek();
+                if(curTime<=startTime && total<m) {
+                    pq.poll();
+                    total++;
+                }
+                else break;
+                prevTime=curTime-1;
+            }
+            startTime+=t;
+        }
+        
+        if(total<m) prevTime=startTime-t;
+        String hour=String.format("%02d",prevTime/60);
+        String min=String.format("%02d",prevTime%60);
+        
+        return hour+":"+min;
+    }
+} //100%
