@@ -1,0 +1,60 @@
+ import java.util.*;
+class Solution {
+    public  List<Long> solution(int n, long left, long right) {
+        
+        List<Long> list = new ArrayList<>();
+        
+        for(long i=left;i<right+1;i++){
+             list.add(Math.max(i/n,i%n) + 1);
+        }
+        
+        return list;
+    }
+}
+
+//100%
+
+/*import java.util.*;
+
+class Solution {
+    public int[] solution(int n, long left, long right) {
+        
+        int[][] demo = new int [n][n];
+        int index=1;
+        for(int i=0; i<demo.length; i++){
+            for(int j=0; j<demo.length; j++){
+                if(i+1==index && j+1==index) demo[i][j]=index;
+                if(i<j) demo[i][j]=j+1;
+                if(j<i) demo[i][j]=i+1;
+            }
+            index++;
+        }
+        
+        /*for(int i=0; i<demo.length; i++){
+            for(int j=0; j<demo.length; j++){
+                System.out.print(demo[i][j]);
+            }
+            System.out.println("");
+        }*/
+        
+        int[] demo2 = new int [n*n];
+        int count=0;
+        for(int i=0; i<demo.length; i++){
+            for(int j=0; j<demo.length; j++){
+                demo2[count++]=demo[i][j];
+            }
+        }
+        
+        int len=(int)(right-left+1);
+        int[] answer = new int [len];
+        int len1=(int)left;
+        int len2=(int)right;
+        
+        for(int i=len1; i<=len2; i++){
+            answer[i-len1]=demo2[i];
+        }
+        
+        
+        return answer;
+    }
+}*/ //45%
