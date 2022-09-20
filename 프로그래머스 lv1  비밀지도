@@ -1,0 +1,79 @@
+class Solution {
+    public static String cal(int n,int len){
+        String str="";
+        while(n!=0){
+            str=n%2+str;
+            n/=2;
+        }
+        while(str.length()!=len) str="0"+str;
+        return str;
+    }
+    
+    public String[] solution(int n, int[] arr1, int[] arr2) {
+        String[] answer = new String[n]; 
+        
+        for(int i =0; i<n; i++){
+            String str_x, str_y, str="";
+            int x = arr1[i];
+            int y = arr2[i];
+            str_x = cal(x,n);
+            str_y = cal(y,n);
+            
+            for(int j = 0;j<n;j++){ //XOR연산
+                if(str_x.charAt(j)=='1' || str_y.charAt(j)=='1') str+="#";
+                else str+=" ";
+            }
+            answer[i]=str;
+        }
+        
+        return answer;
+    }
+}  //100%
+
+/*import java.lang.*;
+
+class Solution {
+    public String[] solution(int n, int[] arr1, int[] arr2) {
+        String[] answer = {};
+        
+        for(int i=0; i<arr1.length; i++){
+            arr1[i]<<=5;
+            arr2[i]<<=5;
+            long a= (arr1[i]|arr2[i]);
+            answer[i]=Long.parselong(a);
+        }
+        
+        return answer;
+    }
+}*/
+
+import java.util.*;
+
+class Solution {
+    
+    public String cal(int num, int n){
+        String temp="";
+        while(num!=0){
+            temp=num%2+temp;
+            num/=2;
+        }        
+        while(temp.length()!=n) temp="0"+temp; //
+        return temp;
+    }
+    
+    public String[] solution(int n, int[] arr1, int[] arr2) {
+        String[] answer=new String[n];
+        for(int i=0; i<n; i++){
+            String s1, s2, s="";
+            s1=cal(arr1[i], n);
+            s2=cal(arr2[i], n);
+            for(int j=0; j<n; j++){
+                if(s1.charAt(j)=='1' || s2.charAt(j)=='1') s+="#";
+                else s+=" ";
+            }
+            answer[i]=s;
+        }
+        return answer;
+    }
+    
+} //100%
