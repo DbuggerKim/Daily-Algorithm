@@ -1,0 +1,17 @@
+# older
+num = int(input().strip())
+
+str="abcdefghijklmnopqrstuvwxyz"
+
+if num==0:
+    print(str)
+else:
+    print(str.upper())
+    
+
+# newer
+import string
+num = int(input().strip())
+ 
+if num==0: print(string.ascii_lowercase)
+else: print(string.ascii_uppercase)
