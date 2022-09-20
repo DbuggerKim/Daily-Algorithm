@@ -1,0 +1,188 @@
+def solution(n, board, position):
+    answer=[0]*n
+    X=len(board)
+    Y=len(board[0])
+    
+    for k in range(n):
+        sum=0
+        flag=True
+        x=position[k][0]
+        y=position[k][1]
+        
+        #자신 탐색
+        if board[x][y]==0: flag=False
+        else: flag=True
+        
+        #이웃 탐색
+        if(x==X-1 and y!=0 and y!=Y-1):
+            sum=board[x][y-1]+board[x-1][y-1]+board[x-1][y]+board[x-1][y+1]+board[x][y+1]
+        elif(x==0 and y!=0 and y!=Y-1):
+            sum=board[x][y-1]+board[x+1][y-1]+board[x+1][y]+board[x+1][y+1]+board[x][y+1]
+        elif(y==Y-1 and x!=0 and x!=X-1):
+            sum=board[x-1][y]+board[x-1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+        elif(y==0 and x!=0 and x!=X-1):
+            sum=board[x-1][y]+board[x-1][y+1]+board[x][y+1]+board[x+1][y+1]+board[x+1][y]
+            
+        elif x==0 and y==0:
+            sum=board[x][y+1]+board[x+1][y+1]+board[x+1][y]
+        elif x==X-1 and y==0:
+            sum=board[x-1][y]+board[x-1][y+1]+board[x][y+1]
+        elif x==X-1 and y==Y-1:
+            sum=board[x][y-1]+board[x-1][y-1]+board[x-1][y]
+        elif x==0 and y==Y-1:
+            sum=board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+            
+        elif (x!=X-1 or x!=0) and (y!=Y-1 or y!=0):
+            sum=board[x-1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+            sum+=board[x+1][y+1]+board[x][y+1]+board[x-1][y+1]+board[x-1][y]
+            
+        if flag==True and sum<=2: answer[k]=0
+        elif flag==True and sum>=5: answer[k]=0
+        elif flag==False and sum==2: answer[k]=1
+        else: answer[k]=board[x][y]
+        
+    return answer
+
+#100%
+
+‘’’
+def solution(n, board, position):
+    answer=[0]*n
+    X=len(board)
+    Y=len(board[0])
+    
+    for k in range(n):
+        sum=0
+        flag=True
+        x=position[k][0]
+        y=position[k][1]
+        
+        #자신 탐색
+        if board[x][y]==0: flag=False
+        else: flag=True
+        
+        #이웃 탐색
+        if(x==X-1 and y!=0 and y!=Y-1):
+            sum=board[x][y-1]+board[x-1][y-1]+board[x-1][y]+board[x-1][y-1]+board[x][y+1]
+        elif(x==0 and y!=0 and y!=Y-1):
+            sum=board[x][y-1]+board[x+1][y-1]+board[x+1][y]+board[x+1][y+1]+board[x][y+1]
+        elif(y==Y-1 and x!=0 and x!=X-1):
+            sum=board[x-1][y]+board[x-1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+        elif(y==0 and x!=0 and x!=X-1):
+            sum=board[x-1][y]+board[x-1][y+1]+board[x][y+1]+board[x+1][y+1]+board[x+1][y]
+            
+        elif x==0 and y==0:
+            sum=board[x][y+1]+board[x+1][y+1]+board[x+1][y]
+        elif x==0 and y==Y-1:
+            sum=board[x-1][y]+board[x-1][y+1]+board[x][y+1]
+        elif x==X-1 and y==Y-1:
+            sum=board[x][y-1]+board[x-1][y-1]+board[x-1][y]
+        elif x==X-1 and y==0:
+            sum=board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+            
+        elif (x!=X-1 or x!=0) and (y!=Y-1 or y!=0):
+            sum=board[x-1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+            sum+=board[x+1][y+1]+board[x][y+1]+board[x-1][y+1]+board[x-1][y]
+        
+        if k==n-1:
+            if flag==True and sum<=2: answer[k]=0
+            elif flag==True and sum>=5: answer[k]=0
+            elif flag==False and sum==2: answer[k]=1
+            else: answer[k]=board[x][y]
+        
+    return answer
+‘’’ #TO
+
+‘’’
+def solution(n, board, position):
+    answer=[0]*n
+    X=len(board)
+    Y=len(board[0])
+    
+    for k in range(n):
+        sum=0
+        flag=True
+        x=position[k][0]
+        y=position[k][1]
+        
+        #자신 탐색
+        if board[x][y]==0: flag=False
+        else: flag=True
+        
+        #이웃 탐색
+        if(x==X-1 and y!=0 and y!=Y-1):
+            sum=board[x][y-1]+board[x-1][y-1]+board[x-1][y]+board[x-1][y-1]+board[x][y+1]
+        elif(x==0 and y!=0 and y!=Y-1):
+            sum=board[x][y-1]+board[x+1][y-1]+board[x+1][y]+board[x+1][y+1]+board[x][y+1]
+        elif(y==Y-1 and x!=0 and x!=X-1):
+            sum=board[x-1][y]+board[x-1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+        elif(y==0 and x!=0 and x!=X-1):
+            sum=board[x-1][y]+board[x-1][y+1]+board[x][y+1]+board[x+1][y+1]+board[x+1][y]
+            
+        elif x==0 and y==0:
+            sum=board[x][y+1]+board[x+1][y+1]+board[x+1][y]
+        elif x==0 and y==Y-1:
+            sum=board[x-1][y]+board[x-1][y+1]+board[x][y+1]
+        elif x==X-1 and y==Y-1:
+            sum=board[x][y-1]+board[x-1][y-1]+board[x-1][y]
+        elif x==X-1 and y==0:
+            sum=board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+            
+        elif (x!=X-1 or x!=0) and (y!=Y-1 or y!=0):
+            sum=board[x-1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+            sum+=board[x+1][y+1]+board[x][y+1]+board[x-1][y+1]+board[x-1][y]
+        
+        print(sum)
+        if flag==True and sum<=2: answer[k]=0
+        elif flag==True and sum>=5: answer[k]=0
+        elif flag==False and sum==2: answer[k]=1
+        else: answer[k]=board[x][y]
+        
+    return answer
+‘’’ #66% TO
+
+‘’’
+def solution(n, board, position):
+    answer=[]
+    X=len(board)
+    Y=len(board[0])
+    
+    flag=True #True: alive, False: dead
+    
+    for k in range(n):
+        sum=0
+        x=position[k][0]
+        y=position[k][1]
+        
+        #자신 탐색
+        if board[x][y]==0: flag=False
+
+        #이웃 탐색
+        if(x==X-1 and y!=0 and y!=Y-1):
+            sum+=board[x-1][y]+board[x+1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+        elif(x==0 and y!=0 and y!=Y-1):
+            sum+=board[x-1][y]+board[x-1][y+1]+board[x][y+1]+board[x+1][y+1]+board[x+1][y]
+        elif(y==Y-1 and x!=0 and x!=X-1):
+            sum+=board[x][y-1]+board[x-1][y-1]+board[x][y-1]+board[x+1][y+1]+board[x][y+1]
+        elif(y==0 and x!=0 and x!=X-1):
+            sum+=board[x][y-1]+board[x+1][y-1]+board[x+1][y]+board[x+1][y+1]+board[x][y+1]
+        
+        elif x==0 and y==0:
+            sum+=board[x+1][y]+board[x+1][y+1]+board[x][y+1]
+        elif x==0 and y==Y-1:
+            sum+=board[x][y-1]+board[x+1][y-1]+board[x+1][y+1]
+        elif x==X-1 and y==Y-1:
+            sum+=board[x-1][y]+board[x-1][y-1]+board[x][y-1]
+        elif x==X-1 and y==0:
+            sum+=board[x-1][y]+board[x-1][y+1]+board[x][y+1]
+         
+        elif (x!=X-1 or x!=0) and (y!=Y-1 or y!=0):
+            sum+=board[x-1][y-1]+board[x][y-1]+board[x+1][y-1]+board[x+1][y]
+            sum+=board[x+1][y+1]+board[x][y+1]+board[x-1][y+1]+board[x-1][y]
+        
+        if flag==True and sum<=2: board[x][y]=0
+        elif flag==True and sum>=5: board[x][y]=0
+        elif flag==False and sum==2: board[x][y]=1
+        
+    return answer
+‘’’ #0%
