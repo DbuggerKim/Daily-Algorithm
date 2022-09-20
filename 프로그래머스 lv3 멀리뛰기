@@ -1,0 +1,27 @@
+//https://parksuu.github.io/44-프로그래머스-멀리뛰기-(java)/
+class Solution {
+    
+    public long solution(int n) {
+        long dp[] = new long[2001];
+        
+        dp[1] = 1; //1칸 멀리뛰기 경우의 수 1개 : 1
+        dp[2] = 2; //2칸 멀리뛰기 경우의 수 1개 : 1 1 또는 2
+        //3칸 멀리뛰기 경우의 수 : 2칸 멀리뛰기 경우의 수 + 1칸 멀리뛰기 경우의 수
+        //4칸 멀리뛰기 경우의 수 : 3칸 멀리뛰기 경우의 수 + 2칸 멀리뛰기 경우의 수
+        
+        for(int i=3; i<2001; i++) dp[i]=(dp[i-1]+dp[i-2])%1234567;
+        
+	    return dp[n];
+    }
+} //100%
+
+class Solution {
+    public long solution(int n) {
+        long[] dp=new long[2001];
+        dp[1]=1;
+        dp[2]=2;
+        for(int i=3; i<2001; i++) dp[i]=(dp[i-1]+dp[i-2])%1234567;
+        return dp[n];
+    }
+} 
+//100%
