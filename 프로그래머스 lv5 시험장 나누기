@@ -1,0 +1,59 @@
+import java.util.*;
+
+class Solution {
+    
+    int n, root, cnt;
+    int[] parent, left, right, people;
+    
+    public int solution(int k, int[] num, int[][] links) {
+   	n = num.length;
+       	parent = new int[n];
+        left = new int[n];
+        right = new int[n];
+        people = num;
+        Arrays.fill(parent, -1);
+        
+        for(int i=0; i<links.length; i++) {
+            left[i]=links[i][0];
+            right[i]=links[i][1];
+            if(left[i]!=-1) parent[left[i]]=i;
+            if(right[i]!=-1) parent[right[i]]=i;
+        }
+    	
+       	for(int i=0; i<n; i++){
+            if(parent[i]==-1) {
+                root=i;
+                break;
+            }
+        }
+        
+        int lo=0, hi=(int)1e9;
+        for(int i=0; i<n; i++) lo=Math.max(lo, people[i]);
+        
+        while(lo<=hi) {
+            int mid=(lo+hi)/2;
+            if(getGroup(mid)<=k) hi=mid-1;
+            else lo=mid+1;
+        }
+        return hi+1;
+    }
+    
+    public int getGroup(int limit) {
+       	cnt=0; 
+        dfs(root, limit);
+        return cnt+1;
+    }
+    
+    public int dfs(int curr, int limit) {
+        int lv=0, rv=0;
+        if(left[curr]!=-1) lv=dfs(left[curr], limit);
+        if(right[curr]!=-1) rv=dfs(right[curr], limit);
+        if(people[curr]+lv+rv<=limit) return people[curr]+lv+rv;
+        if(people[curr]+Math.min(lv, rv)<=limit) {
+            cnt++;
+            return people[curr]+Math.min(lv, rv);
+        }
+        cnt+=2;
+        return people[curr];
+    }
+}
