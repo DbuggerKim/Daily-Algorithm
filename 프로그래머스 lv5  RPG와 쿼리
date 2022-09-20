@@ -1,0 +1,53 @@
+//C++
+
+#include <string>
+#include <cstdlib>
+#include <cstring>
+#include <vector>
+void mmn(long long &x,long long y){ if(x==-1 || x>y) x = y; }
+
+using namespace std;
+
+int w[3000][3000];
+vector<int> rev[3000];
+
+long long dp[3000][2501], mn[2501];
+
+vector<long long> solution(int n, int z, vector<vector<int>> roads, vector<long long> queries) {
+    for(auto e : roads){
+        rev[e[1]].push_back(e[0]);
+        w[e[0]][e[1]] = e[2];
+    }
+
+    // solve
+    memset(mn, -1, sizeof(mn));
+    memset(dp, -1, sizeof(dp));
+    mn[0] = dp[0][0] = 0;
+    for(int i=1;i<n;++i) dp[i][0] = 1;
+    for(int p=1;p<2501;++p){
+        for(int i=0;i<n;++i)
+            for(auto from : rev[i])
+                if(p - w[from][i]>=0 && dp[from][p - w[from][i]]!=-1)
+                    mmn(dp[i][p], dp[from][p - w[from][i]] + 1);
+
+        if(p>=z && mn[p-z]!=-1)
+            mmn(mn[p], mn[p-z]+1);
+        for(int i=0;i<n;++i)
+            if(~dp[i][p]) mmn(mn[p], dp[i][p]);
+        for(int i=0;i<n;++i)
+            if(~mn[p]) mmn(dp[i][p], mn[p] + 1);
+    }
+
+    vector<long long> answer;
+    for(auto q : queries){
+        long long ans = -1;
+        if(q < 2501) ans = mn[q];
+        else{
+            long long i = 2500;
+            for(;~i;--i) if(i%z == q%z) break;
+            if(~mn[i]) ans = (q-i)/z + mn[i];
+        }
+        answer.push_back(ans);
+    }
+    return answer;
+}
