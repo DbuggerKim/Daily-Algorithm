@@ -1,0 +1,222 @@
+import java.lang.*;
+
+//진법 변환 시 커지면 long 필요
+//포함 안할 시 move on
+class Solution {
+    public int solution(int n, int k) {
+        int answer=0;
+        String num=trans(n,k);
+        String[] arr=num.split("0");
+        for(int i=0; i<arr.length; i++){
+            if(arr[i].equals("")) continue;//
+            long ans=Long.parseLong(arr[i]);//
+            if(isPrime(ans)) answer++;
+        }
+        return answer;
+    }
+    
+    //진수 변환
+    public String trans(int n, int k){
+        String answer="";
+        while(n>=k){
+            answer=n%k+answer;
+            n/=k;
+        }answer=n%k+answer;
+        return answer;
+    }
+    
+    //소수 확인
+    public boolean isPrime(long n){
+        boolean flag=false;
+        if(n<2) return flag;
+        for(int i=2; i<=(int)Math.sqrt(n); i++){
+            if(n%i==0) return flag;
+        }
+        flag=true;
+        return flag;
+    }
+}//100%
+
+import java.util.*;
+class Solution {
+    public int solution(int n, int k) {
+        int answer = 0;
+        String temp="";
+        
+        while(n!=0){          
+            temp=n%k+temp; 
+            n/=k;
+        }
+
+        String[] arr = temp.split("0");
+        
+        for(String data: arr){
+            if(data.equals("")) continue;
+            long num=Long.parseLong(data); //진법 변환 시 길어짐*                       
+            if(isPrime(num)){
+                answer++;
+            }
+        }
+        
+        return answer;
+    }
+    
+//소수확인 메소드
+    public boolean isPrime(long a){
+        if(a<2) return false;
+        for(int i=2;i<=Math.sqrt(a);i++){ //효율 높임
+            if(a%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+}//100%
+
+
+/*import java.lang.*;
+
+class Solution {
+    
+    public boolean isPrime(int num){
+        if(num<=1) return false;
+        for(int i=2; i<num; i++)
+            if(num%i==0) return false;
+        return true;
+    }
+    
+    public String trans(int n, int k){
+        String ans="";
+        while(n>0){
+            ans=n%k+ans;
+            n=n/k;
+        }
+        return ans;
+    }
+    
+    public int solution(int n, int k) {
+        int answer = 0;
+        String a=trans(n, k);
+        String[] s= a.split("0");
+        for(String x : s) {
+            if(x.equals("")) continue; //"00" 추가될 시 발생
+            if(isPrime(Integer.parseInt(x))) answer++;
+        }
+        return answer;
+    }
+}*/
+
+/* import java.lang.*;
+
+class Solution {
+    
+    public boolean isPrime(int num){
+        if(num<=1) return false;
+        for(int i=2; i<num; i++)
+            if(num%i==0) return false;
+        return true;
+    }
+    
+    public String trans(int n, int k){
+        String ans="";
+        while(n>0){
+            ans=n%k+ans;
+            n=n/k;
+        }
+        return ans;
+    }
+    
+    public int solution(int n, int k) {
+        int answer = 0;
+        String a=trans(n, k);
+        String[] s= a.split("0");
+        
+        for(int i=0; i<s.length; i++){
+            String val = s[i];
+            System.out.println(val);
+            //int l= Integer.parseInt(val);
+            //int l = Integer.valueOf(val).intValue();
+            //if(isPrime(l)==true) answer++;
+        }
+
+        /*int index=0;
+        for(int i=0; i<a.length(); i++){
+            if(a.charAt(i)=='0'){
+                String su=a.substring(index,i);
+                System.out.println(su);
+                int val = Integer.valueOf(su).intValue();
+                if(isPrime(val)==true) answer++;
+                index=i;
+            }
+        }*/
+        return answer;
+    }
+} */
+
+/*import java.lang.Integer;
+
+class Solution {
+    
+    public boolean isPrime(int num){
+        if(num<=0) return false;
+        for(int i=2; i<num; i++)
+            if(num%i==0) return false;
+        return true;
+    }
+    
+    public int trans(int n, int k){
+        String ans="";
+        while(n>0){
+            ans=n%k+ans;
+            n=n/k;
+        }
+        return Integer.valueOf(ans);
+    }
+    
+    public int solution(int n, int k) {
+        int answer = -1;
+        //int a=trans(n, k);
+        return answer;
+    }
+}*/
+
+/*
+class Solution {
+    public int solution(int n, int k) {
+        int answer=0;
+        String num=trans(n,k);
+        for(int i=0; i<num.length(); i++){
+            int start=0;
+            int count=0;
+            if(num.charAt(i)!=0) count++;
+            else{
+                if(isPrime(Integer.parseInt(num.substring(start,count)))) answer++;
+                start=count+1;
+            }
+        }
+        
+        return answer;
+    }
+    
+    //진수 변환
+    public String trans(int n, int k){
+        String answer="";
+        while(n>=k){
+            answer=n%k+answer;
+            n/=k;
+        }answer=n%k+answer;
+        return answer;
+    }
+    
+    //소수 확인
+    public boolean isPrime(int n){
+        boolean flag=false;
+        if(n<2) return flag;
+        for(int i=2; i<=(int)Math.sqrt(n); i++){
+            if(n%i==0) return flag;
+        }
+        flag=true;
+        return flag;
+    }
+}
+*/
