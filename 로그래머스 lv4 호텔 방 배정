@@ -1,0 +1,56 @@
+/*import java.util.*;
+
+class Solution {
+    public long[] solution(long k, long[] room_number) {
+        
+        ArrayList<Long> list = new ArrayList<>();
+        boolean[] visit = new boolean[(int)k];
+        Arrays.fill(visit, false);
+        
+        for(int i=0; i<room_number.length; i++){
+            if(!visit[(int)room_number[i]]){
+                visit[(int)room_number[i]]=true;
+                list.add(room_number[i]);
+            }
+            else{
+                long min=Long.MAX_VALUE;
+                for(int j=(int)room_number[i]+1; j<visit.length; j++){
+                    if(!visit[j]) min=Math.min(j, min);
+                }
+                visit[(int)min]=true;
+                list.add(min);
+            }
+        }
+        
+        return list.stream().mapToLong(i->i.longValue()).toArray();
+    }
+}//75% TO*/
+
+
+//https://tosuccess.tistory.com/82
+//https://m.blog.naver.com/ndb796/221230967614
+
+import java.util.*;
+
+class Solution {
+    
+    HashMap<Long, Long> map;
+    
+    public long NextEmptyRoom(long num) {
+        if(map.get(num) == null) return num;
+        map.put(num, NextEmptyRoom(map.get(num)));
+        return map.get(num);
+    }
+    
+    public long[] solution(long k, long[] room_number) {
+        map = new HashMap<Long, Long>();
+        ArrayList<Long> arr = new ArrayList<Long>();
+        for(long num : room_number) {
+            long emptyRoom = NextEmptyRoom(num);
+            map.put(emptyRoom, emptyRoom+1);
+            arr.add(emptyRoom);
+        }
+        
+        return arr.stream().mapToLong(Long::longValue).toArray();
+    }
+}//100%
