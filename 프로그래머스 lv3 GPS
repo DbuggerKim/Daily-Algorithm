@@ -1,0 +1,110 @@
+//https://tosuccess.tistory.com/144
+//DP
+
+    //n : 거점개수
+    //m : 도로 개수
+    //edge_list : 거점간 연결 도로개수
+    //k : 움직인 거점 정보 총 개수
+    //gps_log : 오류난 거점 정보
+
+import java.util.*;
+class Solution {
+    public int solution(int n, int m, int[][] edge_list, int k, int[] gps_log) {
+        
+        List<List<Integer>> list = new ArrayList<>();
+		int[][] dp = new int[k][n+1];
+        
+		for(int i=0 ; i<=n ; i++) list.add(new ArrayList<>());
+		for(int[] ed : edge_list) {
+			list.get(ed[0]).add(ed[1]);
+			list.get(ed[1]).add(ed[0]);
+		}
+		
+		for(int[] arr : dp) Arrays.fill(arr, k+1);
+		dp[0][gps_log[0]]=0;
+		
+		for(int i=1; i<k; i++) {
+			for(int j=1; j<=n; j++) {
+				dp[i][j] = Math.min(dp[i][j], dp[i-1][j]);
+				for(int num : list.get(j)) {
+					dp[i][j] = Math.min(dp[i][j], dp[i-1][num]);
+				}
+                dp[i][j] += gps_log[i]==j? 0 : 1;
+			}
+		}
+		return dp[k-1][gps_log[k-1]]>k? -1 : dp[k-1][gps_log[k-1]];
+    }
+} //100%
+
+//https://eno1993.tistory.com/80
+
+import java.util.*;
+class Solution {
+    //n : 거점개수
+    //m : 도로 개수
+    //edge_list : 거점간 연결 도로개수
+    //k : 움직인 거점 정보 총 개수
+    //gps_log : 오류난 거점 정보
+    public int solution(int n, int m, int[][] edge_list, int k, int[] gps_log) {
+        
+        //n+1개 이유는 거점이 1부터시작하므로 0,0 비우고 시작
+        LinkedList<List<Integer>> list = new LinkedList<>();
+        for(int i=0; i<n+1; i++) list.add(new LinkedList<>());
+        for(int i=0; i<edge_list.length; i++){
+            list.get(edge_list[i][0]).add(edge_list[i][1]);
+            list.get(edge_list[i][1]).add(edge_list[i][0]);
+        }
+        
+        int[][] dp= new int[k][n+1];
+        for(int i=0; i<dp.length; i++) Arrays.fill(dp[i], k+1);
+        dp[0][gps_log[0]]=0;
+        dp[gps_log[0]][0]=0;
+
+        for(int i=1; i<dp.length; i++){
+            for(int j=1; j<dp[i].length; j++){
+                dp[i][j]=Math.min(dp[i][j], dp[i-1][j]);
+                for(int num : list.get(j)){
+                    dp[i][j]=Math.min(dp[i][j], dp[i-1][num]);
+                }
+                dp[i][j] += gps_log[i]==j ? 0:1;
+            }
+        }
+        
+        return dp[k-1][gps_log[k-1]]==k+1 ? -1:dp[k-1][gps_log[k-1]];
+
+    }
+}//100%
+
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int solution(int n, int m, int[][] edge_list, int k, int[] gps_log) {
+
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        for(int i=0; i<n+1; i++) list.add(new ArrayList<>());
+        for(int i=0; i<edge_list.length; i++) {
+            list.get(edge_list[i][0]).add(edge_list[i][1]);
+            list.get(edge_list[i][1]).add(edge_list[i][0]);
+        }
+        
+        int[][] dp=new int[k][n+1];
+        for(int i=0; i<dp.length; i++) Arrays.fill(dp[i],k+1);
+        dp[0][gps_log[0]]=0;
+        dp[gps_log[0]][0]=0;
+        
+        for(int i=1; i<dp.length; i++) {
+            for(int j=1; j<dp[i].length; j++) {
+                dp[i][j]=Math.min(dp[i][j], dp[i-1][j]);
+                for(int num : list.get(j)) {
+                    dp[i][j]=Math.min(dp[i][j], dp[i-1][num]);
+                }
+                dp[i][j] += gps_log[i]==j ? 0:1;
+            }
+        }
+        
+        
+        return dp[k-1][gps_log[k-1]]==k+1? -1:dp[k-1][gps_log[k-1]];
+    }
+}//100%
