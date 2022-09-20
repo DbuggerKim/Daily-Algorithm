@@ -1,0 +1,40 @@
+import java.util.*;
+
+class Solution {
+    static int[] res = { -1 }; //라이언 지면 -1
+    static int[] lion = new int[11];
+    static int max = Integer.MIN_VALUE;
+    
+    public void dfs(int cnt, int n, int[] apeach) {
+        
+        if(cnt==n+1){ //마지막일때
+            int apeach_point = 0;
+            int lion_point = 0;
+            
+            for(int i=0; i<11; i++){ //이때만 점수 가져감
+                if(apeach[i]!=0 || lion[i]!=0){
+                    if(apeach[i]<lion[i]) lion_point += 10-i;
+                    else apeach_point += 10-i;
+                }
+            }
+            //dfs 중 max 축적
+            if(lion_point>apeach_point &&lion_point-apeach_point>=max){
+                res=lion.clone();
+                max=lion_point-apeach_point;
+            }
+            return ;
+        }
+        
+        for(int i=0; i<11 && lion[i]<=apeach[i]; i++) {
+            lion[i]++;
+            dfs(cnt+1, n, apeach);
+            lion[i]--;
+        }
+        
+    }
+    
+    public int[] solution(int n, int[] apeach) {
+        dfs(1, n, apeach);
+        return res;
+    }
+}
