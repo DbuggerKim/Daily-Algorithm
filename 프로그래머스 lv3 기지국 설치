@@ -1,0 +1,43 @@
+
+//https://zzang9ha.tistory.com/73
+
+class Solution{
+    public int solution(int n, int[] stations, int w) {
+        int answer=0;
+        int station=0;
+        int position=1;
+
+        while(position<=n) {
+            if(station<stations.length && position>=stations[station]-w) {
+                position=stations[station]+w+1;
+                station++;
+            }
+            else {
+                answer++;
+                position+=(w*2)+1;
+            }
+        }
+        return answer;
+    }
+} //100%
+
+class Solution {
+    public int solution(int N, int[] stations, int W) {
+        int answer=0;
+        int station=0;
+        int position=1;
+        
+        while(position<=N) {
+            if(station<stations.length && position>=stations[station]-W) {
+                position=stations[station]+W+1;
+                station++;
+            }
+            else {
+                answer++;
+                position+=W*2+1;
+            }
+        }
+
+        return answer;
+    }
+} //100%
