@@ -1,0 +1,143 @@
+import java.util.*;
+
+class Solution {
+    public String solution(int[] numbers, String hand) {
+        String answer="";
+        
+        int left = 10;
+        int right = 12;
+        
+        for(int i=0; i<numbers.length; i++){
+            if(numbers[i]==1 ||numbers[i]==4 || numbers[i]==7) {
+                answer+="L";
+                left = numbers[i];
+            }else if(numbers[i]==3 ||numbers[i]==6 || numbers[i]==9){ 
+                answer+="R";
+                right = numbers[i];
+            }else{
+                if(numbers[i] == 0) numbers[i] = 11; 
+                int ldist = Math.abs(numbers[i]-left)/3 + Math.abs(numbers[i]-left)%3;
+                int rdist = Math.abs(right-numbers[i])/3 + Math.abs(right-numbers[i])%3;
+                
+                if(ldist == rdist){
+                    if(hand.equals("left")){
+                        answer+="L";
+                        left = numbers[i];                  
+                    }else{
+                        answer+="R";
+                        right = numbers[i];                        
+                    }            
+                }
+                else if(ldist < rdist){
+                    answer+="L";
+                    left = numbers[i];                         
+                }else if(ldist > rdist){
+                    answer+="R";
+                    right = numbers[i];                        
+                }
+            }
+                
+        }
+        
+        return answer;
+    }
+} //100%
+
+
+/*
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solution(int[] numbers, String hand) {
+        String answer = "";
+        String[] num={"3:1", "0:0", "0:1", "0:2", "1:0", "1:1", "1:2", "2:0", "2:1", "2:2"}; //행+열
+        String[] cur={"3:0","3:2"}; //왼+오
+        
+        for(int val: numbers){
+            if(val==1 || val==4 || val==7){
+                answer+="L";
+                cur[0]=num[val];
+            }
+            else if(val==3 || val==6 || val==9){
+                answer+="R";
+                cur[1]=num[val];
+            }
+            else if(val==2 || val==5 || val==8 || val==0) {
+                String[] ll=cur[0].split(":");
+                String[] rr=cur[1].split(":");
+                String[] pos=num[val].split(":");
+                
+                int l=0;
+                int lx=Integer.parseInt(pos[0])-Integer.parseInt(ll[0]);
+                int ly=Integer.parseInt(pos[1])-Integer.parseInt(ll[1]);
+                l=Math.abs(lx)+Math.abs(ly);
+                int r=0;
+                int rx=Integer.parseInt(pos[0])-Integer.parseInt(rr[0]);
+                int ry=Integer.parseInt(pos[1])-Integer.parseInt(rr[1]);
+                r=Math.abs(rx)+Math.abs(ry);
+                    
+                if(l==r){
+                    if(hand=="left"){
+                        answer+="L";
+                        cur[0]=num[val];
+                    }
+                    else{
+                        answer+="R";
+                        cur[1]=num[val];
+                    }
+                }
+                
+                else if(l<r){
+                    answer+="L";
+                    cur[0]=num[val];
+                }
+                
+                else {
+                    answer+="R";
+                    cur[1]=num[val];
+                }
+            }
+        }
+        
+        
+        return answer;
+    }
+}
+
+*/ 60%
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solution(int[] numbers, String hand) {
+        String answer = "";
+        String[] num={"0:0", "0:1", "0:2", "1:0", "1:1", "1:2", "2:0", "2:1", "2:2", "3:1"}; //가로+세로
+        String[] cur={"3:0","3:2"}; //왼 오
+        
+        for(int val: numbers){
+            if(val==1 || val==4 || val==7) answer+="L";
+            else if(val==3 || val==6 || val==9) answer+="R";
+            else if(val==2 || val==5 || val==8 || val==0) {
+                String[] ll=cur[0].split(":");
+                String[] rr=cur[1].split(":");
+                String[] pos=num[val].split(":");
+                
+                int l=Math.abs(Integer.parseInt(pos[0])-Integer.parseInt(ll[0]))+Math.abs(Integer.parseInt(pos[1])-Integer.parseInt(ll[1]));
+                int r=Math.abs(Integer.parseInt(pos[0])-Integer.parseInt(rr[0]))+Math.abs(Integer.parseInt(pos[1])-Integer.parseInt(rr[1]));
+                
+                if(l==r){
+                    if(hand=="right") answer+="R";
+                    else if(hand=="left") answer+="L";
+                }
+                else if(l<r) answer+="L";
+                else if(r<l) answer+="R";
+            }
+        }
+        
+        
+        return answer;
+    }
+} //0%
