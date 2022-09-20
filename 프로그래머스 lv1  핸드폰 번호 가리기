@@ -1,0 +1,14 @@
+class Solution {
+    public String solution(String phone_number) {
+        String answer = "";
+        int count=0;
+        
+        for(int j=phone_number.length()-1; j>=0; j--){
+            count++;
+            if(count<=4) answer=phone_number.charAt(j)+answer;
+            else answer="*"+answer;
+        }
+        
+        return answer;
+    }
+}
