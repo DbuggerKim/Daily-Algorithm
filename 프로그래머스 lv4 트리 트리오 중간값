@@ -1,0 +1,58 @@
+//https://velog.io/@jkh2801/프로그래머스-트리-트리오-중간값
+
+import java.util.*;
+
+class Solution {
+    
+    public int solution(int n, int[][] edges) {
+        ArrayList<Integer>[] list=new ArrayList[n+1];
+        for(int i=1; i<=n; i++) list[i]=new ArrayList<Integer>();
+        for(int i=0; i<edges.length; i++) {
+            list[edges[i][0]].add(edges[i][1]);
+            list[edges[i][1]].add(edges[i][0]);
+        }
+
+        int[] result=bfs(list, 1, n);//첫번째값
+        int s=1;
+        for(int i=2; i<=n; i++) {
+            if(result[i]>result[s]) s=i;
+        }
+
+        result=bfs(list, s, n);//중간값
+        s=1;
+        for(int i=1; i<=n; i++) {
+            if(result[i]>result[s]) s=i;
+        }
+        
+        int max=0, cnt=0;
+        for(int i:result) max=Math.max(max,i);
+        for(int i:result) if(max==i) cnt++;
+        if(cnt>=2) return max; 
+        
+        result=bfs(list, s, n);//마지막값
+        max=0; cnt=0;
+        for(int i:result) max=Math.max(max,i);
+        for(int i:result) if(max==i) cnt++;
+        if(cnt>=2) return max;
+        else return max-1;
+    }
+    
+    public int [] bfs(ArrayList<Integer>[] list, int s, int n) {
+        int [] dist=new int [n+1];
+        LinkedList<Integer> queue=new LinkedList<Integer>();
+        boolean [] visit=new boolean [n+1];
+        queue.add(s);
+        visit[s]=true;
+        while(!queue.isEmpty()) {
+            int num=queue.poll();
+            for(int i:list[num]) {
+                if(i==num||visit[i]) continue;
+                visit[i]=true;
+                queue.add(i);
+                dist[i]=dist[num]+1;
+            }
+        }
+        return dist;
+    }
+    
+} //100%
