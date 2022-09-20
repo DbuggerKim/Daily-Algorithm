@@ -1,0 +1,201 @@
+//https://marrrang.tistory.com/55
+
+import java.util.*;
+
+class Solution {
+    
+    public int solution(String s) {
+        
+        int answer=0;
+        Stack<String> stack = new Stack<>();
+        
+        for(int i=0; i<s.length(); i++){
+            stack.clear();
+            s=s.substring(1, s.length())+s.charAt(0); //leftShift
+            
+            for(int j=0; j<s.length(); j++){
+                
+                String targetString = s.substring(j, j+1); //string유지
+                
+                if (stack.empty()){
+                    stack.push(targetString);
+                    continue;
+                }
+                
+                if (")".equals(targetString)) {
+                    if ("(".equals(stack.peek())) stack.pop();
+                    continue;
+                } else if ("}".equals(targetString)) {
+                    if ("{".equals(stack.peek())) stack.pop();
+                    continue;
+                } else if ("]".equals(targetString)) {
+                    if ("[".equals(stack.peek())) stack.pop();
+                    continue;
+                }
+                
+                stack.push(targetString);
+            }
+            
+            if(stack.empty()) answer++;
+        }
+        
+        return answer;
+    }
+}//100%
+
+import java.util.*;
+
+class Solution {
+    
+    //좌쉬프트연산
+    public String leftShift(String s){
+        char[] answer = new char [s.length()];
+        String result = "";
+        for(int i=0; i<s.length(); i++){
+            answer[i]=s.charAt(i);
+        }
+
+        char temp=answer[0];
+        for(int i=0; i<answer.length-1; i++){
+            answer[i]=answer[i+1];
+        } answer[answer.length-1]=temp;
+        
+        for(int i=0; i<s.length(); i++){
+            result+=answer[i];
+        }
+        return result;
+    }
+    
+    public boolean roatation(String s){
+        
+        boolean result=false;
+        
+        Stack<Character> stack = new Stack<>();
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(c=='(' || c=='{' || c=='[') stack.push(c);
+            if(stack.isPeek()=='(' || stack.isPeek()=='{' || stack.isPeek()=='[') 
+            //else stack.pop();
+        }
+        
+        if(stack.isEmpty()==true) result=true;
+        
+        stack.clear();
+        return result;
+    }
+    
+    public int solution(String s) {
+        int answer = 0;
+        
+        for(int i=0; i<s.length(); i++){
+            String str = leftShift(s);
+            if(roatation(str)==true) answer++;
+        }
+        
+        return answer;
+    }
+} //0%
+
+
+import java.util.*;
+
+class Solution {
+    
+    //좌쉬프트연산
+    public String leftShift(String s){
+        char[] answer = new char [s.length()];
+        String result = "";
+        for(int i=0; i<s.length(); i++){
+            answer[i]=s.charAt(i);
+        }
+
+        char temp=answer[0];
+        for(int i=0; i<answer.length-1; i++){
+            answer[i]=answer[i+1];
+        } answer[answer.length-1]=temp;
+        
+        for(int i=0; i<s.length(); i++){
+            result+=answer[i];
+        }
+        return result;
+    }
+    
+    public boolean rotation(String s){
+        
+        if(s.length()%2 != 0) return false;
+        
+        Stack<Character> stack = new Stack<Character>();
+        for(int i =0; i<s.length(); i++) {
+            if(stack.isEmpty()==true) stack.add(s.charAt(i));
+            else{
+                switch(s.charAt(i)) {
+                    case ')':
+                        if(stack.peek()=='(') stack.pop();
+                        break;
+                    case '}':
+                        if(stack.peek()=='{') stack.pop();
+                        break;
+                    case ']':
+                        if(stack.peek()=='[') stack.pop();
+                        break;
+                    default :
+                        stack.add(s.charAt(i));
+                        break;
+                }
+            }
+        }
+        
+        return stack.isEmpty();
+    }
+    
+    public int solution(String s) {
+        int answer = 0;
+        
+        for(int i=0; i<s.length(); i++){
+            String str = leftShift(s);
+            System.out.println(rotation(str));
+        }
+        
+        return answer;
+    }
+}//0%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(String s) {
+        int answer=0;
+        Stack<String> stack = new Stack<>();
+        
+        for(int i=0; i<s.length(); i++){
+            stack.clear();
+            s=s.substring(1, s.length())+s.charAt(0);
+            
+            for(int j=0; j<s.length(); j++){
+                String sub=s.substring(j, j+1);
+                if(stack.isEmpty()){
+                    stack.push(sub);
+                    continue;
+                }
+                if("[".equals(stack.peek()) && "]".equals(sub)){ //equals!!
+                    stack.pop();
+                    continue;
+                }
+                if("{".equals(stack.peek()) && "}".equals(sub)){
+                    stack.pop();
+                    continue;
+                }
+                if("(".equals(stack.peek()) && ")".equals(sub)){
+                    stack.pop();
+                    continue;
+                }
+                stack.push(sub);
+            }
+            
+            if(stack.isEmpty()) answer++;
+        }
+        
+        return answer;
+    }
+}//100%
