@@ -1,0 +1,35 @@
+//https://velog.io/@qweadzs/프로그래머스-오픈채팅방java
+
+import java.util.*;
+
+class Solution{
+    public String[] solution(String[] record){
+        
+        ArrayList<String> arr = new ArrayList(); //id + 행동
+		HashMap<String, String> map = new HashMap(); //<id, name> 
+        
+		for(int i=0; i<record.length; i++){
+			String[] command=record[i].split("\\s");
+			if(command[0].equals("Enter")){
+			    arr.add(command[1] + "님이 들어왔습니다.");
+				map.put(command[1], command[2]); //초기 삽입
+			}
+            else if(command[0].equals("Change")){
+				map.put(command[1], command[2]); //key는 그대로 value 바뀜
+			}
+            else if(command[0].equals("Leave")){
+				arr.add(command[1] + "님이 나갔습니다.");
+			}
+		}
+        
+		String[] answer = new String[arr.size()];
+		for(int i=0; i<arr.size(); i++) {
+			int index = arr.get(i).indexOf("님");
+			String id = arr.get(i).substring(0, index);
+			String[] temp = arr.get(i).split(" ");
+			answer[i] = map.get(id) + "님이 " + temp[1];
+		}
+        
+        return answer;
+    }
+}
