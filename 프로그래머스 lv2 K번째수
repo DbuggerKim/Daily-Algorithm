@@ -1,0 +1,61 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] array, int[][] commands) {
+        
+        int[] answer = new int[commands.length];
+        for(int i=0; i<commands.length; i++){
+            int[]temp = new int[commands[i][1]-(commands[i][0]-1)];
+            // ex. commands[2,5,3]
+            // (시작 및 끝 인덱스 포함) 2번쨰부터 5번째까지 인덱스 개수 : 5-(2-1) = 4개
+            
+            for(int j=0; j<temp.length; j++) //뽑아낸 인덱스 개수
+                temp[j]=array[j+(commands[i][0]-1)];
+            //시작 지점 인덱스 ~ 실질적 개수
+            
+            Arrays.sort(temp);
+            //뽑아낸 부분 정렬
+            
+            answer[i]=temp[commands[i][2]-1];
+            //n 번째 >> index화
+        }
+        return answer;
+    }
+}
+
+//번째 != 인덱스
+//100%
+
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] array, int[][] commands) {
+        int[] answer = new int [commands.length];
+        
+        for(int i=0; i<commands.length; i++){
+            int[] arr = array.clone();
+            Arrays.sort(arr, commands[i][0]-1, commands[i][1]);
+            answer[i]=arr[commands[i][0]+commands[i][2]-2];
+        }
+        
+        return answer;
+    }
+} //2차 :100%
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] array, int[][] commands) {
+        int[] answer=new int[commands.length];
+        for(int i=0; i<commands.length; i++) {
+            int[] arr=array.clone();
+            int start=commands[i][0];
+            int end=commands[i][1];
+            int index=commands[i][2];
+            Arrays.sort(arr, start-1, end); //부분 정렬
+            answer[i]=arr[start+index-2];
+        }
+        return answer;
+    }
+} //3차 : 100%
