@@ -1,0 +1,46 @@
+//https://moonsbeen.tistory.com/90
+
+class Solution {
+    public boolean solution(int[][] key, int[][] lock) {//열쇠,자물쇠
+
+        int point=key.length-1;//열쇠이동거리:자물쇠길이+(열쇠길이-1)
+        int extra=(lock.length+key.length-1)*2;//확장배열이동거리:자물쇠길이+(열쇠길이-1)*2
+ 
+        for(int x = 0; x < point + lock.length; x++) {
+            for(int y = 0; y < point + lock.length; y++) {
+                for(int r = 0; r < 4; r++) { //90씩시계회전
+                    int[][] newlock = new int[extra][extra];
+                    for(int i = 0; i < lock.length; i++) {
+                        for(int j = 0; j < lock.length; j++) {
+                            newlock[i + point][j + point] = lock[i][j];
+                        }
+                    }
+                    match(key, newlock, r, x, y); //x=y, y=-x+(열쇠길이-1)
+                    if(check(newlock, point, lock.length)) return true;//유효성검사
+                }
+            }
+        }
+        return false;
+    }
+    
+    public void match(int[][] key, int[][] newlock, int r, int x, int y) {
+        int len = key.length;
+        for(int i = 0; i < len; i++) {
+            for(int j = 0; j < len; j++) {
+                if(r==0) newlock[i + x][j + y] += key[i][j];
+                else if(r==1) newlock[i + x][j + y] += key[j][-i+(len-1)];
+                else if(r==2) newlock[i + x][j + y] += key[-i+(len-1)][-j+(len-1)];
+                else if(r==3) newlock[i + x][j + y] += key[-j+(len-1)][i];
+            }
+        }
+    }
+    
+    public boolean check(int[][] newlock, int point, int len) {
+        for(int i = 0; i < len; i++) {
+            for(int j = 0; j < len; j++) {
+                if(newlock[i + point][j + point] != 1) return false;
+            }
+        }
+        return true;
+    }
+} //100%
