@@ -1,0 +1,118 @@
+// N : 마을 개수
+// K : 일정 시간 이하 배달 가능 여부
+//시작 마을은 1번
+class Solution {
+
+    public int solution(int N, int[][] road, int K) {
+
+        int[][] map = new int[N][N];//각 정점별 최단거리 배열.
+
+        for(int i=0; i<map.length; i++) {
+            for(int j=0; j<map[0].length; j++) {
+                if(i==j) { 
+                    map[i][j]=0;
+                    continue;
+                }
+                map[i][j]=500001; //K가 500000이하 자연수이므로 
+            }
+        }
+
+        for(int i=0; i<road.length; i++) { //road배열 적용
+            if(map[road[i][0]-1][road[i][1]-1] < road[i][2]) continue; //500001
+                map[road[i][0]-1][road[i][1]-1] = road[i][2];
+                map[road[i][1]-1][road[i][0]-1] = road[i][2];
+        }
+
+        for (int k=0; k<N; k++) {
+            for (int i=0; i<N; i++) {                
+                for (int j=0; j<N; j++) {
+                    if(i==j) continue;
+                    if (map[i][j] > map[i][k]+map[k][j]) {
+                        map[i][j] = map[i][k]+map[k][j];
+                    }
+                }
+            }
+        }
+
+        int count = 0; //1번 도시에 K이하만큼 연결돼있는 도시 개수
+
+        for(int i=0; i<map[0].length; i++) {
+            if (map[0][i]<=K) count++;
+        }
+
+        return count;
+    }
+} //100%
+//출처: https://tosuccess.tistory.com/83 [EI_HJ]
+
+
+
+
+/*import java.util.*;
+
+class Solution {
+    
+    public boolean[] visited={};
+    
+    public void dijkstra(int vertex, int N, int[][]street, int K){
+        visited[vertex]=true;
+        for(int i=1; i<=N; i++){
+            if(street[vertex][i]<=K && visited[i]==false){
+                dijkstra(i, N, street, K);
+            }
+        }
+    }
+    
+    public int solution(int N, int[][] road, int K) {
+        int answer = 0;
+        int[][] street = new int [N][N];
+        Arrays.fill(visited, false);
+        
+        for(int i=0; i<road.length; i++){
+            street[road[i][0]][road[i][1]]=road[i][2];
+        }
+        
+        dijkstra(1, N, street, K);
+        
+        return answer;
+    }
+}*/
+
+
+class Solution {
+    public int solution(int N, int[][] road, int K) {
+        int answer = 0;
+        int[][] map = new int[N][N];
+        
+        for(int i=0; i<map.length; i++){
+            for(int j=0; j<map[0].length; j++){
+                if(i==j){
+                    map[i][j]=0;
+                    continue;
+                }
+                map[i][j]=500001;
+            }
+        }
+        
+        for(int i=0; i<road.length; i++){
+            if(map[road[i][0]-1][road[i][1]-1]<road[i][2]) continue;
+            map[road[i][0]-1][road[i][1]-1]=road[i][2];
+            map[road[i][1]-1][road[i][0]-1]=road[i][2];
+        }
+        
+        for(int k=0; k<N; k++){
+            for(int i=0; i<N; i++){
+                for(int j=0; j<N; j++){
+                    if(i==j) continue;
+                    if(map[i][j]>map[i][k]+map[k][j]){
+                        map[i][j]=map[i][k]+map[k][j];                            
+                    }
+                }
+            }
+        }
+        
+        for(int i=0; i<map[0].length; i++) if(map[0][i]<=K) answer++;
+
+        return answer;
+    }
+}//100%
