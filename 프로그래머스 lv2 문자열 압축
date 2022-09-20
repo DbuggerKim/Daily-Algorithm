@@ -1,0 +1,28 @@
+//https://yline.tistory.com/166?category=511149
+
+class Solution {
+    public int solution(String s) {
+        
+        int answer = s.length();
+        
+        for(int i=1; i<=s.length()/2; i++){ //최소 반절은 비교 더해서 오바안되는 마지노선
+            int zipLevel=1;
+            String zipStr=s.substring(0,i);
+            String result="";
+            
+            for(int j=i; j<=s.length(); j+=i){
+                String next = s.substring(j, i+j<s.length() ? i+j:s.length());
+                if(zipStr.equals(next)) zipLevel++;
+                else{
+                    result+=((zipLevel!=1 ? zipLevel:"")+zipStr);
+                    zipStr=next;
+                    zipLevel=1;
+                }
+            }
+            result+=zipStr;
+            answer=Math.min(answer, result.length());
+        }
+        
+        return answer;
+    }
+}
