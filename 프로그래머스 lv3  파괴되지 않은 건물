@@ -1,0 +1,91 @@
+//https://jangcenter.tistory.com/121?category=1020477
+
+import java.util.*;
+
+class Solution {
+    
+    int N, M;
+    int[][] sum;
+ 
+    public int solution(int[][] board, int[][] skill) {
+        N=board.length; M=board[0].length;
+        sum=new int[N+1][M+1];
+        for(int[] s : skill){
+            int r1=s[1], c1=s[2];
+            int r2=s[3], c2=s[4];
+            int degree=s[5]*(s[0]==1 ? -1:1);
+            //0만들기 위함
+            sum[r1][c1]+=degree;
+            sum[r1][c2+1]+=(degree*-1);//경계
+            sum[r2+1][c1]+=(degree*-1);//경계
+            sum[r2+1][c2+1]+=degree;
+        }
+        operate();
+        int answer=0;
+        for(int i=0; i<N; i++){
+            for(int j=0; j<M; j++){
+                if(board[i][j]+sum[i][j]>0) answer++;
+            }
+        }
+        return answer;
+    }
+ 
+    private void operate(){
+        for(int r=1; r<N; r++){
+            for(int c=0; c<M; c++){
+                sum[r][c]+=sum[r-1][c];//우좌 남은거 더함
+            }
+        }
+        for(int c=1; c<M; c++){
+            for(int r=0; r<N; r++){
+                sum[r][c]+=sum[r][c-1];//상하 남은거 더함
+            }
+        }
+    }
+ 
+}//100%
+
+
+import java.util.*;
+
+class Solution {
+    
+    int N,M;
+    int[][] sum;
+    
+    public int solution(int[][] board, int[][] skill) {
+        N=board.length;
+        M=board[0].length;
+        sum=new int[N+1][M+1];
+        for(int[] s : skill) {
+            int r1=s[1], c1=s[2];
+            int r2=s[3], c2=s[4];
+            int degree=s[5]*(s[0]==1 ? -1:1);
+            sum[r1][c1]+=degree;
+            sum[r1][c2+1]+=(degree*-1);
+            sum[r2+1][c1]+=(degree*-1);
+            sum[r2+1][c2+1]+=degree;
+        }
+        operate();
+        int answer=0;
+        for(int i=0; i<N; i++) {
+            for(int j=0; j<M; j++) {
+                if(board[i][j]+sum[i][j]>0) answer++;
+            }
+        }
+        return answer;
+    }
+    
+    private void operate() {
+        for(int r=1; r<N;  r++) {
+            for(int c=0; c<M; c++) {
+                sum[r][c]+=sum[r-1][c];
+            }
+        }
+        for(int r=0; r<N;  r++) {
+            for(int c=1; c<M; c++) {
+                sum[r][c]+=sum[r][c-1];
+            }
+        }
+    }
+} //100%
