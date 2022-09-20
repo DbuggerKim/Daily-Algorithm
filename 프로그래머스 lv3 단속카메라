@@ -1,0 +1,82 @@
+import java.util.Arrays;
+
+class Solution {
+    public int solution(int[][] routes) {
+        // 끝나는 시간 순 대로 오름차순 정렬
+		Arrays.sort(routes, (a,b)-> Integer.compare(a[1], b[1]));
+		int cnt = 0;
+		
+		int min = Integer.MIN_VALUE;
+		for(int[] route : routes) {
+			if(min <  route[0] ) {
+				// 전 거의 끝나는 시간 보다 시작 시간이 큰 경우
+				// 안 겹치니까 변경하고, 숫자 더하기
+				min = route[1];
+				++cnt;
+			}
+		}
+        return cnt;
+    }
+} //100%
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[][] routes) {
+        
+        Arrays.sort(routes, (o1,o2)->o1[1]-o2[1]);
+        int count=0;
+        int min=Integer.MIN_VALUE;
+        
+        for(int[] val : routes) {
+            if(min<val[0]){
+                min=val[1];
+                count++;
+            }
+        }
+        
+        return count;
+    }
+} //100%
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(int[][] routes) {
+        
+        Arrays.sort(routes, (o1,o2)->o1[1]-o2[1]);
+        int count=0;
+        int min=Integer.MIN_VALUE;
+        
+        for(int[] val : routes) {
+            if(min<val[0]){ //겹치지 않아서 설치
+                min=val[1];
+                count++;
+            }
+            //겹치면 설치해야함
+        }
+        
+        return count;
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(int[][] routes) {
+        Arrays.sort(routes, (o1,o2)->o1[1]-o2[1]);
+        int min=Integer.MIN_VALUE;
+        int count=0;
+        for(int []route : routes) {
+            if(min<route[0]) {
+                min=route[1];
+                count++;
+            }
+        }
+        return count;
+    }
+}
+*/ //100%
