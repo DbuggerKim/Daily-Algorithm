@@ -1,0 +1,78 @@
+//https:rotomoo.tistory.com/52
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String[] id_list, String[] report, int k) {
+        
+        HashMap<String, HashSet<String>> reportMap = new HashMap<>();
+        HashMap<String, Integer> result = new LinkedHashMap<>(); //입력순서보장
+
+        for(String x : id_list) {
+            reportMap.put(x, new HashSet<>());
+            result.put(x, 0);
+        }
+
+        for(String x : report) {
+            String[] tmp = x.split(" ");
+            reportMap.get(tmp[1]).add(tmp[0]);
+        }
+
+        for(String key : reportMap.keySet()) {
+            if (reportMap.get(key).size()>=k){
+                HashSet<String> reporters = reportMap.get(key);
+                for (String reporter : reporters) {
+                    result.put(reporter, result.get(reporter) + 1);
+                }
+            }
+        }
+        
+        /*int[] answer=new int [result.size()];
+        for(int i=0; i<answer.length; i++) answer[i]=result.values().get(i);
+        Arrays.sort(answer);
+        return answer;
+        */
+        
+        return result.values().stream().mapToInt(i -> i).toArray();
+    }
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String[] id_list, String[] report, int k) {
+        
+        //LinkedHashMap은 초기 입력 우선순위 보장
+        HashMap<String, HashSet<String>> map = new LinkedHashMap<>();
+        HashMap<String, Integer> answer = new LinkedHashMap<>(); 
+       
+        for(String val : id_list){
+            map.put(val, new HashSet<String>());
+            answer.put(val, 0);
+        }
+        
+        for(String val : report){
+            String[] arr = val.split(" ");
+            map.get(arr[1]).add(arr[0]);  //       
+        }
+        
+        for(String val : map.keySet()){
+            if(map.get(val).size()>=k){
+                HashSet<String> set = map.get(val);
+                for(String val2 : set){
+                    answer.put(val2, answer.get(val2)+1);
+                }
+            }
+        }
+        
+        int count=0;
+        int[] result=new int[answer.size()];
+        for(String val : answer.keySet()){
+            result[count]=answer.get(val);
+            count++;
+        }
+        
+        return result;
+    }
+} //100%
