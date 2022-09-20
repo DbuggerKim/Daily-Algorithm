@@ -1,0 +1,83 @@
+//https://fbtmdwhd33.tistory.com/253
+import java.util.*;
+
+class Solution {
+    
+    public ArrayList<Integer> solution(String s) {
+        
+        ArrayList<Integer> answer = new ArrayList<>();
+        s = s.substring(2,s.length());
+        s = s.substring(0,s.length()-2);
+        s = s.replace("},{","-");
+        String str[] = s.split("-");
+        
+        // 문자열 길이에 따른 정렬 : 큰순으로 체택
+        Arrays.sort(str,new Comparator<String>(){
+            public int compare(String o1, String o2){        
+                return Integer.compare(o1.length(), o2.length());
+            }
+        });
+        
+        for(String x : str){
+            String[] temp=x.split(",");
+            for(int i=0; i<temp.length; i++){
+                int n=Integer.parseInt(temp[i]);
+                if(!answer.contains(n)) answer.add(n);
+            }
+        }
+        
+        return answer;
+        
+    }
+}
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String s) {
+        
+        String[] string=s.split("\\,|\\}|\\{");
+        String string2="";
+        for(int i=0; i<string.length; i++) string2+=string[i];
+        char[] c=string2.toCharArray();
+        
+        HashMap <Character, Integer> map = new HashMap <>();
+        for(int i=0; i<c.length; i++){
+            map.put(c[i], map.getOrDefault(c[i], 0)+1);
+        } 
+        
+        int[] answer= new int [map.size()];
+        int count=0;
+        for(char val : map.keySet()){
+            answer[count++]=val-'0';
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String s) {
+        String[] string=s.split("\\,|\\}|\\{");
+        HashMap <String, Integer> map = new HashMap <>();
+        
+        for(int i=0; i<string.length; i++){
+            map.put(string[i], map.getOrDefault(string[i], 0)+1);
+        } int[] answer= new int [map.size()];
+        
+        int count=0;
+        for(String val : map.keySet()){
+            answer[count++]=Integer.parseInt(val);
+        }
+        
+        return answer;
+    }
+}
+*/
