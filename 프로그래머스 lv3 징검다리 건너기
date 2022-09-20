@@ -1,0 +1,80 @@
+//https://programmer-chocho.tistory.com/42
+//https://velog.io/@hyunjkluz/프로그래머스640464-징검다리-건너기-Java
+class Solution{
+    
+    public static int solution(int[] stones, int k){
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int stone : stones) {
+            min = Math.min(min, stone);
+            max = Math.max(max, stone);
+        }
+        while(min<max){ //친구 숫자 이분 탐색으로 계산
+            int mid=(min+max+1)/2;
+            if(isPossible(mid, k, stones)) min=mid;
+            else max=mid-1;
+        }
+        return max;   
+    }
+
+    public static boolean isPossible(int num, int k, int[] stones){
+        int count = 0;
+        for(int stone : stones){
+            if(stone-num<0) count++;
+            else count=0;
+            if(count==k) return false; //지정된 간격 이상 안됨
+        }
+        return true;
+    }
+    
+}
+
+/*
+class Solution {
+    public int solution(int[] stones, int k) {
+        int answer=0;
+        int count=0;
+        
+        while(count<=k){
+            for(int i=0; i<stones.length; i++){
+                count++;
+                if(count>k) return answer;
+                if(stones[i]==0) continue;
+                stones[i]--;
+                count=0;
+            }
+            answer++;
+        }
+        
+        return answer;
+    }
+}
+*/ //TO
+
+class Solution {
+    public int solution(int[] stones, int k) {
+        int min=Integer.MAX_VALUE;
+        int max=Integer.MIN_VALUE;
+        for(int stone : stones) {
+            max=Math.max(max, stone);
+            min=Math.min(min, stone);
+        }
+        while(min<max) {
+            int mid=(min+max+1)/2;
+            if(isPossible(stones, k, mid)) min=mid;
+            else max=mid-1;
+        }
+        return max;
+    }
+    
+    public boolean isPossible(int[] stones, int k, int num) {
+        int count=0;
+        for(int stone : stones) {
+            if(stone-num<0) count++;
+            else count=0;
+            if(count==k) return false;
+        }
+        return true;
+    }
+    
+} //100%
