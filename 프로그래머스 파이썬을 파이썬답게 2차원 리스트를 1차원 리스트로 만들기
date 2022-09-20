@@ -1,0 +1,7 @@
+def solution(mylist):
+    answer=mylist[0]
+    
+    for i in range (1,len(mylist)):
+        answer+=mylist[i]
+        
+    return answer
