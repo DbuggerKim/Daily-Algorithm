@@ -1,0 +1,89 @@
+import java.util.*;
+class Solution {
+    public int solution(String[][] clothes) {
+        int answer = 0;
+        
+        for(int i=0; i<clothes.length; i++){
+            for(int j=0; j<clothes[j].length; j++){
+               answer++;
+            }
+        }  
+        
+        for(int l=0; l<clothes.length; l++){
+            int count=0;
+            for(int k=0; k<clothes[k].length;k++){
+                if(count<b){
+                    answer++;
+                } 
+            }        
+        }
+        
+        return answer;
+    }
+}//0%
+
+import java.util.*;
+class Solution {
+    public int solution(String[][] clothes) {
+        int answer = 1;
+        
+        //같은 이름 가진 의상 존재하지 않기에 의상 종류별 개수에 따른 value 지정
+        HashMap<String, Integer> map = new HashMap<>();
+        for(int i =0; i<clothes.length; i++){
+            map.put(clothes[i][1], map.getOrDefault(clothes[i][1], 0)+1);
+        }
+        //map.getOrDefault(player , value or 0) : 같은 값 있다면 해당 value 입력(최소1이상), 없다면 0
+        //map.put(player , value+1 or 1) : 해당 key에 대한 value 해시 테이블에 입력
+        
+        Set<String> keySet = map.keySet();
+        for(String key : keySet) {
+        	answer =answer*(map.get(key)+1); //옷 가지수 만들기
+        }
+        
+        return answer-1; //아무것도 안입는 경우의 수 제거
+    }
+}//정100% 효100%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(String[][] clothes) {
+        int mul = 1;
+        int sum = 0;
+        int answer = 0;
+        
+        HashMap <String, Integer> map = new HashMap <>();
+        for(int i=0; i<clothes.length; i++){
+            map.put(clothes[i][1], map.getOrDefault(clothes[i][1], 0)+1);
+        }
+        
+        int count=0;
+        int[] arr = new int [map.size()];
+        for(String val : map.keySet()) arr[count++]=map.get(val);
+        
+        for(Integer val : arr) System.out.println(val);
+            
+        return answer;
+    }
+} //2차 : 28%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(String[][] clothes) {
+        int answer=1; //곱하기 초기화
+        
+        HashMap <String, Integer> map = new HashMap <>();
+        for(int i=0; i<clothes.length; i++){
+            map.put(clothes[i][1], map.getOrDefault(clothes[i][1], 0)+1);
+        }
+        
+        for(String val : map.keySet()){
+            answer*=(map.get(val)+1); //기어당 모든경우+해당기어미착용
+        }
+        
+        return answer-1; //모든경우-모든기어미착용
+    }
+} //100%
