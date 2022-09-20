@@ -1,0 +1,30 @@
+class Solution {
+    int answer=0;
+    
+    public int solution(String word) {
+        dfs(0,"",word);
+        return answer;
+    }
+    
+    public boolean dfs(int cnt, String now, String word){
+        if(word.equals(now)) return true; 
+        if(cnt == 5) return false;
+        
+        answer++;
+        if(dfs(cnt+1, now+'A', word)) return true;
+        
+        answer++;
+        if(dfs(cnt+1, now+'E', word)) return true;
+        
+        answer++;
+        if(dfs(cnt+1, now+'I', word)) return true;
+        
+        answer++;
+        if(dfs(cnt+1, now+'O', word)) return true;
+        
+        answer++;
+        if(dfs(cnt+1, now+'U', word)) return true;
+        
+        return false;
+    }
+}//100%
