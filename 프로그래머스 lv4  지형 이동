@@ -1,0 +1,63 @@
+//https://train-validation-test.tistory.com/entry/프로그래머스-지형-이동-Level-4-Java-Prim-알고리즘
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[][] land, int height) {        
+        int answer=0;
+        int N=land.length;
+        
+        Queue<int[]> q= new LinkedList<>();
+        q.add(new int[] {0,0});
+        boolean [][]visitied = new boolean[N][N];
+        visitied[0][0] = true;
+        
+        PriorityQueue<int[]> pq = new PriorityQueue<>((o1,o2)->o1[0]-o2[0]);
+        int count=0;
+        while(!q.isEmpty() && count<=N*N) {
+            while(!q.isEmpty()) {
+                int []t=q.poll();
+                int r=t[0];
+                int c=t[1];
+                if(r>0 && !visitied[r-1][c]) {
+                    int cost=Math.abs(land[r][c]-land[r-1][c])>height? Math.abs(land[r][c]-land[r-1][c]):0;
+                    if(cost==0) {
+                        q.add(new int[] {r-1,c});
+                        visitied[r-1][c]=true;
+                    } else pq.add(new int[] {cost,r-1,c});
+                }
+                if(c>0 && !visitied[r][c-1]) {
+                    int cost = Math.abs(land[r][c]-land[r][c-1])>height? Math.abs(land[r][c]-land[r][c-1]):0;
+                    if(cost==0) {
+                        q.add(new int[] {r,c-1});
+                        visitied[r][c-1]=true;
+                    } else pq.add(new int[] {cost,r,c-1});
+                }
+                if(r<N-1 && !visitied[r+1][c]) {
+                    int cost = Math.abs(land[r][c]-land[r+1][c])>height? Math.abs(land[r][c]-land[r+1][c]):0;
+                    if(cost==0) {
+                        q.add(new int[] {r+1,c});
+                        visitied[r+1][c]=true;
+                    } else pq.add(new int[] {cost,r+1,c});
+                }
+                if(c<N-1 && !visitied[r][c+1]) {
+                    int cost=Math.abs(land[r][c]-land[r][c+1])>height? Math.abs(land[r][c]-land[r][c+1]):0;
+                    if(cost==0) {
+                        q.add(new int[] {r,c+1});
+                        visitied[r][c+1]=true;
+                    } else pq.add(new int[] {cost,r,c+1});
+                } count++;
+            }
+            
+            while(!pq.isEmpty()) {
+                int t[]=pq.poll();
+                if(visitied[t[1]][t[2]])continue;
+                answer+=t[0];
+                q.add(new int[] {t[1],t[2]});
+                visitied[t[1]][t[2]]=true;
+                break;
+            }
+        }
+        return answer;
+    }
+} //100%
