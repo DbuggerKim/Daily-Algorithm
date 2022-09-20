@@ -1,0 +1,39 @@
+class Solution {
+    
+	int[] answer;
+	
+	public void quad(int n, int x, int y, int[][] arr) { 
+		if(n == 1) { //하나짜리일떄 멈춤
+		    answer[arr[x][y]]++;
+			return;
+		}
+		
+		if(isBlock(n, x, y, arr)) return; //수행 후 멈춤
+		
+        //재귀
+		quad(n/2, x, y, arr);
+		quad(n/2, x+n/2, y, arr);
+		quad(n/2, x, y+n/2, arr);
+		quad(n/2, x+n/2, y+n/2, arr);
+		
+	}
+	
+	public boolean isBlock(int n, int x, int y, int[][] arr) {
+        //총개수, 
+		for(int i=x; i<x+n; i++) {
+			for(int j=y; j<y+n; j++) {
+                //초기값!=초기~(n,n)
+			    if(arr[x][y]!=arr[i][j]) return false;
+			}
+		}
+        //answer[0]++ , answer[1]++
+		answer[arr[x][y]]++;
+		return true;
+	}
+
+	public int[] solution(int[][] arr) {
+		answer = new int[2];
+		quad(arr.length, 0, 0, arr);
+		return answer;
+	}
+} 
