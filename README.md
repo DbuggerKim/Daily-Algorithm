@@ -4,10 +4,11 @@ languages
 
 > JAVA
 
-> SQL
-
 > PYTHON
 
+> C++
+
+> SQL
 
 
 resources
