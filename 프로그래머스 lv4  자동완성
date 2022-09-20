@@ -1,0 +1,61 @@
+/*import java.util.*;
+
+class Solution {
+    public int solution(String[] words) {
+        int answer = 0;
+        HashSet<String> set=new HashSet<>();
+        for(int i=0; i<words.length; i++) set.add(words[i]);
+        for(int i=1; i<words.length; i++){
+            for(String val : set){
+                int count=0;
+                if(words[i].contains(val)) count=val.length();
+                answer+=count;
+            }
+        }
+        
+        return answer;
+    }
+}*/
+
+//https://woovictory.github.io/2020/04/22/Java-Trie/
+//https://dev-note-97.tistory.com/232
+
+import java.util.*;
+
+class Solution {
+    
+    class Node {
+        private HashMap<Character, Node> childNode=new HashMap<>();
+        private int childCount=0;
+        Node put(char c) { //Node 함수
+            childCount++;
+            if(!childNode.containsKey(c)) childNode.put(c, new Node());
+            return childNode.get(c);
+        }
+    }
+    
+    public Node root=new Node();
+    
+    public int solution(String[] words) {
+        for(String word : words) insert(word);
+        return search(root,0);
+    }
+    
+    public void insert(String word) {
+        Node curNode=root;
+        for(int i=0; i<word.length(); i++) {
+            Node newRoot=curNode.put(word.charAt(i));
+            curNode=newRoot;
+        } curNode.put('*'); //마지막
+    }
+    
+    public int search(Node root, int count) {
+        if(root.childCount==1) return count;
+        int total=0;
+        for(char key : root.childNode.keySet()) {
+            if(key=='*') total+=count;//마지막
+            else total+=search(root.childNode.get(key),count+1);
+        } return total;
+    }
+
+} //100%
