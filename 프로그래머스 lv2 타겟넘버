@@ -1,0 +1,113 @@
+import java.util.*;
+class Solution {
+    
+    public int solution(int[] numbers, int target) {
+        
+        int answer = 0;
+        answer = bfs(numbers, target, numbers[0], 1) + bfs(numbers, target, -numbers[0], 1);
+        return answer;
+        
+    }
+    
+    public int bfs(int[] numbers, int target, int sum, int i) {
+        
+        //계산 진행 시 sum이 올라갔다가 내려감 so 끝까지 지켜봐야함
+        if(i == numbers.length) {
+            if(sum == target) return 1;
+            else return 0;
+        }
+        
+        // + 와 - 로 가능성 열어둠
+        int result = 0;
+        result += bfs(numbers, target, sum+numbers[i], i+1);
+        result += bfs(numbers, target, sum-numbers[i], i+1);
+        
+        return result;
+        
+    }
+} //100%
+
+
+
+/*
+class Solution {
+    
+    int[] num;
+    int output;
+    
+    public int solution(int[] numbers, int target) {
+        num=new int[numbers.length];
+        num=numbers.clone();
+        output=target;
+        return dfs(num[0], 1)+dfs(-num[0], 1);
+    }
+    
+    public int dfs(int sum, int count){ //개수 구하기
+        if(count==num.length){
+            if(sum==output) return 1;
+            else return 0;
+        }
+        int result=0;
+        result+=dfs(sum+num[count], count+1);
+        result+=dfs(sum-num[count], count+1);
+        return result;
+    }
+}
+*/ //2차
+
+import java.util.*;
+
+class Solution {
+    
+    public int solution(int[] numbers, int target) {
+        int answer=0;
+        answer=dfs(numbers,target,numbers[0],1)+dfs(numbers,target,-numbers[0],1);
+        return answer;   
+    }
+    
+    public int dfs(int[] numbers, int target, int sum, int i) {
+        if(i==numbers.length) {
+            if(sum==target) return 1;
+            else return 0;
+        }
+        int result=0;
+        result+=dfs(numbers,target,sum+numbers[i],i+1);
+        result+=dfs(numbers,target,sum-numbers[i],i+1);
+        return result;
+    }
+} //100%
+
+class Solution {
+    public int solution(int[] numbers, int target) {
+        int answer=0;
+        answer=dfs(numbers,target,numbers[0],1)+dfs(numbers,target,-numbers[0],1);
+        return answer;
+    }
+    
+    public int dfs(int[] numbers, int target, int num, int index){
+        if(index==numbers.length){
+            if(num==target) return 1;
+            else return 0;
+        }
+        int total=0;
+        total+=dfs(numbers, target, num+numbers[index], index+1);
+        total+=dfs(numbers, target, num-numbers[index], index+1);
+        return total;
+    }
+    
+} //100%
+
+class Solution {
+    public int solution(int[] numbers, int target) {
+        int answer=dfs(numbers, target, 1, -numbers[0])+dfs(numbers, target, 1, numbers[0]);
+        return answer;
+    }
+    public int dfs(int[] numbers, int target, int index, int cur) {
+        if(index==numbers.length) {
+            if(cur==target) return 1;
+            else return 0;
+        }
+        int total=dfs(numbers, target, index+1, cur+numbers[index])+dfs(numbers, target, index+1, cur-numbers[index]);
+        return total;
+    }
+} //100%
