@@ -1,0 +1,52 @@
+//C++
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+const ll mod=1e9+7;
+vector<int> solution(vector<int> a, vector<int> s) {
+    int cnt=0;
+    vector<int> ans;
+    for(int n:s){
+        vector<int> b(a.begin()+cnt,a.begin()+cnt+n);
+        cnt+=n;
+        vector<int> E(n);
+        vector<ll> dp(n),sum(n);
+        unordered_map<ll,int> table;
+        dp[0]=1;
+        sum[0]=b[0];
+        table[sum[0]]=0;
+        table[0]=0;
+
+        for(int i=1;i<n;++i){
+            dp[i]=dp[i-1];
+            sum[i]=sum[i-1]+b[i];
+            table[sum[i]]=i;
+
+            for(ll j=2;sum[i]/j>=b[i];j*=2){
+                auto it1=table.find(sum[i]-b[i]*j);
+                auto it2=table.find(sum[i]-b[i]*j/2);
+
+                if(it1!=table.end()&&it2!=table.end()){
+                    int f=it1->second;
+                    int h=it2->second;
+                    if(b[i]*j/2%b[h]==0){
+                        ll ee=b[i]*j/2/b[h];
+                        if(__builtin_popcountll(ee)==1){
+                            int e=__builtin_ctzll(ee);
+                            if(E[h]>=e){
+                                dp[i]+=dp[f];
+                                ++E[i];
+                                continue;
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            dp[i]%=mod;
+        }
+        ans.push_back(dp.back());
+    }
+    return ans;
+}
