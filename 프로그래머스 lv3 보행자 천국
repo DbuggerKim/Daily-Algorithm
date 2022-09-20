@@ -1,0 +1,193 @@
+//DP //https://velog.io/@hyeon930/프로그래머스-보행자-천국-Java
+
+class Solution {
+    int MOD = 20170805;
+    public int solution(int m, int n, int[][] cityMap) {
+        int[][][] dp = new int[m + 1][n + 1][2];
+        dp[1][1][0] = dp[1][1][1] = 1;
+        //움직이는 방향 : 하,우
+        //dp[m][n][0] : 상>하 (행)
+        //dp[m][n][1] : 좌>우 (열)
+        for(int r = 1 ; r <= m ; r++){ //행
+            for(int c = 1 ; c <= n ; c++){ //열
+                if(cityMap[r - 1][c - 1] == 0){
+                    //같은 이전 지점 > 다음 지점
+                    //dp[r - 1][c][0] : 상>하
+                    //dp[r][c - 1][1] : 좌>우
+                    dp[r][c][0] += (dp[r - 1][c][0] + dp[r][c - 1][1]) % MOD;
+                    dp[r][c][1] += (dp[r - 1][c][0] + dp[r][c - 1][1]) % MOD;
+                } else if(cityMap[r - 1][c - 1] == 1){
+                    dp[r][c][0] = 0;
+                    dp[r][c][1] = 0;
+                } else if(cityMap[r - 1][c - 1] == 2){
+                    dp[r][c][0] = dp[r - 1][c][0];
+                    dp[r][c][1] = dp[r][c - 1][1];
+                }
+            }
+        }
+        int answer=dp[m][n][0]=dp[m][n][1]; //도착지점 값 같음
+        return answer;
+    }
+}
+
+/*
+import java.util.*;
+
+class Solution {
+    int MOD = 20170805;
+    int[] dx = {-1,1,0,0}; 
+    int[] dy = {0,0,-1,1};
+    
+    public int bfs(int x, int y, int m, int n, int[][] cityMap, boolean[][] visit){
+        Queue <String> queue = new LinkedList<>();
+        queue.add(x+":"+y);
+        while(!queue.isEmpty()){
+            String s = queue.poll();
+            String[] pos=s.split(":");
+            x=Integer.parseInt(pos[0]);
+            y=Integer.parseInt(pos[1]);
+            for(int i=0; i<4; i++){
+                int curx=x+dx[i];
+                int cury=y+dy[i];
+                if(curx<0 || curx>=m || cury<0 || cury>=n) continue;
+                if(cityMap[curx][cury]==0 && visit[curx][cury]==false){
+                    visit[curx][cury]=true;
+                    cityMap[curx][cury]=cityMap[x][y]+1;
+                    queue.add(curx+":"+cury);
+                }   
+            }
+        }
+        return cityMap[m-1][n-1];
+    }
+    
+    public int solution(int m, int n, int[][] cityMap) {
+        boolean[][] visit = new boolean[m][n];
+        int answer=bfs(0,0,m,n,cityMap,visit);
+        answer/=MOD;
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+class Solution {
+    int MOD = 20170805;
+    int[] dx = {-1,1,0,0}; 
+    int[] dy = {0,0,-1,1};
+    
+    public void bfs(int x, int y, int m, int n, int[][] cityMap){
+        Queue <String> queue = new LinkedList<>();
+        queue.add(x+":"+y);
+        while(!queue.isEmpty()){
+            String s = queue.poll();
+            String[] pos=s.split(":");
+            x=Integer.parseInt(pos[0]);
+            y=Integer.parseInt(pos[1]);
+            for(int i=0; i<4; i++){
+                int curx=x+dx[i];
+                int cury=y+dy[i];
+                if(curx<0 || curx>=m || cury<0 || cury>=n) continue;
+                if(cityMap[curx][cury]==1){
+                    cityMap[curx][cury]=cityMap[x][y]+1;
+                    queue.add(curx+":"+cury);
+                }   
+            }
+        }
+    }
+    
+    public int solution(int m, int n, int[][] cityMap) {
+        bfs(0,0,m,n,cityMap);
+        return cityMap[m-1][n-1];
+    }
+}
+*/
+
+/*
+class Solution {
+    int MOD = 20170805;
+    boolean[][] visit;
+    int answer;
+    
+    public void bfs(boolean[][] visit, int[][] cityMap, int x, int y, int count, int m, int n){
+        if(x==m-1 && y==n-1){
+            answer=count;
+            return;
+        }
+        
+        for(int i=0; i<cityMap.length; i++){
+            if(cityMap[x][y]==0 && !visit[x][y]){
+                visit[x][y]=false;
+                //if(cityMap[x][y]==0) 
+                bfs(visit, cityMap, x+1, y+1, count+1, m, n);
+                //if(city[x][y]==2) bfs(visit, citymap, )
+                visit[x][y]=true;
+            }    
+        }
+    }
+    
+    public int solution(int m, int n, int[][] cityMap) {
+        answer=0;
+        visit = new boolean [m][n];
+        bfs(visit, cityMap, 0, 0, answer, m, n);
+        return answer/MOD;
+    }
+}
+*/
+
+class Solution {
+    int MOD = 20170805;
+    public int solution(int m, int n, int[][] cityMap) {
+        int[][][] dp = new int[m+1][n+1][2];
+        dp[1][1][0] = dp[1][1][1] = 1;
+        //움직이는 방향
+        //dp[m][n][0] : 상>하 (행)
+        //dp[m][n][1] : 좌>우 (열)
+        for(int r=1; r<=m; r++){ //행
+            for(int c=1; c<=n; c++){ //열
+                if(cityMap[r-1][c-1]==0){
+                    dp[r][c][0] += (dp[r-1][c][0] + dp[r][c-1][1]) % MOD; //그동안의 움직임
+                    dp[r][c][1] += (dp[r-1][c][0] + dp[r][c-1][1]) % MOD; //그동안의 움직임
+                } else if(cityMap[r-1][c-1]==1){
+                    dp[r][c][0] = 0;
+                    dp[r][c][1] = 0;
+                } else if(cityMap[r-1][c-1]==2){
+                    dp[r][c][0] = dp[r-1][c][0]; //상>하 (행)
+                    dp[r][c][1] = dp[r][c-1][1]; //좌>우 (열)
+                }
+            }
+        }
+        int answer=dp[m][n][0]=dp[m][n][1]; //도착지점 값 같음
+        return answer;
+    }
+} //100%
+
+class Solution {
+    int MOD = 20170805;
+    public int solution(int m, int n, int[][] cityMap) {
+        
+        int[][][] dp = new int [m+1][n+1][2];
+        dp[1][1][0] = dp[1][1][1] = 1;
+        
+        for(int r=1; r<=m; r++){
+            for(int c=1; c<=n; c++){
+                if(cityMap[r-1][c-1]==0){
+                    dp[r][c][0]+=(dp[r-1][c][0]+dp[r][c-1][1])%MOD;
+                    dp[r][c][1]+=(dp[r-1][c][0]+dp[r][c-1][1])%MOD;
+                }
+                else if(cityMap[r-1][c-1]==1){
+                    dp[r][c][0]=0;
+                    dp[r][c][1]=0;
+                }
+                else if(cityMap[r-1][c-1]==2){
+                    dp[r][c][0]=dp[r-1][c][0];
+                    dp[r][c][1]=dp[r][c-1][1];
+                }
+            }
+        }
+        
+        int answer=dp[m][n][0]=dp[m][n][1];
+        return answer;
+    }
+}//100%
