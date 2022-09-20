@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        String[] strings = s.split(" "); //공백 기준으로 나눔
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        
+        int [] arr = new int [strings.length];
+        for(int i=0; i<strings.length; i++){
+            arr[i]=Integer.parseInt(strings[i]); //string to int
+        }
+        
+        for(int i=0; i<arr.length; i++){
+            if(max<arr[i]) max=arr[i];
+            if(min>arr[i]) min=arr[i];
+        }
+        
+        answer+=min;
+        answer+=" ";
+        answer+=max;
+        
+        return answer;
+    }
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        String[] arr=s.split(" ");
+        
+        Arrays.sort(arr);
+        int max=Integer.MIN_VALUE;
+        int min=Integer.MAX_VALUE;
+    
+        for(int i=0; i<arr.length; i++){
+            max=Math.max(max, Integer.parseInt(arr[i]));
+            min=Math.min(min, Integer.parseInt(arr[i]));
+        }
+        
+        answer=String.valueOf(min)+" "+String.valueOf(max);
+        
+        return answer;
+    }
+} //100%
