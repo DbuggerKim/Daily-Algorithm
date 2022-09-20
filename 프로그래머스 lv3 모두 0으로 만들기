@@ -1,0 +1,270 @@
+//https://jinyoungchoi95.tistory.com/25
+
+import java.util.*;
+
+class Solution {
+    
+    public long answer;
+    public long[] arr;
+    public ArrayList<Integer>[] list;
+    public int[] indegree;
+
+    public long solution(int[] a, int[][] edges) {
+        answer = 0;
+        indegree = new int[a.length];
+        arr = new long[a.length];
+        list = new ArrayList[a.length];
+        for(int i=0; i<a.length; i++){
+            arr[i]=a[i];
+            list[i] = new ArrayList<>();
+            answer+=arr[i];
+        } if(answer!=0) return -1;
+        
+        for(int i=0; i<edges.length; i++){
+            list[edges[i][0]].add(edges[i][1]);
+            list[edges[i][1]].add(edges[i][0]);
+            indegree[edges[i][0]]++;
+            indegree[edges[i][1]]++;
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i=1; i<a.length; i++){ //한개인거 먼저 제거
+            if(list[i].size()==1) queue.add(i);
+        }
+        while(!queue.isEmpty()){
+            int temp = queue.poll();
+            answer+=Math.abs(arr[temp]);
+            indegree[temp]--;
+            for(int i=0; i<list[temp].size(); i++){
+                int next=list[temp].get(i);
+                if(indegree[next]==0) continue; //root
+                indegree[next]--;
+                arr[next]+=arr[temp];
+                if(indegree[next]==1){
+                    if(next==0) continue; //root
+                    queue.add(next);
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
+
+/*import java.util.*;
+
+class Solution {
+
+    long answer;
+    boolean[] visit;
+    long[] arr;
+    ArrayList<Integer>[] list;
+    
+    public long dfs(int vertex){
+        visit[vertex]=true;
+        for(int i=0; i<list[vertex].size(); i++){
+            if(visit[list[vertex].get(i)]==false){
+                arr[vertex]+=dfs(list[vertex].get(i));
+            }
+        }
+        answer+=Math.abs(arr[vertex]);
+        return arr[vertex];
+    }
+    
+    public long solution(int[] a, int[][] edges) {
+        
+        answer = 0;
+        visit = new boolean [a.length];
+        arr = new long[a.length];
+        list = new ArrayList[a.length];
+        
+        //모든 정점 더해서 0이 되어야지 시작할 수 있음
+        int sum=0;
+        for(int i=0; i<a.length; i++){
+            list[i] = new ArrayList<>();
+            arr[i]=a[i];
+            sum+=a[i];
+        } if(sum!=0) return -1;
+        
+        for(int i=0; i<edges.length; i++){
+            list[edges[i][0]].add(edges[i][1]);
+            list[edges[i][1]].add(edges[i][0]);
+        }
+        
+        dfs(0);
+        
+        return answer;
+    }
+    
+}*/
+
+/*
+import java.util.*;
+
+class Solution {
+
+    long answer;
+    boolean[] visit;
+    boolean[][] edge;
+    
+    public long dfs(int[] a, int vertex){
+        visit[vertex]=true;
+        for(int i=0; i<a.length; i++){
+            if(visit[i]==false && edge[vertex][i]==true){
+                a[vertex]+=dfs(a, i);
+            }
+        }
+        answer+=Math.abs(a[vertex]);
+        return a[vertex];
+    }
+    
+    public long solution(int[] a, int[][] edges) {
+        
+        //모든 정점 더해서 0이 되어야지 시작할 수 있음
+        int sum=0;
+        for(Integer val : a) sum+=val;
+        if(sum!=0) return -1;
+        
+        answer=0;
+        visit = new boolean [a.length];
+        edge = new boolean [a.length][a.length];
+        for(int i=0; i<edges.length; i++){
+            edge[edges[i][0]][edges[i][1]]=true;
+            edge[edges[i][1]][edges[i][0]]=true;
+        }
+        
+        dfs(a, 0);
+        
+        return answer;
+    }
+    
+}
+*/ //memory 초과
+
+/*
+class Solution {
+
+    long answer=0;
+    boolean[] visit;
+    boolean[][] edge;
+    
+    public void dfs(int[] a, int vertex){
+        visit[vertex]=true;
+        int val=a[vertex];
+        if(val<0) val=a[vertex]+(-val);
+        else val=a[vertex]-val;
+        
+        for(int i=0; i<a.length; i++){
+            if(visit[i]==false && edge[vertex][i]==true){
+                a[i]=0;
+                if(val<0) a[i]+=val;
+                else a[i]-=val;
+                answer++;
+                dfs(a, i);
+            }
+        }
+    }
+    
+    public long solution(int[] a, int[][] edges) {
+        
+        int count=0;
+        for(int i=0; i<a.length; i++) if(a[i]==0) count++;
+        if(count==a.length) return 0;
+        
+        visit = new boolean [a.length];
+        edge = new boolean [a.length][a.length];
+        for(int i=0; i<edges.length; i++) edge[edges[i][0]][edges[i][1]]=true;
+        
+        dfs(a, 0);
+        
+        count=0;
+        for(int i=0; i<a.length; i++) if(a[i]==0) count++;
+        if(count==a.length) return answer;
+        else return -1;
+        
+    }
+}s
+*/
+
+/*
+class Solution {
+    public long solution(int[] a, int[][] edges) {
+        long answer=-1;
+
+        //a 모두가 0인지 판별
+        for(int val : a){
+            if(val!=0){
+                break; 
+            } answer=0;
+        }
+        
+        for(int i=0; i<edges.length; i++){
+            int start=edges[i][0];
+            int end=edges[i][1];
+            if(a[start]==0 || a[end]==0) continue;
+            else{
+                int min=Math.min(a[start], a[end]);
+                a[start]-=min;
+                a[end]+=min;
+            }
+        }
+        
+        for(int val : a) System.out.print(val+" ");
+        
+        answer=0;
+        
+         for(int val : a){
+            if(val==0) answer++;
+            else{
+                answer=-1;
+                break;
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    
+    public long solution(int[] a, int[][] edges) {
+        
+        long[] arr=new long[a.length];
+        long answer=0;
+        ArrayList<Integer>[] edge=new ArrayList[a.length];
+        for(int i=0; i<arr.length; i++){
+            arr[i]=a[i];
+            answer+=arr[i];
+            edge[i]=new ArrayList<>();
+        } if(answer!=0) return -1; //모든 가중치 합이 0이 되어야 문제 성립
+        
+        int[] weight=new int[arr.length];
+        for(int i=0; i<edges.length; i++){
+            edge[edges[i][0]].add(edges[i][1]);
+            edge[edges[i][1]].add(edges[i][0]);
+            weight[edges[i][0]]++;
+            weight[edges[i][1]]++;
+        }
+        
+        Queue<Integer> queue=new LinkedList<>();
+        for(int i=0; i<arr.length; i++) if(weight[i]==1) queue.add(i);
+        
+        while(!queue.isEmpty()){
+            int temp=queue.poll();
+            answer+=Math.abs(arr[temp]);//1씩 증감시키기때문에 가중치의 합이 노드증감 영향
+            weight[temp]--;
+            for(int i=0; i<edge[temp].size(); i++){
+                int next=edge[temp].get(i);
+                if(weight[next]==0) continue; //가중치 0이면 다른 지점 찾기
+                weight[next]--;//제거할 지점에 대한 총합 중 지점 하나 빼기
+                arr[next]+=arr[temp];//다음 지점에 고스란히 넘김
+                if(weight[next]==1) queue.add(next);
+            }
+        }
+        
+        return answer;
+    }
+} //100%
