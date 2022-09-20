@@ -1,0 +1,158 @@
+/*
+import java.util.*;
+
+class Solution {
+    public long solution(String s) {
+        long answer=0;
+        
+        for(int i=0; i<s.length()-1; i++){
+            for(int j=i+1; j<s.length(); j++){
+                if(s.charAt(i)!=s.charAt(j)) answer+=(j-i);
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+class Solution {
+    public long solution(String s) {
+        long answer=0;
+        
+        for(int i=0; i<s.length()-1; i++){
+            for(int j=s.length()-1; j>=i+1; j--){
+                if(s.charAt(i)!=s.charAt(j)) answer+=(j-i);
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+//https://gkalstn000.github.io/2021/03/05/문자열의-아름다움/
+
+/*
+from collections import defaultdict
+from itertools import groupby
+
+def solution(s):
+    lumps = defaultdict(lambda: defaultdict(int))
+    for char, group in groupby(s):
+        lumps[char][len(list(group))] += 1
+    unpretty = ((n := len(s)) - 1) * n * (n + 1) // 6
+    for lump in lumps.values():
+        total = sum(l * count for l, count in lump.items()) # 전체 알파벳의 개수
+        both_side = sum(lump.values()) # 양쪽끝 알파벳이 같은 경우의 수
+        for i in range(1, max(lump) + 1):
+            unpretty -= total * (total - 1) // 2
+            total -= both_side # 양끝의 알파벳 하나씩 뺌
+            both_side -= lump[i] # 양끝의 알파벳 경우의수 최신화
+    return unpretty
+
+*/
+
+class Solution {
+    static long answer;
+    static int[] arr;
+    static long[] segL;
+    static long[] segR;
+
+    public static long solution(String s) {
+        answer = 0;
+        int n = s.length();
+        arr = new int[n + 1];
+        segL = new long[n * 4 + 1];
+        segR = new long[n * 4 + 1];
+
+        for (long i = 2; i <= n; i++) {
+            answer += (i - 1) * (n - i + 1);
+        }
+
+        for (int i = 0; i < 26; i++) {
+            char c = (char) ('a' + i);
+            leftSeg(1, n, 1);
+            rightSeg(1, n, 1);
+
+            int right = 0;
+            int ch = 0;
+            for (int j = n - 1; j >= 0; j--) {
+                if (s.charAt(j) != c) {
+                    right = 0;
+                    continue;
+                }
+                right++;
+                if (ch == 0) {
+                    updateLeft(1, n, 1, right, 1);
+                    updateRight(1, n, 1, right, right);
+                    ch = 1;
+                    continue;
+                }
+
+                answer -= right * sumLeft(1, n, 1, right + 1, n);
+                answer -= sumRight(1, n, 1, 1, right);
+                updateLeft(1, n, 1, right, 1);
+                updateRight(1, n, 1, right, right);
+            }
+        }
+
+        return answer;
+    }
+
+    static long leftSeg(int l, int r, int node) {
+        if (l == r)
+            return segL[node] = arr[l];
+        int mid = (l + r) / 2;
+        return segL[node] = leftSeg(l, mid, node * 2) + leftSeg(mid + 1, r, node * 2 + 1);
+    }
+
+    static void updateLeft(int l, int r, int node, int change, int diff) {
+        if (!(l <= change && change <= r))
+            return;
+        segL[node] += diff;
+        if (l == r) return;
+        int mid = (l + r) / 2;
+        updateLeft(l, mid, node * 2, change, diff);
+        updateLeft(mid + 1, r, node * 2 + 1, change, diff);
+    }
+
+    static long sumLeft(int l, int r, int node, int start, int end) {
+        if (l >= start && end >= r)
+            return segL[node];
+        if (r < start || l > end)
+            return 0;
+        int mid = (l + r) / 2;
+        return sumLeft(l, mid, node * 2, start, end) + sumLeft(mid + 1, r, node * 2 + 1, start, end);
+    }
+
+    static long rightSeg(int l, int r, int node) {
+        if (l == r)
+            return segR[node] = arr[l];
+        int mid = (l + r) / 2;
+        return segR[node] = rightSeg(l, mid, node * 2) + rightSeg(mid + 1, r, node * 2 + 1);
+    }
+
+    static void updateRight(int l, int r, int node, int change, int diff) {
+        if (!(l <= change && change <= r))
+            return;
+        segR[node] += diff;
+        if (l == r) return;
+        int mid = (l + r) / 2;
+        updateRight(l, mid, node * 2, change, diff);
+        updateRight(mid + 1, r, node * 2 + 1, change, diff);
+    }
+
+    static long sumRight(int l, int r, int node, int start, int end) {
+        if (l >= start && end >= r)
+            return segR[node];
+        if (r < start || l > end)
+            return 0;
+        int mid = (l + r) / 2;
+        return sumRight(l, mid, node * 2, start, end) + sumRight(mid + 1, r, node * 2 + 1, start, end);
+    }
+}
+
