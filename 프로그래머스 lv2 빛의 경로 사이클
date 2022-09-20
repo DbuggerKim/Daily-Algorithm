@@ -1,0 +1,48 @@
+//https://geunzrial.tistory.com/159
+
+import java.util.*;
+
+class Solution {
+    static int R,C;
+    //좌하우상
+    static int[] dr = {-1,0,1,0}; 
+    static int[] dc = {0,-1,0,1};
+    static boolean[][][] check; //false 초기화
+
+    public int[] solution(String[] grid){
+
+        ArrayList<Integer> answer = new ArrayList<>();
+        R = grid.length;
+        C = grid[0].length();
+        check = new boolean[R][C][4];
+        for(int i = 0; i<R;i++){
+            for(int j = 0;j<C;j++){
+                for(int d = 0;d<4;d++){
+                    if(!check[i][j][d]){
+                        answer.add(light(grid,i,j,d));
+                    }
+                }
+            }
+        }
+        
+        int[] output=new int [answer.size()];
+        for(int i=0; i<answer.size(); i++) output[i]=answer.get(i);
+        Arrays.sort(output);
+
+        return output;
+    }
+
+    public int light(String[] grid, int r, int c, int d){
+        int cnt = 0;
+        while(true){
+            if(check[r][c][d]) break;
+            cnt++;
+            check[r][c][d] = true;
+            if(grid[r].charAt(c) == 'L') d = d == 0 ? 3 : d-1;
+            if(grid[r].charAt(c) == 'R') d = d == 3 ? 0 : d+1;
+            r = (r + dr[d] + R) % R;
+            c = (c + dc[d] + C) % C;
+        }
+        return cnt;
+    }
+}
