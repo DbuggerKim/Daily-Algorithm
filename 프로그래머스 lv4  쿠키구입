@@ -1,0 +1,50 @@
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(int[] cookie) {
+        int max=0;
+        int start=0;
+        int basket=0;
+        
+        for(int i=start; i<cookie.length-1; i++){
+            basket+=cookie[i];
+            if(basket==cookie[i+1]){
+                max=Math.max(basket, max);
+                basket=0;
+                start++;
+                continue;
+            }
+        }
+        
+        return max;
+    }
+}
+*/ //10%
+
+
+//https://velog.io/@ajufresh/프로그래머스-쿠키구입-문제풀이-Java
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] cookie) {
+        int answer=0;
+        
+        for(int i=0; i<cookie.length-1; i++){
+            int left=i;
+            int right=i+1;
+            int leftsum=cookie[i];
+            int rightsum=cookie[i+1];
+            
+            while(true){
+                if(leftsum==rightsum && leftsum>answer) answer=leftsum;
+                else if(leftsum<=rightsum && left!=0) leftsum+=cookie[--left];
+                else if(leftsum>=rightsum && right!=cookie.length-1) rightsum+=cookie[++right];
+                else break;
+            }
+        }
+        
+        return answer;
+    }
+}//100%
