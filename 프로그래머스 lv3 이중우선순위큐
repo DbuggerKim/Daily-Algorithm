@@ -1,0 +1,156 @@
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
+class Solution {
+
+	public int[] solution(String[] operations) {
+
+		PriorityQueue<Integer> maxHeap = new PriorityQueue<>((o1, o2) -> o2 - o1); //
+		PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+		for (String a : operations) {
+
+			char order = a.charAt(0);
+			int num = Integer.parseInt(a.substring(2));
+
+			if (order == 'I') {
+				maxHeap.add(num);
+				minHeap.add(num);
+			} else if (!maxHeap.isEmpty()) {
+				if (num == 1) {
+					int max = maxHeap.poll();
+					minHeap.remove(max);
+				} else {
+					int min = minHeap.poll();
+					maxHeap.remove(min);
+				}
+			}
+		}
+
+		int max = maxHeap.isEmpty() ? 0 : maxHeap.peek();
+		int min = minHeap.isEmpty() ? 0 : minHeap.peek();
+
+		int[] answer = new int[] { max, min };
+		return answer;
+	}
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(String[] operations) {
+        
+        PriorityQueue <Integer> maxheap = new PriorityQueue <>((o1, o2)->o2-o1); //내림
+        PriorityQueue <Integer> minheap = new PriorityQueue <>(); //오름
+        
+        for(String a : operations){
+            char alpha = a.charAt(0);
+            int num = Integer.parseInt(a.substring(2));
+            if(alpha=='I'){
+                minheap.add(num);
+                maxheap.add(num);
+            }
+            else if(!maxheap.isEmpty()){
+                if(num==1){
+                    int max=maxheap.poll();
+                    minheap.remove(max);
+                }
+                else if(num==-1){
+                    int min=minheap.poll();
+                    maxheap.remove(min);
+                }
+            }
+        }
+       
+        int min = minheap.isEmpty()? 0 : minheap.peek();
+        int max = maxheap.isEmpty()? 0 : maxheap.peek();
+                                                               
+        int[] answer = {max, min};                                   
+        return answer;
+    }
+}//2차
+
+//일심동체로 같이 움직임
+import java.util.*;
+
+class Solution {
+    public int[] solution(String[] operations) {
+        
+        PriorityQueue <Integer> maxheap = new PriorityQueue<>((o1,o2)->(o2-o1));
+        PriorityQueue <Integer> minheap = new PriorityQueue<>();
+        
+        for(String data : operations){
+            char c=data.charAt(0);
+            int num=Integer.parseInt(data.substring(2));
+            if(c=='I'){
+                maxheap.add(num);
+                minheap.add(num);
+            }
+            else if(c=='D'){
+                if(!maxheap.isEmpty() && num==1){
+                    int a=maxheap.poll();
+                    minheap.remove(a);
+                }
+                else if(!minheap.isEmpty() && num==-1){
+                    int a=minheap.poll();
+                    maxheap.remove(a);
+                }
+            }
+        }
+        
+        int[] answer=new int[2];
+        int max = maxheap.isEmpty() ? 0:maxheap.peek();
+        int min = minheap.isEmpty() ? 0:minheap.peek();
+        answer[0]=max;
+        answer[1]=min;
+        
+        return answer;
+    }
+}//100%
+
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String[] operations) {
+
+        PriorityQueue<Integer> maxheap=new PriorityQueue<>((o1,o2)->o2-o1);
+        PriorityQueue<Integer> minheap=new PriorityQueue<>();
+        
+        for(String val : operations) {
+            String s=val.substring(0,1);
+            int num=Integer.parseInt(val.substring(2));
+            
+            switch(s) {
+                case "I" :  maxheap.add(num);
+                            minheap.add(num);
+                            break;
+                case "D" :  if(num==1) {
+                                if(!maxheap.isEmpty() && !minheap.isEmpty()) {
+                                    int a=maxheap.poll();
+                                    minheap.remove(a);
+                                }
+                            }
+                            else if(num==-1) {
+                                if(!maxheap.isEmpty() && !minheap.isEmpty()) {
+                                    int a=minheap.poll();
+                                    maxheap.remove(a);
+                                }
+                            }
+                            break;
+                default : break;
+            }   
+        }
+        
+        
+        int[] answer=new int[2];
+        int max= maxheap.isEmpty() ? 0:maxheap.peek();
+        int min= minheap.isEmpty() ? 0:minheap.peek();
+        answer[0]=max;
+        answer[1]=min;
+        
+        return answer;
+    }
+} //100%
