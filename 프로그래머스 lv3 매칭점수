@@ -1,0 +1,193 @@
+//https://velog.io/@ujone/프로그래머스-매칭-점수-JAVA
+
+import java.util.*;
+class Solution {
+    
+    private int[] scores;
+	private int[] extCnt;
+    private Map<Integer, String> url;
+	private Map<String, List<Integer>> extUrl;
+    
+    public int solution(String word, String[] pages) {
+        int ret = 0;
+        scores = new int[pages.length];
+        extCnt = new int[pages.length];
+        extUrl = new HashMap<>();
+        url = new HashMap<>();
+        double retScore = Long.MIN_VALUE;
+        word = word.toLowerCase();
+        
+        for(int i=0 ; i<pages.length ; i++) {
+        	String page = pages[i].toLowerCase();        	
+        	init(page, word, i);
+        }
+        
+        for(int i=0 ; i<pages.length ; i++) {	
+        	double score = scores[i];
+        	if(extUrl.containsKey(url.get(i))) {
+	        	for(int extIdx : extUrl.get(url.get(i))) {	
+	        		score += (double)scores[extIdx]/(double)extCnt[extIdx];
+	        	}
+        	}
+        	if(retScore<score) {
+        		retScore = score;
+        		ret = i;
+        	}
+        }
+        
+        return ret;
+    }
+	
+	public void init(String page, String word, int idx) {
+		
+        String urlPattern = "<meta property=\"og:url\" content=\"";
+		int urlStart = page.indexOf(urlPattern) + urlPattern.length();
+		int urlEnd = page.indexOf("\"/>", urlStart);
+		String curUrl = page.substring(urlStart, urlEnd);
+		url.put(idx, curUrl);
+
+		String[] aHerf = page.split("<a href=\"");
+		for(int a=1 ; a<aHerf.length ; a++) {
+			String linkedUrl = aHerf[a].substring(0, aHerf[a].indexOf("\""));
+			if(!extUrl.containsKey(linkedUrl)) extUrl.put(linkedUrl, new ArrayList<>());
+			extUrl.get(linkedUrl).add(idx);
+		}
+        
+		extCnt[idx] = aHerf.length-1;
+		page = page.replaceAll("[^a-zA-Z]", " ");
+		scores[idx] = countWord(page.split(" "), word);
+		return;
+	}
+	
+	public int countWord(String[] words, String word) {
+		int cnt=0;
+		for(String w : words) if(w.equals(word)) cnt++;
+		return cnt;
+	}
+}//100%
+
+
+import java.util.*;
+class Solution {
+    
+    private Map<Integer, String> url;
+    private Map<String, List<Integer>> extUrl;
+	private int[] extCnt;
+    private int[] scores;
+    
+    public int solution(String word, String[] pages) {
+        int answer = 0;
+        scores = new int[pages.length];
+        extCnt = new int[pages.length];
+        url = new HashMap<>();
+        extUrl = new HashMap<>();
+        
+        word = word.toLowerCase();
+        for(int i=0 ; i<pages.length ; i++) {
+        	String page = pages[i].toLowerCase();        	
+        	init(word, page, i);
+        }
+        
+        double retScore = Double.MIN_VALUE;
+        for(int i=0 ; i<pages.length ; i++) {	
+        	double score = scores[i];
+        	if(extUrl.containsKey(url.get(i))) {
+	        	for(int extIdx : extUrl.get(url.get(i))) {	
+	        		score += (double)scores[extIdx]/(double)extCnt[extIdx];
+	        	}
+        	}
+        	if(retScore<score) {
+        		retScore = score;
+        		answer = i;
+        	}
+        }
+        
+        return answer;
+    }
+	
+	public void init(String word, String page, int idx) {
+		
+        String urlPattern = "<meta property=\"og:url\" content=\"";
+		int urlStart = page.indexOf(urlPattern) + urlPattern.length();
+		int urlEnd = page.indexOf("\"/>", urlStart);
+		String curUrl = page.substring(urlStart, urlEnd);
+		url.put(idx, curUrl); //웹별 연결 링크 현황
+
+		String[] aHerf = page.split("<a href=\"");
+		for(int a=1 ; a<aHerf.length ; a++) {
+			String linkedUrl = aHerf[a].substring(0, aHerf[a].indexOf("\""));
+			if(!extUrl.containsKey(linkedUrl)) extUrl.put(linkedUrl, new ArrayList<>());
+			extUrl.get(linkedUrl).add(idx);
+		} extCnt[idx] = aHerf.length-1; //외부링크수
+		
+        page = page.replaceAll("[^a-zA-Z]", " "); //word와 page 둘다 대소문자 구분없음
+        String[] words=page.split(" ");
+        int cnt=0;
+		for(String w : words) if(w.equals(word)) cnt++;
+		scores[idx] = cnt;//기본점수
+		return;
+	}
+} //100%
+
+import java.util.*;
+
+class Solution {
+    
+    private HashMap<Integer, String> URL;
+    private HashMap<String, ArrayList<Integer>> extURL;
+    private int[] extCNT;
+    private int[] score;
+    
+    public int solution(String word, String[] pages) {
+        int answer = 0;
+        URL=new HashMap<>();
+        extURL=new HashMap<>();
+        extCNT=new int[pages.length];
+        score=new int[pages.length];
+        
+        word=word.toLowerCase();
+        for(int i=0; i<pages.length; i++) {
+            int index=i;
+            String page=pages[i].toLowerCase();
+            cal(word, page, index);
+        }
+        
+        double temp=Double.MIN_VALUE;
+        for(int i=0; i<pages.length; i++) {
+            double val=score[i];
+            if(extURL.containsKey(URL.get(i))) {
+                for(int extIDX : extURL.get(URL.get(i))) {
+                    val+=(double)score[extIDX]/(double)extCNT[extIDX];
+                }
+            }
+            if(temp<val) {
+                temp=val;
+                answer=i;
+            }
+        }
+        return answer;
+    }
+    
+    public void cal(String word, String page, int index) {
+        
+        String urlPATTERN="<meta property=\"og:url\" content=\"";
+        int urlSTART=page.indexOf(urlPATTERN)+urlPATTERN.length();
+        int urlEND=page.indexOf("\"/>",urlSTART); //urlSTART부터 \"/>"인 문자열 위치 찾기
+        String curURL=page.substring(urlSTART,urlEND);
+        URL.put(index,curURL);
+        
+        String[] extPATTERN=page.split("<a href=\"");
+        for(int i=1; i<extPATTERN.length; i++) {
+            String urlLINK=extPATTERN[i].substring(0,extPATTERN[i].indexOf("\""));
+            if(!extURL.containsKey(urlLINK)) extURL.put(urlLINK, new ArrayList<>());
+            extURL.get(urlLINK).add(index);
+        } extCNT[index]=extPATTERN.length-1;
+        
+        page=page.replaceAll("[^a-zA-Z]"," ");
+        String[] words=page.split(" ");
+        int count=0;
+        for(String w : words) if(w.equals(word)) count++;
+        score[index]=count;
+        return;
+    }
+} //100%
