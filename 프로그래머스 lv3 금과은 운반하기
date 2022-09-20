@@ -1,0 +1,146 @@
+//https://hyunjiishailey.tistory.com/431
+//금 또는 은 갖고 있는 도시에 운반
+//이분탐색
+
+import java.lang.Math;
+
+class Solution {
+    public long solution(int a, int b, int[] g, int[] s, int[] w, int[] t) {
+        
+        long ans=(long)(2*1e5*2*1e9); 
+        /*
+        도시 하나에 트럭 용량 1 
+        금 은 1e9 시간 1e5
+        금따로 운반 왕복시간 + 은따로 운반 왕복시간
+        */
+        long left=0, right=ans, time;
+        long gm, sm, gsm, gc, sc, gsc, wc, tc, rc, wt;
+        /*
+        ans : (금 최대 개수 1e9 + 은 최대개수1e9) * (최대시간 1e5 + 최대도시개수 1e5)
+        gm : 금 최대 무게
+        sm : 은 최대 무게
+        gsm : 금은 최대 무게
+        
+        gc : 각도시에서 운반한 금 무게
+        sc : 각도시에서 운반한 은 무게
+        gsc : 각도시에서 운반한 금은 무게
+        
+        wc : 운반시최대무게
+        time : 총 소요시간
+        tc : 한번운반시소요시간
+        rc : 왕복횟수 (총소요시간/(한번운반시소요시간/2))
+        wt : 한번 운반 시 총 광물 무게 (왕복횟수 * 운반시최대무게)
+        */
+        while(left<=right){
+            time=(left+right)/2;
+            gm=sm=gsm=0;
+            for(int i=0; i<g.length; i++){
+                gc=g[i]; sc=s[i]; gsc=gc+sc;
+                wc=w[i]; tc=t[i]; rc=(long)Math.ceil((double)(time/tc)/2); wt=wc*rc;
+                gm+=Math.min(gc, wt);
+                sm+=Math.min(sc, wt);
+                gsm+=Math.min(gsc, wt);
+            }
+            if(a<=gm && b<=sm && a+b<=gsm){
+                right=time-1;
+                ans=time;
+            }
+            else left=time+1;
+        }
+        
+        return ans;
+        
+    }
+}
+
+/*class Solution {
+    public long solution(int a, int b, int[] g, int[] s, int[] w, int[] t) {
+        
+        long max=//Math.pow(10,9)*2*Math.pow(10,5)*2 최대시간
+        
+        long ans=max;
+        int num=g.length;
+        
+        long ab=a+b;
+        long left=0, right=max, mid=(left+right)/2; //시간
+        long gm, sm, gsm, wc, rc, gc, sc, gsc, wt, tc;
+        /*
+        gm : 금 최대 무게 (각도시에서 운반한 금)
+        sm : 은 최대 무게 (각도시에서 운반한 은)
+        gsm : 금은 최대 무게 (각도시에서 운반한 금은)
+        
+        wc : 운반시최대무게
+        tc : 한번운반시소요시간
+        rc : 왕복횟수 (총소요시간/(한번운반시소요시간/2))
+        
+        gc : 금무게
+        sc : 은무게
+        gsc : 금은무게
+        
+        wt : 총 광물 무게 (왕복횟수 * 운반시최대무게)
+        */
+        
+        
+        while(left<=right){
+            gm=sm=gsm=0;
+            for(int i=0; i<num; i++){
+                gc=g[i]; sc=sc[i];
+                gsc=gc+sc;
+                wc=wc[i]; tc=tc[i];
+                rc=(long)Math.ceil((double)(mid/tc)/2);
+                wt*=rc;
+                gsm+=Math.min(gc, wt);
+                sm+=Math.min(sc, wt);
+                gsm+=Math.min(gsc, wt);
+            }
+            if(a<=gm && b<=sm && ab<=gsm){
+                right=mid--;
+                ans=mid;
+            }
+            else left=mid++;
+            mid=(left+right)/2;
+        }
+        
+        return ans;
+        
+    }
+}
+*/
+
+
+/*
+class Solution {
+    public long solution(int a, int b, int[] g, int[] s, int[] w, int[] t) {
+        long time = 0;
+       
+        /*
+        if(a>=g[i] || a>=s[i]){
+            g[i]=0;
+            time+=t[i];
+        }*/
+
+        for(int i=0; i<w.length; i++){
+            while(a<g[i] || a<s[i]){
+                if(w[i]<=g[i]){
+                    g[i]-=w[i];
+                    time+=t[i];
+                }
+                else{
+                    g[i]=0;
+                    time+=t[i];
+                }
+                if(w[i]<=s[i]){
+                    s[i]-=w[i];
+                    time+=t[i];
+                }
+                else{
+                    s[i]=0;
+                    time+=t[i];
+                }
+            }
+        }
+            
+        return time;
+    }
+}
+*/
