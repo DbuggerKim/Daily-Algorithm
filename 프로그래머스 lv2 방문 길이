@@ -1,0 +1,75 @@
+ //https://bb-dochi.tistory.com/44
+import java.util.HashSet;
+
+class Solution {
+    public int solution(String dirs) {
+        int answer=0;
+        int x=0, y=0;
+        
+        HashSet<String> set = new HashSet<>();
+        
+        for(Character dir : dirs.toCharArray()){
+            int lastX=x, lastY=y;
+            
+            if(dir=='U' && y+1<=5) y++;
+            if(dir=='D' && y-1>=-5) y--;
+            if(dir=='R' && x+1<=5) x++;
+            if(dir=='L' && x-1>=-5) x--;   
+            
+            if(lastX==x && lastY==y) continue;
+            
+            //양방향 다 넣어주기 지나간 경로이기 때문에 반대방향도 care!
+            set.add(lastX+""+lastY+""+x+""+y);
+            set.add(x+""+y+""+lastX+""+lastY);
+        }
+        
+        answer = set.size()/2;
+        return answer;
+    }
+}//100%
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    
+    public int solution(String dirs) {
+        int answer = 0;
+        
+        int n=dirs.length();        
+        boolean[][] matrix= new boolean[11][11];
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[i].length; j++){
+                matrix[i][j]=false;
+            }
+        }
+        
+        matrix[0][0]=true;
+        int x=0;
+        int y=0;
+        
+        for(int i=0; i<n; i++){
+            char c = dirs.charAt(i);
+            if(matrix[x][y]==false && (x<=5 || x>=-5) && (y<=5 || y>=-5)){
+                switch(c){
+                    case 'U': matrix[x][y++]=true; break;
+                    case 'D': matrix[x][y--]=true; break;
+                    case 'L': matrix[x--][y]=true; break;
+                    case 'R': matrix[x++][y]=true; break;
+                    default : break;
+                }
+            }
+        }
+        
+        for(int i=0; i<matrix.length; i++){
+            for(int j=0; j<matrix[i].length; j++){
+                if(matrix[i][j]==true) answer++;
+            }
+        }
+        
+        
+        return answer;
+    }
+}
+*/
