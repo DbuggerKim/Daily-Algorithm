@@ -1,0 +1,225 @@
+//https://velog.io/@hyeon930/프로그래머스-줄-서는-방법-Java
+//https://zin0-0.tistory.com/67
+/https://minnnne.tistory.com/44
+
+import java.util.*;
+
+class Solution {    
+    public int[] solution(int n, long k) {
+
+        int[] answer = new int [n];
+        long[] factorial=getfactorial(n);
+
+        ArrayList<Integer> list = new ArrayList <>();
+        for(int i=1; i<=n; i++) list.add(i);
+
+        k--;
+        for(int i=0; i<n; i++){
+            int index=(int)(k/factorial[i]);
+            k%=factorial[i];
+            answer[i]=list.get(index);
+            list.remove(index);
+        }
+        return answer;
+    }
+    
+    public long[] getfactorial(int n){
+        long[] result = new long[n];
+        result[n-1]=1;
+        for(int i=n-2; i>=0; i--) result[i]=(n-i-1)*result[i+1];
+        return result;
+    }
+}
+
+/*import java.util.*;
+class Solution {
+    
+    int[] answer;
+    
+    public int[] solution(int n, long k) {
+        
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i=1 ; i<=n ; ++i) list.add(i);
+        answer = new int [n];
+        go(0, 0, n, k, list);
+        
+        return answer;
+    }
+ 
+    public void go(long count, int index, int n, long k, ArrayList<Integer> list){
+        
+        if(index==n) return;
+        int num = 0;
+        long add = fectorial(n-(index+1)); //(n-자릿수)!
+        Collections.sort(list);
+        
+        while(true){
+            num=list.remove(0); //삭제 후 인덱스 앞으로 이동
+            if(count+add>=k) break;
+            count+=add;
+            list.add(num); //list 가장 뒤 배치
+        }
+        answer[index]=num;
+        go(count, index+1, n, k, list);
+        
+    }
+    
+    public long fectorial(int n){
+        long result = 1;
+        while(n >= 1) result *= n--;
+        return result;
+    }
+}*/
+
+/*
+//조합
+import java.util.*;
+class Solution {
+    
+    LinkedList <String> list = new LinkedList <>();
+    boolean[] visit;
+    int[] arr;
+    
+    public int[] solution(int n, long k){
+        int[] answer = new int [n];
+        arr = new int [n];
+        visit = new boolean[n];
+        
+        for(int i=0; i<n; i++) arr[i]=i+1;
+        combination(0, "", n);
+        String s = list.get(Long.valueOf(k).intValue()-1);
+        int num = Integer.parseInt(s);
+        
+        int operand=n-1;
+        int count=0;
+        while(operand>0){
+            int div = (int)Math.pow(10, operand);
+            answer[count]=num/div;
+            num=num%div;
+            count++;
+            operand--;
+        } answer[count]=num;
+        
+        return answer;
+    }
+    
+    public void combination(int count, String result, int n){
+        if(count==n){
+            list.add(result);
+            return;
+        }
+        for(int i=0; i<n; i++){
+            if(visit[i]==true) continue;
+            visit[i]=true;
+            combination(count+1, result+arr[i] , n);
+            visit[i]=false;
+        }
+    }
+}*/ //TO
+
+
+/*
+import java.util.*;
+
+class Solution {
+    
+    LinkedList <String> list = new LinkedList <>();
+    
+    public int[] solution(int n, long k) {
+        int[] answer = {};
+        
+        combination(0, n, k);
+        
+        return answer;
+    }
+    
+    public void combination(int count, int n, int k){
+        int[] arr = new int [n];
+        boolean[] visit = new boolean[n];
+        
+        if(count==n){
+            list.add(Arrays.toString(arr));
+            return;
+        }
+        for(int i=0; i<k; i++){
+            arr[count]=i;
+            visit[i]=true;
+            combination(count+1, n, i);
+            visit[i]=false;
+        }
+    }
+}
+*/
+
+/*//순열
+class Solution {
+    
+    public void perm(int[] arr, int[] output, boolean[] visited, int depth, int n, int r) {
+        if(depth == r){
+            //print(output, r);
+            return;
+        }
+
+        for(int i=0; i<n; i++){
+            if(visited[i] != true){
+                visited[i] = true;
+                output[depth] = arr[i];
+                perm(arr, output, visited, depth + 1, n, r);       
+                output[depth] = 0; // 이 줄은 없어도 됨
+                visited[i] = false;;
+            }
+        }
+    }
+    
+    public int factorial(int n){
+        int answer=1;
+        while(n>0){
+            answer*=n;
+            n--;
+        }
+        return answer;
+    }
+    
+    public int[] solution(int n, long k) {
+        int[] answer = {};
+        int end = factorial(n);
+        
+        for(int i=0; i<end; i++){
+            while(k>0){
+                
+                k--;
+            }
+        }
+        
+        return answer;
+    }
+    
+}*/
+
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, long k) {
+        int[] answer=new int[n];
+        long[] factorial=fact(n);
+        ArrayList<Integer>list=new ArrayList<>();
+        for(int i=1; i<=n; i++) list.add(i);
+        k--;
+        for(int i=0; i<n; i++) {
+            int index=(int)(k/factorial[i]);
+            k%=factorial[i];
+            answer[i]=list.get(index);
+            list.remove(index);
+        }
+        return answer;
+    }
+    
+    public long[] fact(int n) {
+        long[] result=new long[n];
+        result[n-1]=1;
+        for(int i=n-2; i>=0; i--) result[i]=(n-i-1)*result[i+1];
+        return result;
+    }
+}
+//100%
