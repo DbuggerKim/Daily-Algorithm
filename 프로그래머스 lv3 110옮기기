@@ -1,0 +1,209 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] s) {
+        String[] answer = new String[s.length];
+        StringBuilder sb;
+
+        for(int i=0; i<s.length; i++){
+            String str=s[i];
+            Stack<Character> stack = new Stack<>();
+            int cnt=0;
+
+            for(int j=0; j<str.length(); j++){
+                char z=str.charAt(j);
+                if(stack.size()>1){
+                    char y=stack.pop();
+                    char x=stack.pop();
+                    if(x=='1'&&y=='1'&&z=='0') cnt++;
+                    else{
+                        stack.push(x);
+                        stack.push(y);
+                        stack.push(z);
+                    }
+                } else stack.push(z);
+            }
+            
+            sb = new StringBuilder();
+            int idx=stack.size(); //110제외한 만큼 크기
+            boolean flag=false;
+
+            // 0의 마지막 위치 찾기 
+            while(!stack.isEmpty()){
+                if(!flag){
+                    if(stack.peek()=='1') idx--;
+                    else flag = true;
+                } sb.insert(0, stack.pop());
+            }
+            
+            //110 넣기
+            if(cnt>0){
+                while(cnt-->0){ //110두개이상일때 overwrite
+                    sb.insert(idx, "110");
+                    idx+=3;
+                } answer[i]=sb.toString();
+            } else answer[i]=s[i]; //110 원래 없었음
+        }
+
+        return answer;
+    }
+}
+
+/*
+class Solution {
+    public String[] solution(String[] s) {
+        String[] answer = new String [s.length];
+        
+        for(int i=0; i<s.length; i++){
+            String sub=s[i];
+            int index=sub.indexOf("110");
+            answer[i]=sub.substring(0, index)+sub.substring(index+3, sub.length());
+        }
+        
+        for(int i=0; i<answer.length; i++){
+            for(int j=1; j<answer[i].length(); j++){
+                String s1=answer[i].substring(0, j);
+                if(answer[i].length()==1){
+                    if(s[i].compareTo(answer[i]+s1)>0) answer[i]=answer[i]+s1;
+                    else answer[i]=s1+answer[i];
+                }
+                else{
+                    String s2=answer[i].substring(j);
+                    if(s[i].compareTo(s1+answer[i]+s2)>0) answer[i]=s1+answer[i]+s2;
+                    else answer[i]=s1+"110"+s2;
+                }
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+class Solution {
+    public String[] solution(String[] s) {
+        String[] answer = new String [s.length];
+        
+        for(int i=0; i<s.length; i++){
+            String sub=s[i];
+            int index=sub.indexOf("110");
+            answer[i]=sub.substring(0, index)+sub.substring(index+3, sub.length());
+        }
+        
+        /*for(int i=0; i<answer.length; i++){
+            for(int j=1; j<answer[i].length(); j++){
+                String s1=answer[i].substring(0, j);
+                String s3="";
+                if(j>1){
+                    String s2=answer[i].substring(j);
+                    s3=s1+answer[i]+s2;
+                }
+                else s3=answer[i]+s1;
+                if(s3.compareTo(answer[i])>0) answer[i]=s3;
+            }
+        }*/
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] s) {
+        String[] answer = new String[s.length];
+        StringBuilder sb;
+
+        for(int i=0; i<s.length; i++){
+            String str=s[i];
+            Stack<Character> stack = new Stack<>();
+            int cnt=0;
+
+            for(int j=0; j<str.length(); j++){ //순회하다가 만들어진 110도 잡음
+                char z=str.charAt(j);//현재
+                if(stack.size()>1){//2개이상 일때 아웃
+                    char y=stack.pop();//바로직전
+                    char x=stack.pop();//2개이전
+                    if(x=='1'&&y=='1'&&z=='0') cnt++;//110 개수 세기 문자열에서 제외
+                    else{//원래 순서대로 집어 넣기
+                        stack.push(x);
+                        stack.push(y);
+                        stack.push(z);
+                    }
+                } else stack.push(z);//문자열이 하나일때
+            }
+            
+            sb = new StringBuilder();
+            int idx=stack.size(); //110제외한 만큼 크기
+            boolean flag=false;
+
+            // 0의 마지막 위치 찾기 
+            while(!stack.isEmpty()){
+                if(flag==false){
+                    if(stack.peek()=='1') idx--;
+                    else flag=true; //stack.peek()=='0'
+                } sb.insert(0, stack.pop());
+            }
+            
+            //110 넣기
+            if(cnt>0){
+                while(cnt-->0){ //110두개이상일때 overwrite
+                    sb.insert(idx, "110");
+                    idx+=3;
+                } answer[i]=sb.toString();
+            } else answer[i]=s[i]; //110 원래 없었음
+        }
+
+        return answer;
+    }
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] s) {
+        String[] answer=new String[s.length];
+        StringBuilder sb;
+        
+        for(int i=0; i<s.length; i++) {
+            String str=s[i];
+            
+            int count=0;
+            Stack<Character> stack = new Stack<>();
+            for(int j=0; j<str.length(); j++) {
+                char z=str.charAt(j);
+                if(stack.size()>1) {
+                    char y=stack.pop();
+                    char x=stack.pop();
+                    if(x=='1' && y=='1'&& z=='0') count++;
+                    else {
+                        stack.push(x);
+                        stack.push(y);
+                        stack.push(z);
+                    }
+                } else stack.push(z);
+            }
+            
+            int index=stack.size();
+            boolean flag=false;
+            sb=new StringBuilder();
+            while(!stack.isEmpty()) {
+                if(flag==false) {
+                    if(stack.peek()=='1') index--;
+                    else flag=true;
+                } sb.insert(0,stack.pop());
+            }
+            if(count>0) {
+                while(count-->0) {
+                    sb.insert(index, "110");
+                    index+=3;
+                } answer[i]=sb.toString();
+            } else answer[i]=str;
+        }
+        
+        return answer;
+    }
+} //100%
