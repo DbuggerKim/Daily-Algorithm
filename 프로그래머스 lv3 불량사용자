@@ -1,0 +1,239 @@
+
+//https://moonsbeen.tistory.com/45
+//https://codechacha.com/ko/java-string-matches/
+//Matches에서 .은 어떤문자 하나 대체함 의미
+
+import java.util.*;
+
+class Solution {
+    
+    HashSet <String> set;
+    boolean[] visit;
+    String[] regex;
+    
+    public void bfs(int num, String s, String[] user_id){
+        
+	if(num==regex.length){
+            String[] arr = s.split(" ");
+            Arrays.sort(arr);
+            String news="";
+            for(int i=0; i<arr.length; i++) news+=arr[i];
+            set.add(news);
+            return;
+        }
+
+        for(int i=0; i<user_id.length; i++){
+            if(!visit[i] && user_id[i].matches(regex[num])){ 
+                visit[i]=true;
+                bfs(num+1, s+" "+user_id[i], user_id);
+                visit[i]=false;
+            }
+        }
+
+    }
+    
+    public int solution(String[] user_id, String[] banned_id) {
+        set = new HashSet<>();
+        visit = new boolean [user_id.length];
+        regex = new String [banned_id.length]; 
+  
+        for(int i=0; i<banned_id.length; i++){ //matches .일때 비교 skip함
+            regex[i]=banned_id[i].replace("*",".");
+        }
+
+        bfs(0, "", user_id);
+        return set.size();
+    }
+}
+
+
+
+/*import java.util.*;
+
+class Solution {
+    
+    public boolean fit(String uid, String bid){ //
+        int indexU=0;
+        int indexB=0;
+        if(uid.length()!=bid.length()) return false;
+        while(uid.charAt(indexU)==bid.charAt(indexB) || bid.charAt(indexB)=='*') {
+            indexU++;
+            indexB++;
+        }
+        if(indexB==bid.length()) return true;
+        else return false;
+    }
+    
+    public void bfs(boolean[] visit, String uid, String[] banned_id, HashSet<String> set){
+        Queue <String> queue = new LinkedList<>();
+        queue.add(uid);
+        for(int i=0; i<banned_id.length; i++){
+            while(!queue.isEmpty()){
+                String top=queue.poll();
+                if(!visit[i] && fit(top, banned_id[i])){
+                    queue.add(top);
+                }
+            }
+            set.add(queue); //
+            queue.clear();
+        }   
+    }
+    
+    
+    public int solution(String[] user_id, String[] banned_id){
+        HashSet <String> set = new HashSet <> ();
+        boolean[] visit = new boolean [user_id.length];
+        for(int i=0; i<user_id.length; i++){
+            visit[i]=true;
+            bfs(visit, user_id[i], banned_id, set);
+            visit[i]=false;
+        }
+        return set.size();
+    }
+    
+}*/
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(String[] user_id, String[] banned_id){
+        int answer = 1;
+        ArrayList<ArrayList<String>> listGroup = new ArrayList<>();
+        ArrayList<String> listSingle = new ArrayList<>();
+        
+        for(int i=0; i<banned_id.length; i++){
+            String s1 = banned_id[i];
+            for(int j=0; j<user_id.length; j++){
+                String s2 = user_id[j];
+                int index=0;
+                if(s1.length()!=s2.length()) continue;
+                if(s2.charAt(index)=='*' || s1.charAt(index)==s2.charAt(index)){
+                    i++;
+                    j++;
+                }
+                else break;
+                listSingle.add(s1);
+            }
+            listGroup.add(listSingle);
+        }
+        
+        for(int i=0; i<listGroup.size(); i++){
+            answer*=listGroup.get(i).size();
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+class Solution {
+    public int solution(String[] user_id, String[] banned_id){
+        int answer = 0;
+         ArrayList<ArrayList<String>> list = new ArrayList<>();
+        
+        for(int i=0; i<banned_id.length; i++){
+            String s1 = banned_id[i];
+            for(int j=0; j<user_id.length; j++){
+                String s2 = user_id[j];
+                int index=0;
+                if(s1.length()!=s2.length()) return;
+                if(s2.charAt(index)=='*' || s1.charAt(index)==s2.charAt(index)){
+                    i++;
+                    j++;
+                }
+                else break;
+                list.get(i).get
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+
+import java.util.*;
+
+class Solution {
+    
+    public HashSet<String> set;
+    public boolean[] visit;
+    public String[] user;
+    public String[] ban;
+    
+    public void bfs(int num, String sum){
+        if(num==ban.length){
+            String[] arr=sum.split(" ");
+            Arrays.sort(arr);
+            String sub="";
+            for(int i=0; i<arr.length; i++) sub+=arr[i];
+            set.add(sub);
+            return;
+        }
+        
+        for(int i=0; i<user.length ;i++){
+            if(!visit[i] &&user[i].matches(ban[num])){
+                visit[i]=true;
+                bfs(num+1, sum+" "+user[i]);//
+                visit[i]=false;
+            }
+        }
+        
+    }
+    
+    public int solution(String[] user_id, String[] banned_id) {
+        set=new HashSet<>();
+        visit=new boolean[user_id.length];
+        user=new String[user_id.length];
+        ban=new String[banned_id.length];
+        
+        for(int i=0; i<user_id.length; i++) user[i]=user_id[i];
+        for(int i=0; i<banned_id.length; i++) ban[i]=banned_id[i].replace("*",".");
+        
+        bfs(0,"");
+        
+        return set.size();
+    }
+}//100%
+
+
+import java.util.*;
+
+class Solution {
+    
+    public HashSet<String> set;
+    public boolean[] visit;
+    public String[] user;
+    public String[] ban;
+    
+    public void bfs(int count, String output) {
+        if(count==ban.length) {
+            String arr[]=output.split(" ");
+            Arrays.sort(arr);
+            String sub="";
+            for(int i=0; i<arr.length; i++) sub+=arr[i];
+            set.add(sub);
+            return;
+        }
+        for(int i=0; i<user.length; i++) {
+            if(!visit[i] && user[i].matches(ban[count])) {//0 1 2// ... 저장
+                visit[i]=true;
+                bfs(count+1, output+" "+user[i]);//user[0] user[1] user[2]// ... 저장
+                visit[i]=false;
+            }
+        }
+    }
+    
+    public int solution(String[] user_id, String[] banned_id) {
+        set=new HashSet<>();
+        visit=new boolean[user_id.length];
+        user=new String[user_id.length];
+        ban=new String[banned_id.length];
+        for(int i=0; i<user.length; i++) user[i]=user_id[i];
+        for(int i=0; i<ban.length; i++) ban[i]=banned_id[i].replace("*",".");
+        bfs(0,"");
+        return set.size();
+    }
+} //100%
