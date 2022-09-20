@@ -1,0 +1,87 @@
+import java.util.*;
+import java.lang.Math;
+
+class Solution {
+    public int solution(int n) {
+        int answer = 0;
+        
+        ArrayList<Integer> num=new ArrayList<>(); //역순으로 담김
+        //10진수>3진수
+        while(n!=0) {
+        	num.add(n%3);
+        	n=n/3;
+        }
+        //3진수>10진수
+        int count=num.size()-1;
+        for(int i:num) {
+        	answer+=(int)(i*Math.pow(3,count--));
+        }
+        
+        return answer;
+    }
+} //100%
+
+
+/*
+import java.lang.*;
+
+class Solution {
+    
+    public int trans(int k, int n){
+        String ans="";
+        while(n>=k){
+            ans=n%k+ans;
+            n=n/k;
+        }
+        ans=n+ans;  
+        return Integer.parseInt(ans);
+    }
+    
+    public int solution(int n) {
+        int answer = 0;
+        double total = 0;
+        String ans = "";
+        
+        answer=trans(3, n);
+        while(answer>=10){
+            ans=ans+answer%10;
+            answer=answer/10;
+        } ans=ans+answer;
+        answer=Integer.parseInt(ans);
+        
+        
+        for(int i=0; i<ans.length()-1; i++){
+            total=total+Math.pow(3,i)*(answer%10);
+            answer=answer/10;
+        }
+        total=total+Math.pow(3, ans.length()-1)*answer;
+        answer=(int)total;
+        
+        return answer;
+    }
+}
+*/
+//50% TO
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int solution(int n) {
+        int answer = 0;
+        //step 1과 2 동시 적용
+        String ntriple="";
+        while(n>0){
+            ntriple=ntriple+n%3;
+            n/=3;
+        }
+        //step3 적용
+        int count=0;
+        for(int i=ntriple.length()-1; i>=0; i--){
+            int num=Integer.parseInt(ntriple.substring(i,i+1));
+            answer+=num*(int)Math.pow(3, count++);
+        }
+        
+        return answer;
+    }
+}//100%
