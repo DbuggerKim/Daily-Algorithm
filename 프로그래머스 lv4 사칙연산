@@ -1,0 +1,81 @@
+//https://velog.io/@jkh2801/프로그래머스-사칙연산
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int solution(String arr[]) {
+        
+        int num=(int)Math.ceil(arr.length/2);
+        
+        int[][] dpMAX=new int[101][101];
+        int[][] dpMIN=new int[101][101];
+        for(int i=0; i<arr.length; i++){
+            Arrays.fill(dpMAX[i], Integer.MIN_VALUE);
+            Arrays.fill(dpMIN[i], Integer.MAX_VALUE);
+        }
+        
+        for(int i=0; i<num; i++) {
+            dpMAX[i][i]=Integer.parseInt(arr[i*2]);
+            dpMIN[i][i]=Integer.parseInt(arr[i*2]);
+        }
+        
+        for(int k=1; k<num; k++) {
+            for(int i=0; i<num-k; i++) {
+                int j=i+k;
+                for(int l=i; l<j; l++) {
+                    if(arr[l*2+1]=="-") {
+                        dpMAX[i][j]=Math.max(dpMAX[i][j], dpMAX[i][l]-dpMIN[l+1][j]);
+                        dpMIN[i][j]=Math.min(dpMIN[i][j], dpMIN[i][l]-dpMAX[l+1][j]);
+                    } else { //else if(arr[(i+l)*2+1]=="+") {
+                        dpMAX[i][j]=Math.max(dpMAX[i][j], dpMAX[i][l]+dpMIN[l+1][j]);
+                        dpMIN[i][j]=Math.min(dpMIN[i][j], dpMIN[i][l]+dpMAX[l+1][j]);
+                    }
+                }
+                
+            }
+        }
+        
+        return dpMAX[0][num-1];
+    }
+} 
+*/
+
+
+class Solution {
+    
+    public int [][] dp;
+    public int solution(String arr[]) {
+		dp=new int [arr.length][arr.length];
+		for(int i=0; i<arr.length; i++) {
+			for(int j=0; j<arr.length; j++) {
+				dp[i][j]=Integer.MIN_VALUE;
+			} 
+            if(i%2==0) dp[i][i]=Integer.parseInt(arr[i]);
+		}
+        return solve(arr, 0, arr.length-1);
+    }
+    
+    public int solve(String[] arr, int i, int j) {
+		if(dp[i][j]!=Integer.MIN_VALUE) return dp[i][j];
+		if(i-1>=1 && arr[i-1].equals("-")) {
+			int result=Integer.MAX_VALUE;
+			for(int k=i; k<j; k+=2) {
+				if(arr[k+1].equals("-")) result=Math.min(result, solve(arr, i, k)-solve(arr, k+2, j));
+				else result=Math.min(result, solve(arr, i, k)+solve(arr, k+2, j));
+			}
+			dp[i][j]=result;
+		} else {
+			int result=Integer.MIN_VALUE;
+			for(int k=i; k<j; k+=2) {
+				if(arr[k+1].equals("-")) result=Math.max(result, solve(arr, i, k)-solve(arr, k+2, j));
+				else result=Math.max(result, solve(arr, i, k)+solve(arr, k+2, j));
+			}
+			dp[i][j]=result;
+		}
+		return dp[i][j];
+	}
+}
+
+//100%
