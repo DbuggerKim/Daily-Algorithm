@@ -1,0 +1,111 @@
+//https://geunzrial.tistory.com/25
+
+class Solution {
+    public String solution(String m, String[] musicinfos) {
+        String answer = "(None)";
+        int maxtime = 0;
+        
+        for(int i=0; i<m.length();i++){
+            m = m.replace("A#","a");
+            m = m.replace("C#","c");
+            m = m.replace("D#","d");
+            m = m.replace("F#","f");
+            m = m.replace("G#","g");
+            m = m.replace("E#","e");
+        }
+
+        for(int i=0; i<musicinfos.length; i++) {
+            
+            String[] tmp = musicinfos[i].split(",");
+
+            tmp[3] = tmp[3].replace("A#","a");
+            tmp[3] = tmp[3].replace("C#","c");
+            tmp[3] = tmp[3].replace("D#","d");
+            tmp[3] = tmp[3].replace("F#","f");
+            tmp[3] = tmp[3].replace("G#","g");
+            tmp[3] = tmp[3].replace("E#","e");
+            
+
+            String[] starttime = tmp[0].split(":");
+            String[] endtime = tmp[1].split(":");
+
+            int hour = Integer.parseInt(endtime[0])-Integer.parseInt(starttime[0]);
+            int min = Integer.parseInt(endtime[1])-Integer.parseInt(starttime[1])+(hour*60);
+            
+            //개수 세야해서 replace
+            String meltmp = "";
+            for(int j=0; j<min; j++) meltmp+=tmp[3].charAt(j%tmp[3].length());
+            
+            if(meltmp.contains(m) && maxtime<meltmp.length()){
+                maxtime=meltmp.length();
+                answer=tmp[2];
+            }
+        }
+        
+        
+        return answer;
+    }
+}
+
+/*
+class Solution {
+    public String solution(String m, String[] musicinfos) {
+        String answer = "";
+        
+        
+        for(int i=0; i<musicinfos.length; i++){
+            String s=musicinfos[i]; 
+            String[] ans=s.split(",");
+            
+            for(int j=0; j<ans.length; j++){
+                if(m.indexOf(ans[j])==0) answer=ans[j];
+            }
+            
+        }
+        
+        return answer;
+    }
+}
+*/
+
+
+import java.util.*;
+
+class Solution {
+    public String solution(String m, String[] musicinfos) {
+        String answer = "(None)";
+        int max=0;
+        
+        for(int i=0; i<m.length(); i++){
+            m=m.replace("C#", "c");
+            m=m.replace("D#", "d");
+            m=m.replace("F#", "f");
+            m=m.replace("G#", "g");
+            m=m.replace("A#", "a");
+        }
+        
+        for(int i=0; i<musicinfos.length; i++){
+            String[] temp=musicinfos[i].split(",");
+            temp[3]=temp[3].replace("C#", "c");
+            temp[3]=temp[3].replace("D#", "d");
+            temp[3]=temp[3].replace("F#", "f");
+            temp[3]=temp[3].replace("G#", "g");
+            temp[3]=temp[3].replace("A#", "a");
+            
+            String[] start=temp[0].split(":");
+            String[] end=temp[1].split(":");
+            int hour=Integer.parseInt(end[0])-Integer.parseInt(start[0]);
+            int min=Integer.parseInt(end[1])-Integer.parseInt(start[1])+(hour*60);
+            
+            String sub="";
+            for(int j=0; j<min; j++) sub+=temp[3].charAt(j%temp[3].length());
+            
+            if(sub.contains(m) && max<sub.length()){
+                max=sub.length();
+                answer=temp[2];
+            }
+        }
+        
+        return answer;
+    }
+} //100%
