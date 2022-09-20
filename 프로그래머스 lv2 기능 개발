@@ -1,0 +1,97 @@
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+ 
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        Queue<Integer> queue = new ConcurrentLinkedQueue<Integer>();
+        
+        for(int i=0; i<progresses.length; i++) {
+            queue.add((100-progresses[i])%speeds[i] == 0? 
+                      (100-progresses[i])/speeds[i]:(100-progresses[i])/speeds[i]+1);
+        }
+        
+        List<Integer> result = new ArrayList<Integer>();
+        int standard=queue.poll();
+        int cnt=1;
+        
+        while(!queue.isEmpty()) {
+            int num=queue.poll();
+            if(standard>=num) {
+                cnt++;
+            }else {
+                result.add(cnt);
+                cnt = 1;
+                standard = num;
+            }
+        }
+        
+        result.add(cnt);
+        int[] answer = new int[result.size()];
+        
+        for(int i=0; i<answer.length; i++){
+            answer[i]=result.get(i);
+        }
+        
+        return answer;
+    }
+} //100%
+
+/*import java.util.*;
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        
+        Queue<Integer> queue = new LinkedList<Integer>();
+        
+        //시간 측정
+        for(int i=0; i<progresses.length; i++){
+            int remain=100-progresses[i];
+            int days=remain/speeds[i];
+            if(days%speeds[i]!=0) days++;
+            queue.add(days);
+        }
+        
+        int top = queue.size();
+        int [] answer = new int [top];
+        
+        //값 측정        
+        for(int i=0; i<queue.size();){            
+            int cnt=0;
+            if(temp==queue.poll()) cnt++;
+            answer[i]=cnt;
+        }
+        
+        return answer;
+        
+    }
+}*/
+
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i=0; i<progresses.length; i++) {
+            queue.add((100-progresses[i])%speeds[i]==0 ? 
+                      (100-progresses[i])/speeds[i]:(100-progresses[i])/speeds[i]+1);
+        }
+        
+        int count=1;
+        int prev=queue.poll();
+        LinkedList<Integer> list = new LinkedList<>();
+        while(!queue.isEmpty()) {
+            int cur=queue.poll();
+            if(prev>=cur) count++;
+            else{
+                list.add(count);
+                count=1;
+                prev=cur;
+            }
+        }
+        list.add(count); //마지막 카운트 저장
+        
+        int[] answer=new int[list.size()];
+        for(int i=0; i<answer.length; i++) answer[i]=list.get(i);
+        return answer;
+    }
+} //100%
