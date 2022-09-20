@@ -1,0 +1,61 @@
+//https://lyeong-gwa.tistory.com/23
+
+// 단, 땅따먹기 게임에는 한 행씩 내려올 때, 같은 열을 연속해서 밟을 수 없는 특수 규칙이 있습니다.
+// 직전 행의 열과 같을 수 없다.
+//https://zzang9ha.tistory.com/38
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    
+    int solution(int[][] land) {
+        
+        int answer=0;
+        
+        for(int i=1; i<land.length; i++){
+            land[i][0]+=Math.max(land[i-1][1], Math.max(land[i-1][2], land[i-1][3]));
+            land[i][1]+=Math.max(land[i-1][0], Math.max(land[i-1][2], land[i-1][3]));
+            land[i][2]+=Math.max(land[i-1][0], Math.max(land[i-1][1], land[i-1][3]));
+            land[i][3]+=Math.max(land[i-1][0], Math.max(land[i-1][1], land[i-1][2]));
+        }
+        
+        for(int i=0; i<land.length; i++) Arrays.sort(land[i]);
+        
+        answer=land[land.length-1][3];
+        
+        return answer;
+    }
+}//100% DP문제
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    
+    int solution(int[][] land) {
+        
+        boolean[] visit = new boolean [land[0].length];
+        Arrays.fill(visit, false);
+        int answer=0;
+        int max=Integer.MIN_VALUE;
+        int top=0;
+        
+        for(int i=0; i<land.length; i++){
+            for(int j=0; j<land[i].length; j++){
+                if(visit[j]==false && max<land[i][j]){
+                    max=land[i][j];
+                    top=j;
+                }
+            }
+            visit[top]=true;
+            answer+=max;
+            max=0;
+        }
+        
+
+        return answer;
+    }
+}
+*/
