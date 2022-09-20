@@ -1,0 +1,56 @@
+class Solution {
+    public String solution(String s, int n) {
+        String answer = "";
+        
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(Character.isLowerCase(c)) c=(char)((c-'a'+n)%26 +'a');
+            else if(Character.isUpperCase(c)) c=(char)((c-'A'+n)%26 +'A');
+            answer += c; //공백 포함
+        }
+        
+        return answer;
+    }
+} //100%
+
+/* class Solution {
+    public String solution(String s, int n) {
+        String answer = "";
+        int val=0;
+        char c='a';
+        
+        for(int i=0; i<s.length(); i++){
+            c=s.charAt(i);
+            val=(int)c;
+            if(val==32) {
+                answer+=" "; 
+                continue;
+            }
+            
+            val+=n;
+            if(val<65 || (val>90 && val<97) || val>122 ) val-=26;
+            c=(char)val;
+            answer+=c;
+        }
+        
+        return answer;
+    }
+} //61.5 */
+
+
+import java.lang.*;
+
+class Solution {
+    public String solution(String s, int n) {
+        String answer = "";
+        
+        for(int i=0; i<s.length(); i++){
+            char c=s.charAt(i);
+            if(Character.isLowerCase(c)) c=(char)('a'+(c-'a'+n)%26);
+            else if(Character.isUpperCase(c)) c=(char)('A'+(c-'A'+n)%26);
+            answer+=c;
+        }
+        
+        return answer;
+    }
+} //100%
