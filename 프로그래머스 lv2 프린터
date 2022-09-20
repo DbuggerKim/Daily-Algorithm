@@ -1,0 +1,133 @@
+import java.util.*;
+
+class Pair{
+    
+	int location;
+	int priority;
+	
+    Pair(int location, int priority){
+		this.location = location;
+		this.priority = priority;
+	}
+}
+
+class Solution {
+    
+    public int solution(int[] priorities, int location) {
+        
+        Queue<Pair> queue = new LinkedList<>();
+	    PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder());
+		int cnt=1;
+        
+		//location과 우선순위를 함께 큐에 저장
+        //문서의 우선순위를 확인하기위해 PriorityQueue를 이용
+        for(int i=0;i<priorities.length;i++) {
+			queue.add(new Pair(i,priorities[i]));
+			priorityQueue.add(priorities[i]);
+		}
+        
+		while(!queue.isEmpty()) {
+        	//현재 프린트하려는 문서의 우선순위보다 높은 우선순위의 문서가 없는지 확인
+			if(queue.peek().priority == priorityQueue.peek()) {
+            	//순서를 확인하려는 문서인지 체크
+				if(queue.peek().location==location) return cnt;
+                //순서를 확인하려는 문서가 아니라면 큐에서 제거해주고 순서를 증가시켜준다.
+				queue.poll();
+				priorityQueue.poll();
+				cnt++;
+			}
+            //더 높은 우선순위의 문서가 존재할 경우 해당문서는 인쇄요청 마지막 순서로 돌아간다.
+			else {
+				Pair p = queue.poll();
+				queue.add(p);
+			}
+		}
+        
+		return cnt;
+	}
+}//100%
+
+
+
+import java.util.*;
+
+class Solution {
+    
+    class pair{
+        int location;
+        int priority;
+        
+        pair(int location, int priority){ //
+            this.location=location;
+            this.priority=priority;
+        }
+    }
+    
+    public int solution(int[] priorities, int location) {
+        
+        Queue<pair> queue = new LinkedList<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2)->o2-o1);
+        
+        for(int i=0; i<priorities.length; i++){
+            queue.add(new pair(i, priorities[i])); //
+            pq.add(priorities[i]);
+        }
+        
+        int cnt=1;
+        
+        while(!queue.isEmpty()){
+            if(queue.peek().priority==pq.peek()){
+                if(queue.peek().location==location) return cnt;
+                cnt++;
+                queue.poll();
+                pq.poll();
+            }
+            else{
+                pair p=queue.poll(); //
+                queue.add(p);
+            }
+        }
+        
+        return cnt;
+    }
+}//2차
+
+
+import java.util.*;
+
+class Pair {
+    int priority;
+    int location;
+    Pair(int priority, int location) {
+        this.priority=priority;
+        this.location=location;
+    }   
+}
+
+class Solution {
+    public int solution(int[] priorities, int location) {
+        Queue<Pair> queue=new LinkedList<>();
+        PriorityQueue<Integer> pq=new PriorityQueue<>((o1,o2)->o2-o1);
+        
+        for(int i=0; i<priorities.length; i++) {
+            queue.add(new Pair(priorities[i],i));
+            pq.add(priorities[i]);
+        }
+        
+        int count=1;
+        while(!queue.isEmpty()) {
+            if(queue.peek().priority==pq.peek()) {
+                if(queue.peek().location==location) return count++;
+                count++;
+                queue.poll();
+                pq.poll();
+            }
+            else{ //앞 문서 맨뒤로 감
+                Pair p=queue.poll();
+                queue.add(p);
+            }
+        }
+        
+        return count;
+    }
+} //100%
