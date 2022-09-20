@@ -1,0 +1,38 @@
+class Solution {
+    
+    private static int gcd(int a, int b){ 
+        if(b==0) return a;
+        return gcd(b, a%b);
+    }
+    
+    private static int lcm(int a, int b){
+        return a*b/gcd(a, b);
+    }
+
+    public long solution(int w, int h) {
+        long answer=w*h;
+        
+        int a = w/gcd(w,h);
+        int b = h/gcd(w,h);
+        
+        double ma = Math.floor((double)a/2);
+        double mb = Math.floor((double)b/2);
+        double sum=ma*mb*2;
+        answer=answer-(a*b-(long)sum)*gcd(w,h);
+        return answer;
+    }
+}
+
+
+
+//https://namhandong.tistory.com/174
+//일차방정식
+
+class Solution {
+	public long solution(int w, int h){
+		long answer=0;
+		for(int i=0; i<w; I++) answer+=(long)h*I/w;
+		return answer*2;
+	}
+}
+//38.9%
