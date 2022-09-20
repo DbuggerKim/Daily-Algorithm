@@ -1,0 +1,65 @@
+import java.util.PriorityQueue;
+import java.util.HashMap;
+import java.util.Arrays;
+
+class Solution {
+    
+    HashMap<String, Integer> combinations;
+    public String[] solution(String[] orders, int[] course) {
+        
+        PriorityQueue<String> compositions = new PriorityQueue<>();
+        
+        for(var k : course){
+            //1. 각 메뉴로부터 메뉴를 조합 
+            combinations = new HashMap<>();
+            for(var order : orders){
+                makeCombination(order, k, 0, "");    
+            }
+            //2. 메뉴 조합을 전체 주문 목록에서 몇번 주문했는지 확인.
+            int max=0;
+            for(var menu : combinations.keySet()){
+                int ordertimes = getOrderTimes(orders,menu.toCharArray());
+                combinations.put(menu, ordertimes);
+                if(ordertimes > max) max = ordertimes;
+            }
+            //3. 가장 많이 주문한 메뉴들을 PQ에 추가.
+            for(var set : combinations.entrySet()){
+                if(max>1 && set.getValue()==max) compositions.add(set.getKey());
+            }
+        }
+        //4. PQ를 String 배열로 변환하여 반환.
+        String[] answer = new String[compositions.size()];
+        int k=0;
+        while(!compositions.isEmpty()){
+            answer[k++] = compositions.poll();
+        }
+        return answer;
+    }
+    public int getOrderTimes(String[] orders, char... menuArr){
+        int count = 0;
+        for(var order : orders){
+            boolean ordered = true;
+            for(var menu : menuArr){
+                if(order.indexOf(menu)==-1) ordered = false;
+            }
+            if(ordered) count++;
+        }
+        return count;
+    }
+    
+    public void makeCombination(String order, int k, int index, String result){
+        //i위치에서 경우의 수 : 사용하거나, 사용하지 않거나
+        if(result.length() == k) {
+            char[] resulttochar = result.toCharArray();
+            Arrays.sort(resulttochar);
+            combinations.put(new String(resulttochar),0);
+            return;
+        }
+        if(index < order.length()){
+            makeCombination(order,k,index+1,result+order.charAt(index));
+            makeCombination(order,k,index+1,result);    
+        }
+        return;
+    }
+    
+}//https://haeng-on.tistory.com/m/18
