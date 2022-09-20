@@ -1,0 +1,196 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Solution {
+    
+    static class Node {
+        String next;
+        int edge;
+
+        public Node(String next, int edge) {
+            this.next = next;
+            this.edge = edge;
+        }
+    }
+    
+    public int solution(String begin, String target, String[] words) {
+        
+        int n = words.length;
+        int ans = 0;
+        Queue<Node> q = new LinkedList<>();
+
+        boolean[] visit = new boolean[n];
+        q.add(new Node(begin, 0));
+
+        while(!q.isEmpty()) {
+            Node cur = q.poll();
+            if (cur.next.equals(target)) {
+                ans = cur.edge;
+                break;
+            }
+
+            for (int i=0; i<n; i++) {
+                if (!visit[i] && isNext(cur.next, words[i])) {
+                    visit[i] = true;
+                    q.add(new Node(words[i], cur.edge + 1));
+                }
+            }
+        }
+
+        return ans;
+    }
+
+    static boolean isNext(String cur, String n) {
+        int cnt = 0;
+        for (int i=0; i<n.length(); i++)
+            if (cur.charAt(i) != n.charAt(i))
+                if (++ cnt > 1) return false;
+
+        return true;
+    }
+} //100%
+
+
+/*import java.util.*;
+
+class Solution {
+    
+    public static class Node{
+        String next;
+        int edge;
+        public Node(String next, int edge){
+            this.next=next;
+            this.edge=edge;
+        }
+    }
+    
+    public static boolean isNext(String cur, String n){
+        int count=0;
+        for(int i=0; i<n.length(); i++){
+            if(cur.charAt(i)!=n.charAt(i)){
+                count++;
+                if(count>1) return false;
+            }
+        }
+        return true;
+    }
+    
+    public static int solution(String begin, String target, String[] words){
+        int ans = 0;
+        boolean[] visit = new boolean[words.length];
+        Queue<Node> q = new LinkedList<>();
+        q.add(new Node(begin, 0));
+        
+        while(!q.isEmpty()){
+            Node cur = q.poll();
+            if(cur.next.equals(target)){
+                ans=cur.edge;
+                break;
+            }
+            for(int i=0; i<words.length; i++){
+                if(!visit[i] && isNext(cur.next, words[i])){
+                    visit[i]=true;
+                    q.add(new Node(words[i], cur.edge+1));
+                }
+            }
+        }
+        return ans;
+    }
+}*/
+
+
+/*
+import java.util.*;
+
+class Solution {
+    
+    public static class node{
+        String next;
+        int edge;
+        public node(String next, int edge){
+            this.next=next;
+            this.edge=edge;
+        }
+    }
+    
+    public static boolean isRight(String temp, String temp2){
+        int count=0;
+        for(int i=0; i<temp.length(); i++){
+            if(temp.charAt(i)!=temp2.charAt(i)){
+                count++;
+                if(count>1) return false;
+            }
+        }
+        return true;
+    }
+    
+    public static int solution(String begin, String target, String[] words) {
+        int answer = 0;        
+        boolean[] visit= new boolean [words.length];
+        Queue <node> queue = new LinkedList<>();
+        queue.add(new node(begin, 0));
+        while(!queue.isEmpty()){
+            node cur=queue.poll();
+            if(cur.next.equals(target)){
+                answer=cur.edge;
+                break;
+            }
+            for(int i=0; i<words.length; i++){
+                if(!visit[i] && isRight(words[i], cur.next)){
+                    visit[i]=true;
+                    queue.add(new node(words[i], cur.edge+1));
+                }
+            }
+        }
+        return answer;
+    }
+}
+*/ //2차
+
+import java.util.*;
+
+class Node {
+    String word="";
+    int count=0;
+    Node(String word, int count) {
+        this.word=word;
+        this.count=count;
+    }
+}
+
+class Solution {
+    
+    public boolean isNext(String cur, String next) {
+        int count=0;
+        for(int i=0; i<cur.length(); i++) {
+            if(cur.charAt(i)!=next.charAt(i)) {
+                if(++count>1) return false;
+            }
+        }
+        return true;
+    }
+    
+    public int solution(String begin, String target, String[] words) {
+        
+        Queue<Node> queue=new LinkedList<>();
+        queue.add(new Node(begin, 0));
+        boolean[] visit=new boolean[words.length];
+        int answer=0;
+        
+        while(!queue.isEmpty()) {
+            Node cur=queue.poll();
+            if(cur.word.equals(target)) {
+                answer=cur.count;
+                break;
+            }
+            for(int i=0; i<words.length; i++) {
+                if(!visit[i] && isNext(words[i],cur.word)) {
+                    visit[i]=true;
+                    queue.add(new Node(words[i],cur.count+1));
+                }
+            }
+        }
+        
+        return answer;
+    }
+}//100%
