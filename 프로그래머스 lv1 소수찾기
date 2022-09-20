@@ -1,0 +1,74 @@
+import java.lang.Math;
+
+class Solution {
+    
+    public boolean isPrime(int n){
+        boolean answer=false;
+        int N = (int)Math.sqrt(n); //정확도 높임
+        if(n>=2){
+            for(int i=2; i<=N; i++){ //정확도 높임
+                if(n%i==0) return false;
+            }
+        }
+        else return false;
+        answer=true;
+        return answer;
+    }
+    
+    public int solution(int n) {
+        int answer = 0;
+        for(int i=1; i<=n; i++){
+            if(isPrime(i)) {
+                answer++;
+            }
+        }
+        return answer;
+    }
+} //100%
+
+
+import java.lang.Math;
+
+class Solution {
+    
+    public boolean isPrime(int n){
+        boolean answer=false;
+        if(n>=2){
+            for(int i=2; i<n; i++){
+                if(n%i==0) return false;
+            }
+        }
+        else return false;
+        answer=true;
+        return answer;
+    }
+    
+    public int solution(int n) {
+        int answer = 0;
+        for(int i=1; i<=n; i++){
+            if(isPrime(i)) {
+                answer++;
+            }
+        }
+        return answer;
+    }
+} //68%
+
+class Solution {
+    public boolean isPrime(int n){
+        boolean flag=false;
+        for(int i=2; i<=(int)Math.sqrt(n); i++){
+            if(n%i==0) return flag;
+        }
+        flag=true;
+        return flag;
+    }
+    
+    public int solution(int n) {
+        int answer=0;
+        for(int i=2; i<=n; i++){
+            if(isPrime(i)) answer++;
+        }
+        return answer;
+    }
+} //100%
