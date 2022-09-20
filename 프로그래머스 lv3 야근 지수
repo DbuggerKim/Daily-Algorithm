@@ -1,0 +1,104 @@
+import java.util.PriorityQueue;
+import java.util.Collections;
+import java.lang.*;
+import java.util.*;
+
+class Solution {
+    public long solution(int n, int[] works) {
+        
+        long answer = 0;
+        
+        PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder()); //최대힙
+        //PriorityQueue<Integer> q = new PriorityQueue<>(); //최소힙
+        for(int i: works) q.add(i);
+        
+        while(n>0){
+            int work = q.poll();
+            q.add(work-1);
+            n--;
+        }
+        
+        for(int i=0; i<works.length; i++){
+            int a=q.poll();
+            if(a>=0) answer+=Math.pow(a, 2);
+        }
+        
+        return answer;
+    }
+}
+
+/*//https://wiselog.tistory.com/55
+import java.util.PriorityQueue;
+import java.util.Collections;
+import java.lang.*;
+import java.util.*;
+
+class Solution {
+    public long solution(int n, int[] works) {
+        
+        long answer = 0;
+        LinkedList <Integer> list = new LinkedList <> ();
+        Arrays.sort(works);
+        for(int i=works.length-1; i>=0; i--) list.add(works[i]);
+        
+        //PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder()); //최대힙
+        //for(int i: works) q.add(i);
+        
+        while(n>0){
+            int work = list.poll();
+            list.add(work-1);
+            n--;
+        }
+        
+        for(int i=0; i<works.length; i++){
+            int a=list.poll();
+            if(a>=0) answer+=Math.pow(a, 2);
+        }
+        
+        return answer;
+    }
+}*/
+
+/*
+import java.util.*;
+
+class Solution {
+    public long solution(int n, int[] works) {
+        long answer = 0;
+        
+        Arrays.sort(works);
+        n++;
+        
+        while(n>0){
+            for(int i=works.length-1; i>=0; i--){
+                if(n==0) break;
+                works[i]--;
+                n--;
+            }
+        }
+        
+        for(Integer val : works){ System.out.println(val); answer+=Math.pow(val, 2); }
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+class Solution {
+    public long solution(int n, int[] works) {
+        PriorityQueue<Integer> pq=new PriorityQueue<>(Collections.reverseOrder());
+        for(int i=0; i<works.length; i++) pq.add(works[i]);
+        while(n>0) {
+            int work=pq.poll();
+            pq.add(work-1);
+            n--;
+        }
+        long answer=0;
+        for(int i=0; i<works.length; i++) {
+            int a=pq.poll();
+            if(a>=0) answer+=Math.pow(a,2);
+        }
+        return answer;
+    }
+} //100%
