@@ -1,0 +1,118 @@
+import java.util.*;
+ 
+class Solution {
+    boolean[] visit;
+    int[] pick; 
+    int count;
+    
+    public int solution(int n) {
+        visit = new boolean[n];
+        pick = new int[n];
+        count = 0;
+        permutation(n, 0);
+        return count;
+    }
+    
+    public void permutation(int n, int index) {
+        if(n==index) {
+            count++;
+            return;
+        }
+        
+        for(int i=0; i<n; i++) {
+            if(visit[i] == false) {
+                pick[index]=i;
+                visit[i] = true;
+                if(check(index)) permutation(n, index+1);
+                visit[i] = false;
+            }
+        }
+    } 
+    
+    public boolean check(int index) {
+        for(int i=0; i<index; i++) {
+            if(pick[i]==pick[index]) return false; //같은행열퀸존재
+            if(Math.abs(index-i)==Math.abs(pick[index]-pick[i])) return false; //대각선퀸존재 (행과열간격같음)
+        }
+        return true;
+    }
+} //100%
+
+import java.util.*;
+
+class Solution {
+    
+    public boolean[] visit;
+    public int[] pick;
+    public int count=0;
+    
+    public int solution(int n) {
+        visit = new boolean[n];
+        pick = new int[n];
+        dfs(n,0);
+        return count;
+    }
+    
+    public void dfs(int n, int index){
+        if(n==index){ //n이 0~3인경우 만족할 시 방법 하나 카운트
+            count++;
+            return;
+        }
+        for(int i=0; i<n; i++){
+            if(visit[i]==false){
+                pick[index]=i; //overwrite
+                visit[i]=true;
+                if(check(index)) dfs(n, index+1);
+                visit[i]=false;
+            }
+        }
+    }
+    
+    public boolean check(int index){
+        for(int i=0; i<index; i++){ //그 이전 false 없나 누적해가는것임 중복불가
+            if(pick[i]==pick[index]) return false; //행열 다 달라야함
+            if(Math.abs(index-i)==Math.abs(pick[index]-pick[i])) return false; //대각선이동가능해서 안됨
+        }
+        return true;
+    }
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    
+    public boolean[] visit;
+    public int[] chess;
+    public int count;
+    
+    public int solution(int n) {
+        visit=new boolean[n];
+        chess=new int[n];
+        dfs(n,0);
+        return count;
+    }
+    
+    public void dfs(int n, int index) {
+        if(n==index) {
+            count++;
+            return;
+        }
+        for(int i=0; i<n; i++) {
+            if(visit[i]==false) {
+                chess[index]=i;
+                visit[i]=true;
+                if(check(index)) dfs(n, index+1);
+                visit[i]=false;
+            }
+        }
+    }
+    
+    public boolean check(int index) {
+        for(int i=0; i<index; i++) {
+            if(chess[index]==chess[i]) return false;
+            if(Math.abs(index-i)==Math.abs(chess[index]-chess[i])) return false;
+        } return true;
+    }
+    
+} //100%
