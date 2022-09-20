@@ -1,0 +1,79 @@
+Import java.util.*;
+class Solution {
+    
+    public int solution(int n, int[][] computers) {
+        
+        int answer = 0;
+        boolean[] check = new boolean[n];//정점체크
+        
+        //시작 점 check ~
+        for(int i=0; i<n; i++) {
+            if(!check[i]) {
+                dfs(computers, check, i);
+                answer++;
+            }
+        }
+        
+        return answer;
+    }
+ 
+    //시작점에서 부터 연결되는 다른 노드들
+    void dfs(int[][] computers, boolean[] check, int start) {
+        check[start]=true;
+        for(int i=0; i<computers.length; i++)
+            if(computers[start][i]==1 && !check[i])
+                dfs(computers, check, i);
+    }
+    
+}
+
+//100%
+
+/*
+class Solution {
+    
+    public int solution(int n, int[][] computers) {
+        int answer = 0;
+        boolean[] visit = new boolean [n];
+        for(int i=0; i<n; i++){
+            if(visit[i]==false){
+                dfs(visit, computers, i);
+                answer++;
+            }
+        }
+        return answer;
+    }
+    
+    public void dfs(boolean[] visit, int[][] computers, int vertex){
+        visit[vertex]=true;
+        for(int i=0; i<visit.length; i++){
+            if(!visit[i] && computers[vertex][i]==1){
+                dfs(visit, computers, i);
+            }
+        }
+    }
+}
+*/ //2차
+
+class Solution {
+    public int solution(int n, int[][] computers) {
+        int answer=0;
+        boolean[]visit=new boolean[computers.length];
+        for(int i=0; i<computers.length; i++) {
+            if(!visit[i]) {
+                dfs(visit, computers, i);
+                answer++;
+            }
+        }
+        return answer;
+    }
+    
+    public void dfs(boolean[] visit, int[][] computers, int index) {
+        visit[index]=true;
+        for(int i=0; i<computers.length; i++) {
+            if(!visit[i] && computers[index][i]==1) {
+                dfs(visit, computers, i);
+            }
+        }
+    }
+} //100%
