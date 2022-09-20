@@ -1,0 +1,152 @@
+//https://velog.io/@namgeon1106/프로그래머스-가사-검색
+
+import java.util.*;
+
+class Solution {
+    
+    class Trie{
+        
+        char root;z
+        HashMap<Character, Trie> subTries = new HashMap<>();
+        HashMap<Integer, Integer> lenMap = new HashMap<>();
+
+        public Trie(char c){
+            root = c;
+        }
+
+        public void insertWord(String word){
+            Trie current = this;
+            for(char c : word.toCharArray()){
+                if(!current.subTries.containsKey(c)) current.subTries.put(c, new Trie(c));
+                if(!current.lenMap.containsKey(word.length())) current.lenMap.put(word.length(), 0);
+                current.lenMap.put(word.length(), current.lenMap.get(word.length()) + 1);
+                current = current.subTries.get(c);
+            }
+        }
+
+        public int count(String query){
+            Trie current = this;
+            for(char c: query.toCharArray()){
+                if(c!='?'){
+                    if(!current.subTries.containsKey(c)) return 0;
+                    current = current.subTries.get(c);
+                }else return current.lenMap.getOrDefault(query.length(), 0);
+            }
+            return 0;
+        }
+    }
+
+    public int[] solution(String[] words, String[] queries) {
+        Trie trie = new Trie('\0');
+        for(String word: words) trie.insertWord(word);
+        
+        Trie reversedTrie = new Trie('\0');
+        for(String word: words){
+            StringBuilder sb = new StringBuilder(word);
+            String reverseStr = sb.reverse().toString();
+            reversedTrie.insertWord(reverseStr);
+        }
+        
+        int[] answer = new int[queries.length];
+        for(int i=0; i<queries.length; i++){
+            StringBuilder sb = new StringBuilder(queries[i]);
+            String reverseStr = sb.reverse().toString();
+            if(queries[i].charAt(0)!='?') answer[i]=trie.count(queries[i]);
+            else answer[i]=reversedTrie.count(reverseStr);
+        }
+        return answer;
+    }
+}
+
+/*
+import java.lang.*;
+import java.util.*;
+
+
+class Solution {
+    public int[] solution(String[] words, String[] queries) {
+        int[] answer = new int [queries.length];
+        
+        for(int i=0; i<queries.length; i++){
+            String query="";
+            int start=queries[i].indexOf("?");
+            int end=queries[i].lastIndexOf("?");
+            int num=queries[i].length();
+            int index=0;
+            
+            System.out.println(start+" "+end+" "+num);
+            if(end==queries[i].length()-1){
+                query=queries[i].substring(0, start);
+                index=0;
+            }
+            if(start==0){
+                query=queries[i].substring(end+1, num);
+                index=end+1;
+            }
+            System.out.println(query);
+            
+            for(int j=0; j<words.length; j++){
+                if(words[j].contains(query) && words[j].indexOf(query)==index && words[j].length()==queries[i].length()) answer[i]++;
+                //System.out.println(words[j].indexOf(query));
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.lang.*;
+import java.util.*;
+
+
+class Solution {
+    public int[] solution(String[] words, String[] queries) {
+        int[] answer = new int [queries.length];
+        
+        for(int i=0; i<queries.length; i++){
+            String query="";
+            int start=queries[i].indexOf("?");
+            int end=queries[i].lastIndexOf("?");
+            int num=queries[i].length();
+            
+            if(end==0) query=queries[i].substring(0, start);
+            else if(start==0) query=queries[i].substring(end, num);
+            //System.out.println(query);
+            
+            for(int j=0; j<words.length; j++){
+                if(words[j].contains(query)) answer[i]++;
+            }
+        }
+        
+        return answer;
+    }
+}re
+*/
+
+/*
+import java.lang.*;
+import java.util.*;
+
+
+class Solution {
+    public int[] solution(String[] words, String[] queries) {
+        int[] answer = new int [queries.length];
+        
+        for(int i=0; i<queries.length; i++){
+            int start=queries[i].indexOf("?");
+            int end=queries[i].lastIndexOf("?");
+            int num=queries[i].length();
+            //String query = queries[i].substring(0, start);
+            //String query = queries[i].substring(end, num);
+            for(int j=0; j<words.length; j++){
+                if(words[j].contains(query)) answer[i]++;
+            }
+            //System.out.println(start+" "+end+" "+num);
+        }
+        
+        return answer;
+    }
+}
+*/
