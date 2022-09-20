@@ -1,0 +1,31 @@
+import java.util.*;
+class Solution {
+    public String solution(String[] participant, String[] completion) {
+       
+        String answer = "";
+        // 1. Create HashMap
+        HashMap<String, Integer> map = new HashMap<>();
+        
+        // 2. Add Participant to HashMap
+        for(String player : participant)
+            map.put(player, map.getOrDefault(player,0)+1);
+        //map.getOrDefault(player , value or 0) : 동명이인 있다면 해당 key에 대한 value 출력 없다면 0
+        //map.put(player , value+1 or 1) : 해당 key에 대한 value 해시 테이블에 입력
+        
+        // 3. Subtract Completed participants from HashMap
+        for(String player : completion)
+            map.put(player,map.get(player)-1);
+        //map.get(player) : 해당 key에 대한 value 출력
+        //map.put(player, 0 or 1) : 해당 key에 대한 value 해시 테이블에 입력
+        
+        // 4. Find non-zero participant
+        for(String key : map.keySet())
+            if(map.get(key)!=0) answer=key;
+        //map.keySet() : key 불러옴
+        //map.get(key) : 해당 key에 대한 value 출력
+        
+        return answer;
+    }         
+}//정100% 효100%
+
+//https://coding-grandpa.tistory.com/entry/프로그래머스-완주하지-못한-선수-해시-Lv-1
