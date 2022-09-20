@@ -1,0 +1,60 @@
+class Solution {
+    
+    public int solution(int n) {
+        int answer = 0;
+        
+        int num1=1;
+        int num2=1;
+        
+        if(n==0) return 0;
+        else if(n==1 || n==2) return 1;
+        else{
+            for(int i=3; i<=n; i++){
+                answer=(num1+num2)%1234567; 
+//n번째 피보나치 수를 1234567으로 나눈 나머지를 리턴하는 함수
+                num1=num2;
+                num2=answer;
+            }
+        }
+        
+        return answer;
+    }
+
+} //100%
+
+//시간 초과
+/*
+class Solution {
+    public int fib(int n){
+        if(n==0) return 0;
+        if(n==1) return 1;
+        return fib(n-2)+fib(n-1);
+    }
+    public int solution(int n) {
+        int answer = 0;
+        answer=fib(n)%1234567;
+        return answer;
+    }   
+}
+*/
+
+class Solution {
+    
+    public int solution(int n) {
+        int answer=0;
+        
+        if(n==0) return 0;
+        if(n==1) return 1;
+        
+        int num1=0;
+        int num2=1;
+        
+        for(int i=2; i<=n; i++){
+            answer=(num1+num2)%1234567;
+            num1=num2;
+            num2=answer;
+        }
+        
+        return answer;
+    }
+} //100% 최적화 솔루션
