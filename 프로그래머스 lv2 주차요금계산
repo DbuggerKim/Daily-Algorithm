@@ -1,0 +1,145 @@
+//https://taehoung0102.tistory.com/156
+
+import java.util.*;
+ 
+class Solution {
+    
+    public int cal_time(String time){
+        String[] temp= time.split(":");
+        int hour= Integer.parseInt(temp[0])*60;
+        int min= Integer.parseInt(temp[1]);       
+        return hour+min;
+    }
+    
+    public int[] solution(int[] fees, String[] records) {
+ 
+        int std_time =fees[0];
+        int std_pay=fees[1];
+        int per_time=fees[2];
+        int per_pay=fees[3];
+ 
+        // Key=차량넘버 value=입장시간
+        HashMap<Integer,Integer> map = new HashMap<>();
+        // Key=차량넘버 value=이용비
+        TreeMap<Integer,Integer> result = new TreeMap<>(); //자동 정렬
+        
+        // 주차기록 처리하기
+        for(String data: records){
+            String[] temp =data.split(" ");
+            int time = cal_time(temp[0]);
+            int car_num= Integer.parseInt(temp[1]);
+            String state= temp[2];
+            
+            if(state.equals("OUT")){
+                int start=map.get(car_num);
+                int use_time= time-start;            
+                if(result.containsKey(car_num)){ //2
+                    int a=result.get(car_num);
+                    use_time+=a;
+                }
+                result.put(car_num,use_time); //1
+                map.remove(car_num);
+                continue;
+            }
+            
+            map.put(car_num,time); //state.equals("IN")만 map 삽입
+        }
+ 
+        // 아직 안나간 차량 처리
+        for(int num :map.keySet()){
+            Integer d=map.get(num);
+            d = d==null?0:d;
+            int start = d.intValue();
+
+            //1234번 차량은 출차 내역이 없으므로, 23:59에 출차되었다고 간주
+            //23:59 분으로 환산 시 cal_time("23:59")=>1439
+            int use_time=cal_time("23:59")-start;
+            
+            Integer e=result.get(num);
+            e = e==null?0:e;
+            int total= e.intValue();
+ 
+            result.put(num,total+use_time);
+        }
+ 
+        // 출력하기
+        int[] answer = new int[result.size()];
+        int i=0;
+        for(int data: result.keySet()){
+            int time=result.get(data);
+ 
+            if(time<=std_time) time=std_pay;
+            else time=std_pay+(int)Math.ceil((double)(time-std_time)/per_time)*per_pay;
+            
+            answer[i++]=time;
+        }
+        
+        return answer;
+    }
+
+} //100%
+
+
+/*
+import java.util.*;
+
+class Solution {
+    
+    public int cal(String time){
+        String[] arr=time.split(":");
+        int hour=Integer.parseInt(arr[0])*60;
+        int min=Integer.parseInt(arr[1]);
+        return hour+min;
+    }
+    
+    public int[] solution(int[] fees, String[] records) {
+        
+        //num, start
+        HashMap <Integer, Integer> map = new HashMap<>();
+        //num(차량번호 우선순위), period
+        TreeMap <Integer, Integer> tmap = new TreeMap<>();
+        
+        for(int i=0; i<records.length; i++){
+            String[] arr=records[i].split(" ");
+            int time=cal(arr[0]);
+            int num=Integer.parseInt(arr[1]);
+            String state=arr[2];
+            
+            if(state.equals("OUT")){
+                int start=map.get(num);
+                int period=time-start;
+                if(tmap.containsKey(num)) period+=tmap.get(num);
+                tmap.put(num, period);
+                map.remove(num);
+                continue;
+            }
+            map.put(num, time);
+        }
+        
+        for(int val : map.keySet()){ //탐색 중이라 지우기 안됨
+            int start=map.get(val);
+            int total=0;
+            if(tmap.containsKey(val)) total=tmap.get(val); //null 신경쓰기
+            int period=cal("23:59")-start;
+            tmap.put(val, total+period);
+        }
+        
+        int[] answer = new int[tmap.size()];
+        int count=0;
+        int initTime=fees[0];
+        int initCost=fees[1];
+        int perTime=fees[2];
+        int perCost=fees[3];
+        
+        for(int val : tmap.keySet()){
+            int time=tmap.get(val);
+            int cost=0;
+            if(time<=initTime) cost=initCost;
+            else cost=initCost+(int)Math.ceil((double)(time-initTime)/perTime)*perCost;
+            answer[count++]=cost;
+        }
+        
+        return answer;
+    }
+}
+*/
