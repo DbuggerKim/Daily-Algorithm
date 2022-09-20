@@ -1,0 +1,34 @@
+def solution(serial):
+    answer=""
+    
+    if "01"==serial[0]+serial[1]:
+        answer+="male"
+    elif "02"==serial[0]+serial[1]:
+        answer+="female"
+            
+    if "10"==serial[2]+serial[3]:
+        answer+="/operation"
+    elif "11"==serial[2]+serial[3]:
+        answer+="/sales"
+    elif "12"==serial[2]+serial[3]:
+        answer+="/develop"
+    elif "13"==serial[2]+serial[3]:
+        answer+="/finance"
+    elif "14"==serial[2]+serial[3]:
+        answer+="/law"
+    elif "15"==serial[2]+serial[3]:
+        answer+="/research"
+    
+    n=int(serial[4]+serial[5])
+    answer+="/"+str(n)+"team"
+    
+    num=int(serial[0])+int(serial[1])+int(serial[2])
+    num+=int(serial[3])+int(serial[4])+int(serial[5])
+    num%=13
+    n=int(serial[6]+serial[7])
+    if num==n:
+        answer+="/"+"valid"
+    elif num!=n:
+        answer+="/"+"invalid"
+        
+    return answer
