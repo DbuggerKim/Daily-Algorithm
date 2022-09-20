@@ -1,0 +1,299 @@
+//https://velog.io/@yuiopre98/프로그래머스-level-3-표-편집
+
+import java.util.*;
+
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        
+        Stack <Integer> stack = new Stack<Integer>();
+        
+        for(int i=0; i<cmd.length; i++) {
+            char c = cmd[i].charAt(0);
+            if(c=='D') {
+                k+=Integer.parseInt(cmd[i].substring(2));
+                k%=n;
+            }
+            else if(c=='U') {
+                k-=Integer.parseInt(cmd[i].substring(2));
+                k%=n;
+                if(k<0) k=n-Math.abs(k);
+            }
+            else if(c=='C') {
+                stack.add(k);
+                n--;
+                if(k==n) k--;
+            }
+            else if(c=='Z') {
+                if(stack.pop()<=k) k++;
+                n++;
+            }
+        }
+        
+        StringBuilder string = new StringBuilder();
+        for(int i=0; i<n; i++) string.append("O");
+        while(!stack.isEmpty()) string.insert(stack.pop().intValue(), "X");
+        String answer=string.toString();
+        
+        return answer;
+    }
+}
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        String answer = "";
+        LinkedList <Integer> list = new LinkedList<>();
+        for(int i=0; i<n; i++) list.add(i);
+        boolean[] visit = new boolean [n];
+        Stack <Integer> stack = new Stack<>(); // 삭제 행 
+        int temp = k;//index 위치
+        int index = 0;
+        int count=0;
+        
+        for(int i=0; i<cmd.length; i++){
+            char move = cmd[i].charAt(0);
+            if(cmd[i].length()==3){
+                String s = cmd[i].charAt(cmd[i].length()-1)+"";
+                index = Integer.parseInt(s);
+            }
+            switch(move){
+                case 'U' : temp=temp-(index%list.size());
+                           if(temp<0) temp=(list.size())-Math.abs(temp);
+                           System.out.println("U "+temp);
+                            break;
+                case 'D' : temp=(temp+index)%list.size();
+                           System.out.println("D "+temp);
+                            break;
+                case 'C' : visit[temp]=false; 
+                           stack.push(temp);
+                           temp=(temp+1)%list.size();
+                           list.remove(Integer.valueOf(temp));
+                           System.out.println("C "+temp);
+                            break;
+                case 'Z' : int a =0;
+                           if(!stack.isEmpty()) a=stack.pop();
+                           visit[a]=true;
+                           list.add(temp, temp);
+                           System.out.println("Z "+temp);
+                            break;
+                default : break;
+            }
+        }
+        
+        for(boolean val : visit){
+            if(val==true) answer+="O";
+            else answer+="X";
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        String answer = "";
+        LinkedList <String> = new LinkedList<>();
+        boolean[] visit= new boolean [n];
+        Arrays.fill(visit, true);
+        
+        Stack <Integer> stack = new Stack<>(); // 삭제 행 
+        int temp = k;//index 위치
+        int index = 0;
+        int count=0;
+        
+        for(int i=0; i<cmd.length; i++){
+            char move = cmd[i].charAt(0);
+            if(cmd[i].length()==3){
+                String s = cmd[i].charAt(cmd[i].length()-1)+"";
+                index = Integer.parseInt(s);
+            }
+            switch(move){
+                case 'U' : temp=temp-(index%n);
+                           if(temp<0) temp=n-Math.abs(temp);
+                           System.out.println("U "+temp);
+                            break;
+                case 'D' : temp=(temp+index)%n;
+                           System.out.println("D "+temp);
+                            break;
+                case 'C' : visit[temp]=false; 
+                           stack.push(temp);
+                           temp=(temp+1)%n;
+                           System.out.println("C "+temp);
+                            break;
+                case 'Z' : if(!stack.isEmpty())
+                           visit[stack.pop()]=true;
+                           System.out.println("Z "+temp);
+                            break;
+                default : break;
+            }
+        }
+        
+        for(boolean val : visit){
+            if(val==true) answer+="O";
+            else answer+="X";
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        String answer = "";
+        boolean[] visit= new boolean [n];
+        Arrays.fill(visit, true);
+        
+        Stack <Integer> stack = new Stack<>(); // 삭제 행 
+        int temp = k;//index 위치
+        
+        for(int i=0; i<cmd.length; i++){
+            char move = cmd[i].charAt(0);
+            int index = 0;
+            if(cmd[i].length()==3){
+                String s = cmd[i].charAt(cmd[i].length()-1)+"";
+                index = Integer.parseInt(s);
+            }
+            switch(move){
+                case 'U' : temp=(temp+index)%n;
+                case 'D' : temp=Math.abs(temp-index)%n;
+                case 'C' : visit[temp]=false; 
+                           stack.push(temp);
+                           temp=(temp+1)%n;
+                case 'Z' : if(!stack.isEmpty()) visit[stack.pop()]=true;
+                default : break;
+            }
+        }
+        
+        for(boolean val : visit){
+            if(val==true) answer+="O";
+            else answer+="X";
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        String answer = "";
+        boolean[] visit= new boolean [n];
+        Arrays.fill(visit, true);
+        
+        Stack <Integer> stack = new Stack<>(); // 삭제 행 
+        int temp = k;//index 위치
+        
+        for(int i=0; i<cmd.length; i++){
+            char move = cmd[i].charAt(0);
+            int index = 0;
+            //char c = cmd[i].charAt(2);
+            //int index = Integer.parseInt(c+"");
+            switch(move){
+                case 'U' : temp=(temp+index)%n;
+                case 'D' : temp=Math.abs(temp-index)%n;
+                case 'C' : visit[temp]=false; 
+                           stack.push(temp);
+                           temp=(temp+1)%n;
+                case 'Z' : if(!stack.isEmpty()) visit[stack.pop()]=true;
+                default : break;
+            }
+        }
+        
+        for(boolean val : visit){
+            if(val==true) answer+="O";
+            else answer+="X";
+        }
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        
+        Stack <Integer> stack = new Stack<Integer>();
+        for(int i=0; i<cmd.length; i++) {
+            char c=cmd[i].charAt(0);
+            if(c=='D'){
+                k+=Integer.parseInt(cmd[i].substring(2));
+                k%=n;
+            }
+            else if(c=='U'){
+                k-=Integer.parseInt(cmd[i].substring(2));
+                k%=n;
+                if(k<0) k=n-Math.abs(k);
+            }
+            else if(c=='C'){
+                stack.add(k);
+                n--;
+                if(k==n) k--;
+            }
+            else if(c=='Z'){
+                if(stack.pop()<=k) k++;
+                n++;
+            }
+        }
+        
+        StringBuilder string = new StringBuilder();
+        for(int i=0; i<n; i++) string.append("O");
+        while(!stack.isEmpty()) string.insert(stack.pop(), "X");
+        
+        return string.toString(); //StringBuilder형 > String형
+    }
+}//100%
+
+
+import java.util.*;
+
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        
+        Stack<Integer> stack= new Stack<>();
+        for(int i=0; i<cmd.length; i++) {
+            char c=cmd[i].charAt(0);
+            if(c=='D') {
+                k+=Integer.parseInt(cmd[i].substring(2));
+                k%=n;
+            }
+            else if(c=='U') {
+                k-=Integer.parseInt(cmd[i].substring(2));
+                k%=n;
+                if(k<0) k=n-Math.abs(k); 
+            }
+            else if(c=='C') {
+                stack.add(k);
+                n--;
+                if(n==k) k--;
+            }
+            else if(c=='Z') {
+                if(stack.pop()<=k) k++;
+                n++;
+            }
+        }
+        
+        StringBuilder string=new StringBuilder();
+        for(int i=0; i<n; i++) string.append("O");
+        while(!stack.isEmpty()) string.insert(stack.pop(), "X");
+        return string.toString();
+    }
+} //100%
