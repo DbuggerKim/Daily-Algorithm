@@ -1,0 +1,167 @@
+//https://velog.io/@hyeon930/프로그래머스-추석-트래픽-Java
+
+import java.util.*;
+
+class Solution {
+	public int solution(String[] lines) {
+		int answer = 0;
+		int[] startTimes = new int[lines.length];
+		int[] endTimes = new int[lines.length];
+		
+		getTimes(lines, startTimes, endTimes);
+		
+		for(int i = 0 ; i < lines.length ; ++i) {
+			int cnt = 0;
+			int startOfSection = startTimes[i];
+			int endOfSection = startOfSection + 1000;
+			
+			for(int j = 0 ; j < lines.length ; ++j) {
+				if(startTimes[j] >= startOfSection && startTimes[j] < endOfSection) {
+					cnt++;
+				} else if(endTimes[j] >= startOfSection && endTimes[j] < endOfSection) {
+					cnt++;
+				} else if(startTimes[j] <= startOfSection && endTimes[j] >= endOfSection) {
+					cnt++;
+				}
+			}
+
+			answer = cnt > answer ? cnt : answer;
+		}
+		
+		for(int i = 0 ; i < lines.length ; ++i) {
+			int cnt = 0;
+			int startOfSection = endTimes[i];
+			int endOfSection = startOfSection + 1000;
+			
+			for(int j = 0 ; j < lines.length ; ++j) {
+				if(startTimes[j] >= startOfSection && startTimes[j] < endOfSection) {
+					cnt++;
+				} else if(endTimes[j] >= startOfSection && endTimes[j] < endOfSection) {
+					cnt++;
+				} else if(startTimes[j] <= startOfSection && endTimes[j] >= endOfSection) {
+					cnt++;
+				}
+			}
+
+			answer = cnt > answer ? cnt : answer;
+		}
+		
+		return answer;
+	}
+
+	private void getTimes(String[] lines, int[] startTimes, int[] endTimes) {
+		for(int i = 0 ; i < lines.length ; ++i) {
+			String[] log = lines[i].split(" ");
+			String[] responseTime = log[1].split(":");
+			int processingTime = (int)(Double.parseDouble(log[2].substring(0, log[2].length() - 1)) * 1000);
+			int startTime = 0;
+			int endTime = 0;
+			
+			endTime += Integer.parseInt(responseTime[0]) * 60 * 60 * 1000;
+			endTime += Integer.parseInt(responseTime[1]) * 60 * 1000;
+			endTime += (int)(Double.parseDouble(responseTime[2]) * 1000);
+			startTime = endTime - processingTime + 1;
+			
+			startTimes[i] = startTime;
+			endTimes[i] = endTime;
+		}
+	}
+}
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(String[] lines) {
+        int answer = 0;
+        String[][] line = new String [lines.length][2];
+        String[][] start = new String [lines.length][3];
+        String[][] end = new String [lines.length][3];
+        
+        for(int i=0; i<lines.length; i++){
+            String[] log = lines[i].split(" ");
+            line[i][0] = log[1];
+            line[i][1] = log[2];
+            line[i][1]=line[i][1].replace("s", "");
+            
+            String[] log2 = line[i][0].split(":");
+            start[i][0] = log2[0];
+            start[i][1] = log2[1];
+            start[i][2] = log2[2];
+            
+            if(Integer.parseInt(start[i][2])+Integer.parseInt(line[i][1])>=60){
+                start[i][2] = Integer.toString((Integer.parseInt(start[i][2])+
+                                               Integer.parseInt(line[i][1]))-60);
+                start[i][1] = Integer.toString((Integer.parseInt(start[i][2])+
+                                               Integer.parseInt(line[i][1]))/60);
+                if(Integer.parseInt(start[i][1]>=60)){
+                    start[i][0] = Integer.toString(Integer.parseInt(start[i][0])/60);
+                }
+            }
+        }
+            
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    
+    public int solution(String[] lines) {
+        int answer=0;
+        int[] startTime=new int[lines.length];
+        int[] endTime=new int[lines.length];
+        
+        cal(lines, startTime, endTime);
+        
+        for(int i=0; i<lines.length; i++) {
+            int count=0;
+            int startIndex=startTime[i];
+            int endIndex=startIndex+1000;
+            
+            for(int j=0; j<lines.length; j++) {
+                if(startTime[j]>=startIndex && startTime[j]<endIndex) count++;
+                else if(endTime[j]>=startIndex && endTime[j]<endIndex) count++;
+                else if(startTime[j]<=startIndex && endTime[j]>=endIndex) count++;
+            }
+            answer=Math.max(answer, count);
+        }
+        
+        for(int i=0; i<lines.length; i++) {
+            int count=0;
+            int startIndex=endTime[i];
+            int endIndex=startIndex+1000;
+            
+            for(int j=0; j<lines.length; j++) {
+                if(startTime[j]>=startIndex && startTime[j]<endIndex) count++;
+                else if(endTime[j]>=startIndex && endTime[j]<endIndex) count++;
+                else if(startTime[j]<=startIndex && endTime[j]>=endIndex) count++;
+            }
+            answer=Math.max(answer, count);
+        }
+        
+        return answer;
+    }
+    
+    public void cal(String[] lines, int[] startTime, int[] endTime) {
+        for(int i=0; i<lines.length; i++) {
+            String[] line=lines[i].split(" ");
+            String[] time=line[1].split(":");
+            int period=(int)(Double.parseDouble(line[2].substring(0, line[2].length()-1))*1000);
+            
+            int end=0;
+            end+=Integer.parseInt(time[0])*60*60*1000;
+            end+=Integer.parseInt(time[1])*60*1000;
+            end+=(int)(Double.parseDouble(time[2])*1000);
+            endTime[i]=end;
+            
+            int start=0;
+            start=end-period+1;
+            startTime[i]=start;
+        }
+    }
+    
+} //100%
