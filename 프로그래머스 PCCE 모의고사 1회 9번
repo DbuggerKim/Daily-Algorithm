@@ -1,0 +1,9 @@
+def solution(num_list):
+    
+    answer=[True]*len(num_list)
+    for i in range(len(num_list)):
+        for j in range(2,num_list[i]-1):
+            if num_list[i]%j==0:
+                answer[i]=False
+                break
+    return answer
