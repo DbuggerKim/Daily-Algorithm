@@ -1,0 +1,98 @@
+import java.util.*;
+
+class Node {
+    int x, y, dir, val;
+    Node(int x, int y, int dir, int val) {
+        this.x = x;
+        this.y = y;
+        this.dir = dir;
+        this.val = val;
+    }
+}
+
+class Solution {
+    int N, answer = Integer.MAX_VALUE;
+    int dy[] = {-1, 0, 1, 0}, dx[] = {0, 1, 0, -1};
+    boolean[][][] isvisited;
+    
+    public int solution(int[][] board) {
+        N = board.length;
+        isvisited = new boolean[N][N][4];
+        bfs(0, 0, board);
+        return answer;
+    }
+    
+    public void bfs(int x, int y, int[][] map) {
+        Queue<Node> q = new LinkedList<>();
+        q.offer(new Node(x, y, -1, 0));
+        isvisited[y][x][0]=isvisited[y][x][1]=isvisited[y][x][2]=isvisited[y][x][3] =true;
+
+        while(!q.isEmpty()) {
+            Node d=q.poll();
+            if(d.x==N-1 && d.y==N-1) answer=Math.min(answer, d.val);
+            for(int i=0; i<4; i++) {
+                int nx = d.x+dx[i];
+                int ny = d.y+dy[i];
+                if(nx>=0 && nx<N && ny>=0 && ny<N && map[ny][nx]!=1) {
+                    int newcost = d.dir==-1 || d.dir==i ? d.val+100 : d.val+600; //
+                    if(!isvisited[ny][nx][i] || newcost<=map[ny][nx]){
+                        q.offer(new Node(nx, ny, i, newcost));
+                        isvisited[ny][nx][i] = true;
+                        map[ny][nx]=newcost;
+                    }
+                }
+            }
+        }
+    }
+} //100%
+
+import java.util.*;
+
+class Node {
+    int x,y,dir,val;
+    Node(int x, int y, int dir, int val) {
+        this.x=x;
+        this.y=y;
+        this.dir=dir;
+        this.val=val;
+    }
+}
+
+class Solution {
+
+    int N;
+    boolean[][][] visit;
+    int answer=Integer.MAX_VALUE;
+    int dy[]={-1,0,1,0};
+    int dx[]={0,1,0,-1};
+    
+    public void bfs(int x, int y, int[][] map) {
+        Queue<Node> queue=new LinkedList<>();
+        queue.offer(new Node(x,y,-1,0));
+        visit[y][x][0]=visit[y][x][1]=visit[y][x][2]=visit[y][x][3]=true;
+        
+        while(!queue.isEmpty()) {
+            Node n=queue.poll();
+            if(n.x==N-1 && n.y==N-1) answer=Math.min(answer,n.val);
+            for(int i=0; i<4; i++) {
+                int nx=n.x+dx[i];
+                int ny=n.y+dy[i];
+                if(nx>=0 && nx<N && ny>=0 && ny<N && map[ny][nx]!=1) {
+                    int cost = n.dir==-1 || n.dir==i ? n.val+100 : n.val+600; //
+                    if(!visit[ny][nx][i] || cost<=map[ny][nx]) {
+                        queue.offer(new Node(nx, ny, i, cost));
+                        visit[ny][nx][i]=true;
+                        map[ny][nx]=cost;
+                    }
+                }
+            }
+        }
+    }
+    
+    public int solution(int[][] board) {
+        N=board.length;
+        visit=new boolean[N][N][4];
+        bfs(0,0,board);
+        return answer;
+    }
+} //100%
