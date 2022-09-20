@@ -1,0 +1,41 @@
+//이분 탐색 활용
+//https://rays-space.tistory.com/15
+
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[] cores) {
+        int min=0; //시간의 최소값
+        int max=cores[0]*n; //시간의 최대값 ???
+        int time=0; //현재 시각
+        int total=0; //time까지 처리한 작업량
+        int answer=0; //총 작업량
+        
+        while(min<=max) {
+            int mid=(min+max)/2;
+            int count=cal(mid, cores);//mid까지 처리한 작업량
+            if(count>=n) { //작업량 초과
+                max=mid-1;
+                time=mid;
+                total=count;
+            } else min=mid+1; //작업량 미달
+        } total-=n; //처리한 작업량과 n 차이 갱신
+        
+        for(int i=cores.length-1; i>=0; i--) {
+            if(time%cores[i]==0) {
+                if(total==0) {
+                    answer=i+1;
+                    break;
+                } total--;
+            }
+        }
+        return answer;
+    }
+    
+    public int cal(int time, int[] cores) {
+        if(time==0) return cores.length;
+        int count=cores.length;
+        for(int i=0; i<cores.length; i++) count+=time/cores[i];
+        return count;
+    }
+} //100%
