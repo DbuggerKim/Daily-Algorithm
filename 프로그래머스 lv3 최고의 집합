@@ -1,0 +1,132 @@
+//곱의 최대는 값들 하나하나 max
+//https://zzang9ha.tistory.com/195
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, int s){
+        
+        if(s<n) return new int[]{-1}; //하나의 인덱스 갖춘 배열
+        int[] answer = new int [n];
+        for(int i=0; i<answer.length; i++) answer[i]=s/n;
+        for(int i=0; i<s%n; i++) answer[i]++;
+        
+        Arrays.sort(answer);
+        
+        return answer;
+    }
+}
+
+//중복조합
+/*import java.util.*;
+class Solution {
+
+    int max=Integer.MIN_VALUE;
+    LinkedList <String> list = new LinkedList <>();
+    int[] arr;
+    
+    public void combination(int count, int index, int n, int s){
+        
+        if(count==n){
+            int sum=0, mux=1;
+            for(int i=0; i<arr.length; i++){
+                sum+=arr[i];
+                mux*=arr[i];
+            }
+            if(sum==s){
+                list.add(Arrays.toString(arr));
+                max=Math.max(max, mux);
+            }
+            return;
+        }
+        
+        for(int i=index; i<=s; i++){
+            arr[count]=i;
+            combination(count+1, i, n, s);
+        }
+        
+    }
+    
+    public int[] solution(int n, int s) {
+        
+        arr=new int [n];
+        String[] arr2 = {};
+        combination(0, 1, n, s);
+        
+        for(int i=0; i<list.size(); i++){
+            String sub=list.get(i);
+            sub=sub.replace("[", "");
+            sub=sub.replace("]", "");
+            String[] arr = sub.split(", ");
+            arr2=arr.clone();
+        }
+        
+        int[] answer;
+        if(max<0){
+            answer = new int [1];
+            Arrays.fill(answer, -1);
+        }
+        else answer= new int [n];
+        
+        for(int i=0; i<arr2.length; i++){
+            int num=1;
+            answer[i]=Integer.parseInt(arr2[i]);
+            num*=answer[i];
+            if(max==num) break;
+        }
+    
+        return answer;
+    }
+    
+}*/ TO
+
+/*bruteforce 완전탐색
+https://sskl660.tistory.com/51
+*/
+
+
+/*
+package cases;
+
+import java.util.Arrays;
+
+public class Combination_with_repetition {
+	// 선택하고자 하는 대상 집합.
+	static int[] target = new int[] { 1, 2, 3 };
+	// 대상 숫자를 담아둘 배열.
+	static int[] result = new int[2];
+
+	public static void main(String[] args) {
+		combination(0, 0);
+	}
+
+	// 조합 메서드(cnt는 선택 횟수, idx는 다음 대상을 선택할때 집합에서 탐색을 시작할 인덱스).
+	private static void combination(int cnt, int idx) {
+		// 2개를 선택했으므로, 결과를 출력하고 재귀를 종료한다.
+		if (cnt == 2) {
+			System.out.println(Arrays.toString(result));
+			return;
+		}
+		// 대상 집합을 주어진 인덱스부터 순회하며 숫자를 하나 선택한다.
+		for (int i = idx; i < 3; i++) {
+			// 숫자를 담는다.
+			result[cnt] = target[i];
+			// 자신을 재귀 호출한다(자신의 수는 중복 선택이 가능하므로, 인덱스를 그대로 넘겨준다).
+			combination(cnt + 1, i); //
+		}
+	}
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, int s) {
+        if(s<n) return new int[]{-1};
+        int[] answer=new int[n];
+        for(int i=0; i<answer.length; i++) answer[i]=s/n;
+        for(int i=0; i<s%n; i++) answer[i]++;
+        Arrays.sort(answer);
+        return answer;
+    }
+} //100%
