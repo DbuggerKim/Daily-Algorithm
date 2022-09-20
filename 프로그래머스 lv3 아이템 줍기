@@ -1,0 +1,129 @@
+//https://loosie.tistory.com/544
+//https://velog.io/@ujone/프로그래머스-아이템-줍기-JAVA
+
+class Solution {
+    
+    public int min = Integer.MAX_VALUE;
+	public int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}}; //우좌상하
+	public boolean[][] map = new boolean [102][102]; //(0,0)제외
+    public boolean[][] visit = new boolean[map.length][map.length]; 
+    
+    public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
+		for(int[] rect : rectangle){ //2차원 배열 중 4개 좌표
+			int startX=rect[0]*2, startY=rect[1]*2, endX=rect[2]*2, endY=rect[3]*2;
+			for(int i=startX; i<=endX; i++){
+				for(int j=startY; j<=endY; j++){
+					map[i][j]=true;
+				}
+			}
+		}
+		helper(characterX*2, characterY*2, itemX*2, itemY*2, visit, 0);
+		return min/2;
+    }
+    
+    public void helper(int characterX, int characterY, int itemX, int itemY, boolean[][] visit, int cnt) {
+		if(characterX==itemX && characterY==itemY){
+			min=Math.min(min, cnt);
+			return;
+		}
+		if(min<=cnt || !check(characterX, characterY, map, visit)) return;
+		visit[characterX][characterY] = true;
+		for(int[] d : dir) helper(characterX+d[0], characterY+d[1], itemX, itemY, visit, cnt+1);
+		visit[characterX][characterY] = false;
+	}
+	
+	public boolean check(int i, int j, boolean[][] map, boolean[][] visit) {
+		if(visit[i][j] || !map[i][j]) return false; //이미 방문했거나 길이 없을 때
+		int[][] dir = new int[][]{{1,0},{0,1},{0,-1},{-1,0},{-1,-1},{-1,1},{1,-1},{1,1}};
+		for(int[] d : dir) if(!map[i+d[0]][j+d[1]]) return true; //지금 위치 상하좌우 길이 없을 때
+		return false;
+	}
+    
+} //100%
+
+/*
+//https://velog.io/@ujone/프로그래머스-아이템-줍기-JAVA
+
+class Solution {
+    
+    public int min = Integer.MAX_VALUE;
+	public int[][] dir = {{1,0},{-1,0},{0,1},{0,-1}}; //우좌상하
+	public boolean[][] map = new boolean [51][51]; //(0,0)제외
+    public boolean[][] visit = new boolean[map.length][map.length]; 
+    
+    public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
+		for(int[] rect : rectangle){ //2차원 배열 중 4개 좌표
+			int startX=rect[0], startY=rect[1], endX=rect[2], endY=rect[3];
+			for(int i=startX; i<=endX ; i++){
+				for(int j=startY; j<=endY ; j++){
+					map[i][j]=true;
+				}
+			}
+		}
+		helper(characterX, characterY, itemX, itemY, visit, 0);
+		return min;
+    }
+    
+    public void helper(int characterX, int characterY, int itemX, int itemY, boolean[][] visit, int cnt) {
+		if(characterX==itemX && characterY==itemY){ //
+			min=Math.min(min, cnt);
+			return;
+		}
+		if(min<=cnt || !check(characterX, characterY, map, visit)) return;
+		visit[characterX][characterY] = true;
+		for(int[] d : dir) helper(characterX+d[0], characterY+d[1], itemX, itemY, visit, cnt+1);
+		visit[characterX][characterY] = false;
+	}
+	
+	public boolean check(int i, int j, boolean[][] map, boolean[][] visit) {
+		if(visit[i][j] || !map[i][j]) return false;
+		int[][] dir = new int[][]{{1,0},{0,1},{0,-1},{-1,0}};
+		for(int[] d : dir) if(!map[i+d[0]][j+d[1]]) return true;
+		return false;
+	}
+    
+}
+*/
+
+/*
+class Solution {
+    
+    int[] dx = {0,0,-1,1};
+    int[] dy = {-1,1,0,0};
+    int answer = 0;
+    
+    public void dfs(int currentX, int currentY, boolean[][] rectangle, boolean[][] visited, int characterX, int characterY){
+        
+        visitRectangle[currentX][currentY]=true;
+        
+        for(int i=0; i<4; i++){
+            int nextX = currentX + dx[i];
+            int nextY = currentY + dy[i];
+            if(nextX<0||nextX>=rectangle.length||nextY<0||nextY>=rectangle.length) continue;
+            if(!visited[nextX][nextY] && rectangle[nextX][nextY]==1){
+                visited[nextX][nextY] = true;
+                answer++;
+                if(nextX==characterX || nextY==characterY) break;
+                visited[nextX][nextY] = false;
+            }
+        }
+    }
+    
+    public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
+        
+        //boolean[][] rectangle = new boolean [rectangle.length][rectangle[0].length];
+        boolean[][] visited = new boolean [visited.length][visited[0].length];
+        
+        /*for(int i=0; i<rectangle.length; i++){
+            for(int j=0; j<rectangle[i].length; j++){
+                
+                
+            }
+        }*/
+        
+        dfs(itemX, itemY, rectangle, visited, characterX, characterY);
+        
+        return answer;
+    }
+}
+*/
