@@ -1,0 +1,106 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String skill, String[] skill_trees) {
+        int answer = 0;
+        
+        for (String skillTree : skill_trees) {
+            String tempSkill = skillTree;
+            
+            for (int i = 0; i < skillTree.length(); i++) {
+                String s = skillTree.substring(i, i+1);
+                if (!skill.contains(s)) {
+                    tempSkill = tempSkill.replace(s, "");//필수 스킬이 아닐 경우 공백으로 치환
+                }
+            }
+            
+            if (skill.indexOf(tempSkill) == 0) //skilltree 부분 배열이 skill 포함되면 0
+                answer++;
+        }
+ 
+        return answer;
+    }
+}//100%
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(String skill, String[] skill_trees) {
+        
+        int answer=0;
+        Stack <Character> stack = new Stack <>();
+        for(int i=skill.length()-1; i>=0; i--) stack.add(skill.charAt(i));
+        
+        for(int i=0; i<skill_trees.length; i++){
+            if(!stack.isEmpty()){
+                for(int j=0; j<skill_trees[i].length(); j++){
+                    if(skill_trees[i].charAt(j)==stack.peek()) stack.pop();
+                }
+                if(stack.isEmpty()) answer++;
+                stack.clear();
+                for(int j=skill.length()-1; j>=0; j--) stack.add(skill.charAt(j));
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(String skill, String[] skill_trees) {
+        
+        int answer=0;
+        Stack <Character> stack = new Stack <>();
+        for(int i=skill.length()-1; i>=0; i--) stack.add(skill.charAt(i));
+        
+        for(int i=0; i<skill_trees.length; i++){
+            if(stack.isEmpty())answer++;
+            else {
+                for(int j=0; j<skill_trees[i].length(); j++){
+                    if(skill_trees[i].charAt(j)==stack.peek()) stack.pop();
+                }
+            stack.clear();
+            for(int j=skill.length()-1; j>=0; j--) stack.add(skill.charAt(j));
+            }
+        }
+        
+        return answer;
+    }
+}
+*/
+
+
+/*class Solution {
+    public int solution(String skill, String[] skill_trees) {
+        int answer=0;
+        int count=0;
+        int count2=0;
+        String tree="";
+        
+        for(int i=0; i<skill_trees.length; i++){
+            for(int j=0; j<skill_trees[i].length(); j++){
+                if(skill.charAt(count)==skill_trees[i].charAt(j)){
+                    tree+=skill.charAt(count);
+                    count++;
+                }
+            }
+            
+            for(int j=0; j<count; j++){
+                if(tree.charAt(j)==skill.charAt(j)) count2++;
+            }
+            
+            if(count==count2) answer++;
+            count=0;
+            count2=0;
+        }
+        
+        
+        return answer;
+    }
+}*/
