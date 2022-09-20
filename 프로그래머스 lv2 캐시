@@ -1,0 +1,87 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int cacheSize, String[] cities) {
+        int answer=0;
+        LinkedList<String> cache = new LinkedList<>();
+        
+        if(cacheSize==0) return cities.length*5;
+
+        for(int i=0; i<cities.length; i++){
+            String s=cities[i].toLowerCase();
+            if(cache.remove(s)){
+                answer+=1;
+                cache.add(s);
+            }
+            else{
+                answer+=5;
+                if(cache.size()>=cacheSize) cache.remove(0); //처음 들어간 문자 out
+                cache.add(s);
+            }
+        }
+        
+        return answer;
+    }
+}
+
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(int cacheSize, String[] cities) {
+        int answer = 0;
+        int count=0;
+        HashMap <String, Integer> cache = new HashMap <>();
+        
+        while(cache.size()<cacheSize){
+            cache.put(cities[count++], count++);
+        }
+        
+        int min=Integer.MAX_VALUE;
+        int hit=0;
+        int miss=0;
+            
+        for(int i=count; i<cities.length; i++){
+            for(String val : cache.keySet()){
+                if(val==cities[i]){
+                    min=i;
+                    hit+=1;
+                }
+                else{
+                    min=Math.min(min, cache.get(val));
+                    miss+=5;
+                }
+            }
+            cache.put(cities[i], min);
+        }
+        
+        return hit+miss;
+    }
+}
+*/
+
+//https://hianna.tistory.com/564
+import java.util.*;
+
+class Solution {
+    public int solution(int cacheSize, String[] cities) {
+        int answer=0;
+        LinkedList<String> cache = new LinkedList<>();
+        if(cacheSize==0) return cities.length*5;
+
+        for(int i=0; i<cities.length; i++){
+            String s=cities[i].toLowerCase();
+            if(cache.remove(s)==true){ //찾아서 지우면 true 반환
+                answer+=1;
+                cache.add(s);
+            }
+            else{
+                answer+=5;
+                if(cache.size()>=cacheSize) cache.remove(0); //처음 들어간 문자 out
+                cache.add(s);
+            }
+        }
+        
+        return answer;
+    }
+}//100%
