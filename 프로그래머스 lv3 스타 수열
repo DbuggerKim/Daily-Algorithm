@@ -1,0 +1,65 @@
+class Solution {
+    public int solution(int[] a) {
+        int[] count = new int[a.length];
+        for(int num : a) count[num]++;
+        
+        int ret = 0;
+        
+        for(int i=0 ; i<a.length ; i++) {
+        	if(count[i]==0) continue;
+        	if(count[i]<=ret) continue;
+        	int len = 0;
+        	for(int j=0 ; j<a.length-1 ; j++) {
+        		if(a[j]!=i && a[j+1]!=i) continue;
+        		if(a[j]==a[j+1]) continue;
+        		len++;
+        		j++;
+        	}
+        	ret = Math.max(ret, len);
+        }
+        
+        return ret*2;
+    }
+} //100%
+
+
+class Solution {
+    public int solution(int[] a) {
+        int[] count = new int[a.length];
+        for(int num : a) count[num]++; //a의 모든 수는 0 이상 (a의 길이) 미만
+        int ret=0;
+        for(int i=0 ; i<a.length ; i++) {
+        	if(count[i]==0) continue;
+        	if(count[i]<=ret) continue;
+        	int len=0;
+        	for(int j=0 ; j<a.length-1 ; j++) {
+        		if(a[j]!=i && a[j+1]!=i) continue; //a의 모든 수는 0 이상 (a의 길이) 미만
+        		if(a[j]==a[j+1]) continue;
+        		len++;
+			j++
+        	} ret=Math.max(ret, len);
+        }
+        
+        return ret*2; //한 인덱스j를 기준으로 증가 시켰기 때문에 *2
+    }
+} //100%
+
+class Solution {
+    public int solution(int[] a) {
+        int[] count=new int[a.length];
+        for(int num : a) count[num]++;
+        int answer=0;
+        for(int i=0; i<a.length; i++) {
+            if(count[i]==0) continue;
+            if(count[i]<=answer) continue;
+            int len=0;
+            for(int j=0; j<a.length-1; j++) {
+                if(a[j]!=i && a[j+1]!=i) continue;
+                if(a[j]==a[j+1]) continue;
+                len++;
+                j++;
+            } answer=Math.max(answer,len);
+        }
+        return answer*2;
+    }
+} //100%
