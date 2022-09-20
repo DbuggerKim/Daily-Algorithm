@@ -1,0 +1,108 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int answer=0;
+        int a=0;
+        int b=0;
+        
+        Arrays.sort(A);
+        Arrays.sort(B);
+        
+        for(int i=0; i<A.length; i++){
+            if(A[a]>=B[b]) b++;
+            else{
+                b++;
+                a++;
+                answer++;
+            }
+        }
+        
+        return answer;
+        
+    }
+} //100%
+
+/*import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int answer=0;
+        int a=0;
+        int b=0;
+        
+        Arrays.sort(A);
+        Arrays.sort(B);
+        
+        for(int i=0; i<A.length; i++){
+            if(A[i]>=B[i]) b++;
+            else{
+                b++;
+                a++;
+                answer++;
+            }
+        }
+        
+        return answer;
+        
+    }
+}*/
+
+/*
+import java.util.*;
+
+class Solution {
+    
+    int answer = 0;
+    boolean[] visit;
+        
+    public void bfs(int vertex, int[] A, int[] B){
+        
+        Queue <Integer> queue = new LinkedList <> ();
+        queue.add(vertex);
+        visit[vertex]=true;
+        
+        for(int i=0; i<B.length; i++){
+            vertex=queue.poll();
+            if(A[vertex]<B[i] && !visit[i]){
+                visit[vertex]=true;
+                vertex--;
+                queue.add(vertex);
+                answer++;
+            }
+        }
+        
+    }
+
+    //A팀 고정 , B팀 유동
+    public int solution(int[] A, int[] B) {
+        
+        visit = new boolean [B.length];
+        bfs(A.length, A, B);
+        
+        return answer;
+        
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int answer=0;
+        int a=0;
+        int b=0;
+        Arrays.sort(A);
+        Arrays.sort(B);
+        for(int i=0; i<A.length; i++) {
+            if(A[a]>=B[b]) b++;
+            else {
+                a++;
+                b++;
+                answer++;
+            }
+        }
+        return answer;
+    }
+} //100%
