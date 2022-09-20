@@ -1,0 +1,54 @@
+import java.util.*;
+
+class Solution {
+    
+    public int solution(int left, int right) {
+        int answer = 0;
+        
+        int index=0;
+        int count=0;
+        
+        int [] divisor = new int [right-left+1];
+        Arrays.fill(divisor,0);
+     
+        for(int i=left; i<=right; i++){
+            for(int j=1; j<=i; j++){
+                if(i%j==0)count++;
+            }
+            divisor[index++]=count;
+            count=0;
+        }
+        
+        for(int i=0; i<divisor.length; i++){
+            if(divisor[i]%2==0) answer+=(i+left);
+            else answer-=(i+left);
+        }
+        
+        return answer;
+    }
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    public boolean cal(int n){
+        int count=0;
+        for(int i=1; i<=n; i++){
+            if(n%i==0) count++;
+        }
+        if(count%2==0) return true;
+        else return false;
+    }
+    
+    public int solution(int left, int right) {
+        int answer=0;
+        
+        for(int i=left; i<=right; i++){
+            if(cal(i)) answer+=i;
+            else answer-=i;
+        }
+        
+        return answer;
+    }
+} //100%
