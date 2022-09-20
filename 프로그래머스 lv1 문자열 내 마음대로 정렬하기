@@ -1,0 +1,69 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] s, int n) {
+        String[] answer = new String[s.length];
+        ArrayList <String> list = new ArrayList<>();
+        
+        for(int i=0; i<s.length; i++) list.add(s[i].charAt(n)+s[i]);
+        Collections.sort(list); //list 정렬
+        
+        for(int i=0; i<answer.length; i++) answer[i]=list.get(i).substring(1); //1이후 all
+        
+        return answer;
+    }
+}//100%
+
+
+/*
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] s, int n) {
+        
+        String[] answer = new String[s.length];
+        Arrays.sort(s);
+        
+        for(int i=0; i<s.length-1; i++){
+            for(int j=i; j<s.length; j++){
+                char c1=s[i].charAt(n);
+                char c2=s[j].charAt(n);
+                if(c1>c2){
+                    String temp=s[i];
+                    s[i]=s[j];
+                    s[j]=temp;
+                }
+            }
+        }
+        
+        for(int i=0; i<s.length; i++) answer[i]=s[i];
+        
+        return answer;
+    }
+}//33%
+*/
+
+
+/*
+import java.util.*;
+
+class Solution {
+    public String[] solution(String[] s, int n) {
+        
+        String[] answer = new String[s.length];
+        Arrays.sort(s);
+        
+        for(int i=0; i<s.length-1; i++){
+            if(s[i].charAt(n)>s[i+1].charAt(n)){
+                String temp=s[i];
+                s[i]=s[i+1];
+                s[i+1]=temp;
+            }
+        }
+        
+        for(int i=0; i<s.length; i++) answer[i]=s[i];
+        
+        return answer;
+    }
+} //16%
+*/
