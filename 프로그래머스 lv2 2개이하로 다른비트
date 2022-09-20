@@ -1,0 +1,41 @@
+import java.util.*;
+
+class Solution {
+    public long[] solution(long[] numbers) {
+        long[] answer = new long[numbers.length];
+        String[] bin = new String[numbers.length];
+        
+        for(int i=0; i<numbers.length; i++){
+            bin[i]=Integer.toBinaryString((int)numbers[i]);
+        }
+        
+        for(int i=0; i<bin.length; i++){
+            int count=Integer.MAX_VALUE;
+            String s="";
+            while(count>2){
+                numbers[i]++;
+                s=Integer.toBinaryString((int)numbers[i]);
+                int scount=0;
+                for(int j=bin[i].length()-1; j>=0; j--){
+                    if(bin[i].charAt(j)!=s.charAt(j)) scount++;
+                }
+                count=scount;
+            }
+            answer[i]=(long)Integer.parseInt(s,2);
+        }
+        return answer;
+    }
+}//0%
+
+//https://train-validation-test.tistory.com/103
+
+class Solution {
+    public long[] solution(long[] numbers) {
+        long[] answer = numbers.clone();
+        for(int i=0; i<answer.length; i++){
+            answer[i]++;
+            answer[i]+=(answer[i]^numbers[i])>>2;
+        }
+        return answer;
+    }
+} //100%
