@@ -1,0 +1,59 @@
+//출처: https://backstreet-programmer.tistory.com/59 [글쓰는 개발자]
+//reverse함수
+
+import java.util.*;
+
+class Solution {
+    
+    static void swap(int[] a, int index1, int index2) { 
+        int temp = a[index1]; 
+        a[index1] = a[index2]; 
+        a[index2] = temp;
+    } 
+    
+    static void reverse(int[] arr) { 
+        for(int i=0; i<arr.length/2; i++) { 
+            swap(arr, i, (arr.length-1)-i); 
+        }
+    }
+    
+    public int[] solution(long n) {
+        
+        String num =String.valueOf(n); 
+        char[] answer = new char [num.length()];
+        int[] answer2= new int[num.length()];
+        
+        for(int i=0; i<num.length(); i++){
+            answer[i]=num.charAt(i);
+        }
+        
+        for(int i=num.length()-1; i>=0; i--){
+            answer2[i]=Character.getNumericValue(answer[i]);
+        }
+        
+        reverse(answer2);
+        
+        return answer2;
+    }
+} //100%
+
+
+class Solution {
+    public int[] solution(long n) {
+        
+        long temp=n;
+        String s="";
+        
+        while(temp>=10){
+            s+=temp%10;
+            temp/=10;
+        } s+=temp%10;
+        
+        int []answer = new int[s.length()];
+        for(int i=0; i<s.length(); i++){
+            answer[i]=Integer.parseInt(s.charAt(i)+"");
+        }
+        
+        return answer;
+    }
+} //100%
