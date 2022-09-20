@@ -1,0 +1,138 @@
+/*
+import java.util.*;
+
+class Solution {
+    
+    int wolf=0;
+    int sheep=0;
+    boolean visited[];
+    boolean edge[][];
+    
+    public int solution(int[] info, int[][] edges) {
+        visited=new boolean[info.length];
+        edge=new boolean[info.length][info.length];
+        for(int i=0; i<edges.length; i++){
+            edge[edges[i][0]][edges[i][1]]=true;
+            edge[edges[i][1]][edges[i][0]]=true;
+        }
+        bfs(0, info, edges);
+        return sheep;
+    }
+    
+    public void bfs(int current, int[] info, int[][]edges){
+        Queue <Integer> queue = new LinkedList<>();
+        queue.add(current);
+        if(info[current]==0) sheep++;
+        else if(info[current]==1) wolf++;
+        while(!queue.isEmpty()){
+            int temp=queue.poll();
+            for(int i=0; i<info.length; i++){
+                if(edge[temp][i]==true && !visited[i] && wolf<sheep){
+                    queue.add(i);
+                    visited[i]=true;
+                }
+            }
+        }
+    }
+    
+}
+*/
+
+//https://cano721.tistory.com/m/73
+
+import java.util.*;
+
+class Solution {
+    public ArrayList<Integer>[] graph;
+    public boolean[][][] visited;
+    public int answer=1;
+    
+    public int solution(int[] info, int[][] edges) {
+        graph=new ArrayList[info.length];
+        for(int i=0; i<info.length; i++) graph[i]=new ArrayList<>();
+        for(int i=0; i<edges.length; i++){
+            graph[edges[i][0]].add(edges[i][1]);
+            graph[edges[i][1]].add(edges[i][0]);
+        }
+        visited=new boolean[info.length][info.length+1][info.length+1];
+        visited[0][0][0]=true;
+        dfs(0,info,0,0);
+        return answer;
+    }
+    
+    public void dfs(int idx, int[] info, int sheep, int wolf){
+        
+        int temp=-1;
+        if(info[idx]!=-1){
+            if(info[idx]==0){
+                temp=0;
+                sheep++;
+            }else{
+                temp=1;
+                wolf++;
+            }
+        }
+        
+        if(sheep<=wolf) return;
+        else answer=Math.max(answer,sheep);
+        
+        for(int i=0; i<graph[idx].size(); i++){
+            int next=graph[idx].get(i);
+            if(visited[next][sheep][wolf]==true) continue;
+            info[idx]=-1;
+            visited[idx][sheep][wolf]=true;
+            dfs(next,info,sheep,wolf);
+            info[idx]=temp;
+            visited[idx][sheep][wolf]=false;
+        }
+    }
+} //100%
+
+
+import java.util.*;
+class Solution {
+    
+    public ArrayList<Integer>[] graph;
+    public boolean[][][] visit;
+    public int answer=0;
+    
+    public int solution(int[] info, int[][] edges) {
+        graph=new ArrayList[info.length];
+        for(int i=0; i<info.length; i++) graph[i]=new ArrayList<>();
+        for(int i=0; i<edges.length; i++) {
+            graph[edges[i][0]].add(edges[i][1]);
+            graph[edges[i][1]].add(edges[i][0]);
+        }
+        visit=new boolean[info.length][info.length+1][info.length+1];
+        visit[0][0][0]=true;
+        dfs(0,info,0,0);
+        return answer;
+    }
+    
+    public void dfs(int index, int[] info, int sheep, int wolf) {
+        int temp=-1;
+        if(info[index]!=-1) {
+            if(info[index]==0) {
+                sheep++;
+                temp=0;
+            }
+            else if(info[index]==1) {
+                wolf++;
+                temp=1;
+            }
+        }
+        
+        if(sheep<=wolf) return;
+        else answer=Math.max(answer, sheep);
+        
+        for(int i=0; i<graph[index].size(); i++) {
+            int next=graph[index].get(i);
+            if(visit[next][sheep][wolf]==true) continue;
+            info[index]=-1;
+            visit[index][sheep][wolf]=true;
+            dfs(next,info,sheep,wolf);
+            info[index]=temp;
+            visit[index][sheep][wolf]=false;   
+        }
+    }
+} //100%
