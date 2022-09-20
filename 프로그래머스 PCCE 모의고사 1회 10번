@@ -1,0 +1,15 @@
+def solution(text, anagram, sw):
+    n=len(text)
+    ans=[0]*n
+    answer=''
+    
+    if sw==True:
+        for i in range (len(text)):
+            ans[anagram[i]]=text[i]
+        for i in range(len(ans)):
+            answer+=ans[i]
+    else:
+        for i in range (len(text)):
+            answer+=text[anagram[i]]
+    
+    return answer
