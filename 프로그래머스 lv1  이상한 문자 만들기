@@ -1,0 +1,55 @@
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        char c = 'c';
+        String [] arr = s.split(" ");
+        
+        for(int i=0; i<arr.length; i++){
+            for(int j=0; j<arr[i].length(); j++){
+                if(j==0 || j%2==0) c=Character.toUpperCase(arr[i].charAt(j));
+                else if(j%2!=0) c=Character.toLowerCase(arr[i].charAt(j));
+                answer=answer+c;
+            }
+            if(i!=arr.length-1) answer+=" ";
+        }
+        
+        if(s.length() > answer.length()) answer += s.substring(answer.length(), s.length());
+        
+        return answer;
+    }
+} //100%
+
+/*
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        char c = 'c';
+        String [] arr = s.split(" ");
+        
+        for(int i=0; i<arr.length; i++){
+            for(int j=0; j<arr[i].length(); j++){
+                if(j==0 || j%2==0) c=Character.toUpperCase(arr[i].charAt(j));
+                else c=Character.toLowerCase(arr[i].charAt(j));
+                answer+=c;
+            }
+            if(i!=arr.length-1) answer+=" ";
+        }
+        
+        return answer;
+    }
+}//68%
+*/
+
+class Solution {
+  public String solution(String s) {
+        char[] arr=s.toCharArray();
+        int idx=0;
+
+        for(int i=0; i<arr.length; i++) {
+            if(arr[i]==' ') idx=0;
+            else arr[i]=(idx++%2==0 ? Character.toUpperCase(arr[i]):Character.toLowerCase(arr[i]));
+        }
+
+        return String.valueOf(arr);
+  }
+} //100%
