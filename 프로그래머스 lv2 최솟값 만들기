@@ -1,0 +1,123 @@
+import java.util.*;
+
+class Solution{
+    public int solution(int []A, int []B){
+        int answer=0;
+        int N=A.length;
+        
+        Arrays.sort(A);
+        Arrays.sort(B);
+        
+        for(int i=0; i<N; i++){
+            answer+=A[i]*B[N-1-i];
+        }
+        
+        return answer;
+    }
+}
+
+
+/*
+import java.util.*;
+import java.lang.Math;
+
+class Solution{
+    public int solution(int []A, int []B){
+        
+        int answer=0;
+        int N=A.length;
+        boolean [] flagA = new boolean [A.length];
+        boolean [] flagB = new boolean [B.length];
+        Arrays.fill(flagA, false);
+        Arrays.fill(flagB, false);
+        
+        int minA=Integer.MIN_VALUE;
+        int maxA=Integer.MAX_VALUE;
+        int minB=Integer.MIN_VALUE;
+        int maxB=Integer.MAX_VALUE;
+        
+        int minAIndex=0;
+        int maxAIndex=0;
+        int minBIndex=0;
+        int maxBIndex=0;
+        
+        int min=0;
+        int max=0;
+        
+        int n=0;
+        while(n<N){
+            for(int i=0; i<A.length; i++){
+                if(flagA[i]==false){
+                    if(minA>A[i]){
+                        minA=A[i];
+                        minAIndex=i;
+                    }
+                    if(maxA>A[i]){
+                        maxA=A[i];
+                        maxAIndex=i;
+                    }
+                }
+            }
+            
+            for(int i=0; i<B.length; i++){
+                if(flagB[i]==false){
+                    if(minB>B[i]){
+                        minB=B[i];
+                        minBIndex=i;
+                    }
+                    if(maxB>B[i]){
+                        maxB=B[i];
+                        maxBIndex=i;
+                    }
+                }
+            }
+
+            if(minA<minB){
+                min=minA;
+                flagA[minAIndex]=true;
+            }
+            else{
+                min=minB;
+                flagB[minBIndex]=true;
+            }
+            
+            if(maxA<maxB){
+                max=maxA;
+                flagA[maxAIndex]=true;
+            }
+            else{
+                max=maxB;
+                flagB[maxBIndex]=true;
+            }
+            answer+=min*max;
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+class Solution{
+    /public int solution(int []A, int []B){
+        int answer = 0;
+        
+        int [] C = new int [A.length+B.length];
+        for(int i=0; i<A.length; i++) C[i]=A[i];
+        for(int i=0; i<B.length; i++) C[A.length+i]=B[i];
+        
+        Arrays.sort(C);
+        int j=C.length-1;
+        
+        for(int i=0; i<C.length/2; i++){
+            answer= answer+C[i]*C[j];
+            j--;
+        }
+        
+        return answer;
+    }
+}
+*/
+
