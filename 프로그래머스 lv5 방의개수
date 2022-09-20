@@ -1,0 +1,263 @@
+//문법 및 알고리즘 이해
+import java.util.*;
+//https://ziyuun.tistory.com/5
+/*
+arrows 배열 따라서 선을 그린다.
+
+=> 이미 그렸던 edge를 다시 그렸다면 count 증가X : continue;
+if 이미 찍혀있던 점에 다시 도착했다면 :count++;
+else 새로운 정점 hashset에 add
+
+if(대각선 edge이고, cross edge가 존재한다면) count++;
+
+새로운 edge hashset에 add
+
+*/
+
+class Edge{
+    int r1,r2,c1,c2,d;//시작정점, 도착정점, 방향
+    Edge(int r1, int c1, int r2, int c2, int d){
+        this.r1 = r1;
+        this.r2 = r2;
+        this.c1 = c1;
+        this.c2 = c2;
+        this.d = d;
+    }
+
+     @Override
+    public boolean equals(Object obj){
+        Edge e = (Edge) obj;
+
+        //edge에 방향을 없애고 edge가 그려진 위치로만 같은 객체임을 비교
+        //ex) `3방향으로 (0,0), (1,1)` == `7방향으로 (1,1), (0,0)` 서로 같은 객체
+        if((e.r1 + e.r2 == this.r1 + this.r2) && (e.c1 + e.c2 == this.c1 + this.c2) 
+           && (Math.abs(e.d - this.d) == 4 || e.d == this.d)) return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int prime = 31;
+        int hashcode = 1;
+        int dir = this.d;
+        if(this.d < 4) dir += 4;
+
+        hashcode = prime * hashcode + (this.r1+this.r2);
+        hashcode = prime * hashcode + (this.c1+this.c2);
+        hashcode = prime * hashcode + dir;
+
+        return hashcode;
+    }
+}
+class Point{
+    int r,c;
+    Point(int r, int c){
+        this.r = r;
+        this.c = c;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        Point p = (Point) obj;
+
+        if(this.r == p.r && this.c == p.c) return true;
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+        int prime = 31;
+        int hashcode = 1;
+
+        hashcode = prime * hashcode + this.r;
+        hashcode = prime * hashcode + this.c;
+
+        return hashcode;
+    }
+}
+
+class Solution {
+    public int solution(int[] arrows) {
+        int answer = 0;
+
+        int[][] move = new int[][]{
+            {-1,0}
+            , {-1,1}//대각선
+            , {0,1}
+            , {1,1}//대각선
+            , {1,0}
+            , {1,-1}//대각선
+            , {0,-1}
+            , {-1,-1}//대각선
+        };
+
+        HashSet<Point> point = new HashSet<>();
+        HashSet<Edge> edge = new HashSet<>();
+
+
+        int r = 0, c = 0;//(0,0)에서 시작
+        point.add(new Point(r,c));
+
+        for(int i = 0, size = arrows.length; i < size; i++){
+            int d = arrows[i];
+            r += move[d][0];
+            c += move[d][1];
+
+            Point cur = new Point(r,c);
+
+            //이미 존재하는 edge로 다시 이동한거라면 continue;
+            if(edge.contains(new Edge(r - move[d][0], c - move[d][1], r, c, d))) continue;
+
+            if(point.contains(cur)){//이미 찍혀있던 정점이라면
+                answer++;
+            }else{//처음 도착한 정점이라면
+                point.add(cur);//정점 추가
+            }
+
+            //대각선이라면 중간에 edge 겹치는지 확인
+            if(d % 2 == 1 && edge.contains(new Edge(r - move[d][0], c, r, c - move[d][1], ((d+2) % 8)))) answer++;
+
+            edge.add(new Edge(r - move[d][0], c - move[d][1], r, c, d));//edge 추가
+
+        }
+
+        return answer;
+    }
+}//100%
+
+//https://mangkyu.tistory.com/101
+//https://velog.io/@easycelsius/프로그래머스방의-개수
+
+/*
+다음과 같은 조건들을 고려해야 한다.
+1. 방문했던 정점(node)을 재방문하는 경우, 방이 생성된다.
+2. 기존에 통과한 간선(edge)을 재통과하는 경우에는 정점을 재방문해도 방이 생성되지 않는다.
+3. 각 정점(node)의 단위가 작아 간선(edge)끼리의 교차가 발생할 수 있다. 이를 위해 단위를 스케일업 해준다.
+기본적인 조건은 위와 같은데, 실제로 문제를 풀었을 때는 아래와 같이 생각할 부분이 많았다.
+1. Java의 경우, 좌표에 대한 객체를 만들어야 좌표간 비교가 가능해진다.
+    1. hashCode 함수와 equals 함수를 통해 값 비교
+    2. 만약 위 두 함수가 없으면 주소값 비교
+2. 방문했던 점은 해쉬맵의 키값에 넣고, 그 점과 연결되었던 점들은 리스트화해서 추가한다.
+3. 방문할 점의 경우 기존의 점과 연결되어 있는지를 리스트 내에서 확인한 후 카운트를 올려야 한다.
+*/
+
+import java.util.*;
+
+class Pair {
+    int x;
+    int y;
+    Pair(int x, int y) {
+        this.x=x;
+        this.y=y;
+    }
+    //자바 배열 비교 속성
+    //함께 오버라이드 이유? 동일한 객체는 동일한 메모리 주소(해시코드)를 가짐
+    public int hashCode() { //실행 중에 객체의 유일한 integer값을 반환
+        return Objects.hash(x,y);
+    }
+    public boolean equals(Object o) { //객체가 동일한지 검사하기 위해 사용
+        return this.x==((Pair) o).x && this.y==((Pair) o).y;
+    }
+}
+
+class Solution {
+    
+    public ArrayList<Pair> makeEdgeList(Pair point) {
+        ArrayList<Pair> edge=new ArrayList<>();
+        edge.add(point);
+        return edge;
+    }
+    
+    public int solution(int[] arrows) {
+        int count=0;
+        Pair point=new Pair(0, 0);
+        //상하좌우대각선들 0,1,2,3,4,5,6,7 x,y 배열화
+        int[] dx={ 0, 1, 1, 1, 0, -1, -1, -1 };
+        int[] dy={ 1, 1, 0, -1, -1, -1, 0, 1 };
+
+        // 방문 여부 관련 선언
+        // key = 시작 node의 hashcode, value = 연결된 node들의 hashcode
+        HashMap<Pair, ArrayList<Pair>> visit=new HashMap<>();
+
+        // 로직 처리
+        for(int arrow : arrows) {
+            for(int i=0; i<=1; i++) { // 교차점 처리를 위한 스케일업(반복 2번) 
+						   //수행 경로 때문에 그냥 *2안됨
+						  //간선 사이 통과하는 경우(겹치는) 수 없어짐
+						  //겹쳐져서 만들어지는 도형 방지
+                // 이동 진행
+                Pair newpoint = new Pair(point.x+dx[arrow], point.y+dy[arrow]);
+
+                // 처음 방문하는 경우 = map에 키값이 없는 경우
+                if(!visit.containsKey(newpoint)) {
+                    // 리스트에 연결점 추가
+                    visit.put(newpoint, makeEdgeList(point));
+                    if(visit.get(point)==null) visit.put(point, makeEdgeList(newpoint));
+                    else visit.get(point).add(newpoint);
+
+                // 재방문했고 간선을 처음 통과하는 경우
+                } else if (visit.containsKey(newpoint) && !(visit.get(newpoint).contains(point))) {
+                    visit.get(newpoint).add(point);
+                    visit.get(point).add(newpoint);
+                    count++;
+                }
+
+                // 이동 완료
+                point=newpoint;
+            }
+        }
+
+        return count;
+    }
+} //100%
+
+
+import java.util.*;
+
+class Pair {
+    int x;
+    int y;
+    Pair(int x, int y) {
+        this.x=x;
+        this.y=y;
+    }
+    public int hashCode() {
+        return Objects.hash(x,y);
+    }
+    public boolean equals(Object o) {
+        return this.x==((Pair) o).x && this.y==((Pair) o).y;
+    }
+}
+
+class Solution {
+    
+    public ArrayList<Pair> makeEdgeList(Pair point) {
+        ArrayList<Pair> edge=new ArrayList<>();
+        edge.add(point);
+        return edge;
+    }
+    
+    public int solution(int[] arrows) {
+        int count=0;
+        Pair point=new Pair(0, 0);
+        int[] dx={ 0, 1, 1, 1, 0, -1, -1, -1 };
+        int[] dy={ 1, 1, 0, -1, -1, -1, 0, 1 };
+        HashMap<Pair, ArrayList<Pair>> visit=new HashMap<>();
+        for(int arrow : arrows) {
+            for(int i=0; i<=1; i++) {
+                Pair newpoint = new Pair(point.x+dx[arrow], point.y+dy[arrow]);
+                if(!visit.containsKey(newpoint)) {
+                    visit.put(newpoint, makeEdgeList(point));
+                    if(visit.get(point)==null) visit.put(point, makeEdgeList(newpoint));
+                    else visit.get(point).add(newpoint);
+                } else if(visit.containsKey(newpoint) && !(visit.get(newpoint).contains(point))) {
+                    visit.get(newpoint).add(point);
+                    visit.get(point).add(newpoint);
+                    count++;
+                }
+                point=newpoint;
+            }
+        }
+        return count;
+    }
+} //100%
