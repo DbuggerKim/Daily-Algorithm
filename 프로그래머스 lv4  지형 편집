@@ -1,0 +1,131 @@
+/*
+import java.util.*;
+
+public class Solution {
+    public long solution(int[][] land, int P, int Q) {
+        long answer=Long.MAX_VALUE;
+        
+        int max=Integer.MIN_VALUE;
+        int min=Integer.MAX_VALUE;
+        for(int i=0; i<land.length; i++) {
+            for(int j=0; j<land[i].length; j++) {
+                max=Math.max(max, land[i][j]);
+                min=Math.min(min, land[i][j]);
+            }
+        }
+        
+        for(int k=min; k<=max; k++) {
+            long total=0;
+            for(int i=0; i<land.length; i++) {
+                for(int j=0; j<land[i].length; j++) {
+                    if(land[i][j]<k) total+=P*(k-land[i][j]);
+                    else if(land[i][j]>k) total+=Q*(land[i][j]-k);
+                    else continue;
+                }
+            }
+            answer=Math.min(answer, total);
+        }
+        
+        return answer;
+    }
+} //66% TO 
+*/
+
+//https://dev-note-97.tistory.com/254
+
+/*
+import java.util.*;
+
+public class Solution {
+    public long solution(int[][] land, int P, int Q) {
+        
+        long answer=Long.MAX_VALUE;
+        int start=Integer.MAX_VALUE;
+        int end=Integer.MIN_VALUE;
+        for(int i=0; i<land.length; i++) {
+            for(int j=0; j<land[i].length; j++) {
+                start=Math.min(start, land[i][j]);
+                end=Math.max(end, land[i][j]);
+            }
+        }
+        
+        int mid;
+        while(start<=end) {
+            mid=(start+end)/2;
+            long leftCost=cal(mid,land,P,Q);
+            long rightCost=cal(mid+1,land,P,Q);
+            if(leftCost>rightCost) {
+                answer=rightCost;
+                start=mid+1;
+            }
+            else {
+                answer=leftCost;
+                end=mid-1;
+            }
+        }
+        
+        return answer;
+    }
+    
+    public int cal(int mid, int[][] land, int P, int Q) {
+        int total=0;
+        for(int i=0; i<land.length; i++) {
+            for(int j=0; j<land[i].length; j++) {
+                if(land[i][j]<mid) total+=P*(mid-land[i][j]);
+                else if(land[i][j]>mid) total+=Q*(land[i][j]-mid);
+                else continue;
+            }
+        }
+        return total;
+    }
+    
+}
+*/ 63%
+
+import java.util.*;
+
+public class Solution {
+    
+    public long solution(int[][] land, int P, int Q) {
+        
+        long answer=Long.MAX_VALUE;
+        long start=land[0][0]; //경우의 수 long으로 설정
+        long end=land[0][0];  //경우의 수 long으로 설정
+        for(int i=0; i<land.length; i++) {
+            for(int j=0; j<land[i].length; j++) {
+                start=Math.min(start, (long)land[i][j]);
+                end=Math.max(end, (long)land[i][j]);
+            }
+        }
+        
+        long mid;
+        while(start<=end) { //훨씬 효율 높임
+            mid=(start+end)/2;
+            long leftCost=cal(mid,land,P,Q);
+            long rightCost=cal(mid+1,land,P,Q);
+            if(leftCost>rightCost) {
+                answer=rightCost;
+                start=mid+1;
+            }
+            else {
+                answer=leftCost;
+                end=mid-1;
+            }
+        }
+        
+        return answer;
+    }
+    
+    public long cal(long mid, int[][] land, int P, int Q) {
+        long total=0;
+        for(int i=0; i<land.length; i++) {
+            for(int j=0; j<land[i].length; j++) {
+                if(land[i][j]<mid) total+=P*(mid-land[i][j]);
+                else if(land[i][j]>mid) total+=Q*(land[i][j]-mid);
+                else continue;
+            }
+        }
+        return total;
+    }
+    
+} //100%
