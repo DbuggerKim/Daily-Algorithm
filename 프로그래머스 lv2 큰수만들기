@@ -1,0 +1,53 @@
+class Solution {
+    public String solution(String number, int k) {
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        int max = 0;
+        for(int i=0; i<number.length() - k; i++) {
+            max = 0;
+            for(int j = index; j<= k+i; j++) {
+                if(max < number.charAt(j)-'0') {
+                    max = number.charAt(j)-'0';
+                    index = j+1;
+                }
+            }
+            sb.append(max);
+        }
+        return sb.toString();
+    }
+} //100%
+
+import java.util.*;
+
+class Solution {
+    public String solution(String number, int k) {
+        
+        String[] arr = number.split("");
+        Arrays.sort(arr);
+        
+        String answer="";
+        for(int i=0; i<arr.length; i++) answer=arr[i]+answer;
+        answer=answer.substring(0, number.length()-k);
+        
+        return answer;
+    }
+} //0%
+
+class Solution {
+    public String solution(String number, int k) {
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        int max = 0;
+        for(int i=0; i<number.length()-k; i++) {
+            max = 0;
+            for(int j=index; j<=i+k; j++) { //제거한 수들 중 가장 큰 수 찾기
+                if(max<number.charAt(j)-'0') {
+                    max = number.charAt(j)-'0';
+                    index=j+1; //이보다 전에는 max 없기 때문에 구간 늘림
+                }
+            }
+            sb.append(max);
+        }
+        return sb.toString();
+    }
+} //100%
