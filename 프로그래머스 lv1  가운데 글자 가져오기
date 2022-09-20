@@ -1,0 +1,36 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        int n=s.length();
+        
+        //간격하나 더 늘리기
+        //~이상 ~미만
+        if(n%2==0){
+            answer=s.substring(n/2-1,n/2+1);
+        }
+        else{
+            answer=s.substring(n/2,n/2+1);
+        }
+        
+        return answer;
+    }
+} //100%
+
+
+class Solution {
+    public String solution(String s) {
+        String answer = "";
+        int mid=(int)s.length()/2;
+        
+        if(s.length()%2==0){
+            answer=s.substring(mid-1, mid+1);
+        }
+        else{
+            answer=s.charAt(mid)+"";
+        }
+        
+        return answer;
+    }
+} //100%
