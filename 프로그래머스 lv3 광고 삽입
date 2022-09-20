@@ -1,0 +1,110 @@
+//https://girawhale.tistory.com/96
+
+import java.util.*;
+
+public class Solution {
+    public String solution(String play_time, String adv_time, String[] logs) {
+        int playTime = timeToSecond(play_time), advTime = timeToSecond(adv_time);
+
+        long[] playCnt = new long[playTime + 1];
+        for (String log : logs) {
+            String[] split = log.split("-");
+            playCnt[timeToSecond(split[0])]++;
+            playCnt[timeToSecond(split[1])]--;
+        }
+
+        for (int i = 1; i <= playTime; i++) playCnt[i] += playCnt[i - 1];
+        for (int i = 1; i <= playTime; i++) playCnt[i] += playCnt[i - 1];
+
+        long maxTime = playCnt[advTime - 1], maxStartTime = 0;
+        for (int i = 0; i + advTime <= playTime; i++) {
+            long tmp = playCnt[i + advTime] - playCnt[i];
+
+            if (tmp > maxTime) {
+                maxTime = tmp;
+                maxStartTime = i + 1;
+            }
+        }
+
+        return String.format("%02d:%02d:%02d", maxStartTime / (60 * 60), (maxStartTime / 60) % 60, maxStartTime % 60);
+    }
+
+    int timeToSecond(String str) {
+        int[] parse = Arrays.stream(str.split(":")).mapToInt(Integer::parseInt).toArray();
+        return parse[0] * 60 * 60 + parse[1] * 60 + parse[2];
+    }
+} //100%
+
+
+import java.util.*;
+
+public class Solution {
+    public String solution(String play_time, String adv_time, String[] logs) {
+        int playTime=cal(play_time);
+        int advTime=cal(adv_time);
+        long[] playCount=new long[playTime+1];
+        for(String log : logs) {
+            String[] string=log.split("-");
+            playCount[cal(string[0])]++; //시작시간
+            playCount[cal(string[1])]--; //끝시간
+        }
+        
+        //순차탐색
+        for(int i=1; i<=playTime; i++) playCount[i]+=playCount[i-1]; //현재 시청하고 있는 사람 수
+        for(int i=1; i<=playTime; i++) playCount[i]+=playCount[i-1]; //누적 트래픽량
+        long maxStartTime=0;
+        long maxTime=playCount[advTime];
+        for(int i=0; i+advTime<=playTime; i++) {
+            long temp=playCount[i+advTime]-playCount[i];
+            if(temp>maxTime) {
+                maxTime=temp;
+                maxStartTime=i+1;
+            }
+        }
+        return String.format("%02d:%02d:%02d", maxStartTime/(60*60), (maxStartTime/60)%60, maxStartTime%60);
+    }
+
+    public int cal(String str) {
+        String[] string=str.split(":");
+        int[] arr=new int[string.length];
+        for(int i=0; i<arr.length; i++) arr[i]=Integer.parseInt(string[i]);
+        return arr[0]*60*60+arr[1]*60+arr[2];
+    }
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    public String solution(String play_time, String adv_time, String[] logs) {
+        int playTime=cal(play_time);
+        int advTime=cal(adv_time);
+        long[] countTime=new long[playTime+1];
+        for(String log : logs) {
+            String[] string=log.split("-");
+            countTime[cal(string[0])]++;
+            countTime[cal(string[1])]--;
+        }
+        
+        for(int i=1; i<=playTime; i++) countTime[i]+=countTime[i-1]; //누적 시청자
+        for(int i=1; i<=playTime; i++) countTime[i]+=countTime[i-1]; //누적 트래픽
+        
+        long maxStartTime=0;
+        long maxTime=countTime[advTime];
+        for(int i=0; i+advTime<=playTime; i++) {
+            long temp=countTime[i+advTime]-countTime[i];
+            if(temp>maxTime) {
+                maxTime=temp;
+                maxStartTime=i+1;
+            }
+        }
+        return String.format("%02d:%02d:%02d", maxStartTime/(60*60), (maxStartTime/60)%60, maxStartTime%60);
+    }
+    
+    public int cal(String str) {
+        String[] string=str.split(":");
+        int[] arr=new int[string.length];
+        for(int i=0; i<arr.length; i++) arr[i]=Integer.parseInt(string[i]);
+        return arr[0]*60*60+arr[1]*60+arr[2];
+    }
+} //100%
