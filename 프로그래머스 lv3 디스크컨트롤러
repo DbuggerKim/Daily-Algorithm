@@ -1,0 +1,145 @@
+import java.util.*;
+
+public class Solution {
+	
+	public static int solution(int[][] jobs) {
+		int answer = 0;
+		int len = jobs.length;
+		int time = 0;
+		int idx = 0;
+		Queue<int[]> q = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+		
+		Arrays.sort(jobs, (o1, o2) -> o1[0] - o2[0]);
+		
+		while (idx < len || !q.isEmpty()) {
+			while (idx < len && jobs[idx][0] <= time)
+				q.offer(jobs[idx++]);
+			
+			if (q.isEmpty())
+				time = jobs[idx][0];
+			else {
+				int[] job = q.poll();
+				answer += time - job[0] + job[1];
+				time += job[1];
+			}
+		}
+		
+		return answer/len;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(solution(new int[][] { {0, 3}, {1, 9}, {2, 6} }));
+	}
+
+}//100%
+
+
+import java.util.*;
+
+public class Solution {
+	public static int solution(int[][] jobs) {
+        int index = 0;
+        int total = 0;
+		int time = 0;
+	    
+		PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2)->o1[1]-o2[1]);
+		Arrays.sort(jobs, (o1, o2)->o1[0]-o2[0]);
+        //pq 속성 지키면서 1번째 인덱스 오름차순
+        //arr 속성 지키면서 0번째 인덱스 오름차순
+        //o2[1]-o1[1] : 1번째 인덱스 기준 내림차순
+        
+		while(index<jobs.length || !pq.isEmpty()){
+		    while(index<jobs.length && jobs[index][0]<=time) pq.offer(jobs[index++]);
+			if(pq.isEmpty()) time=jobs[index][0];
+			else{ //!pq.isEmpty()
+			    int[] job = pq.poll();
+				total += time+job[1]-job[0]; //총시간
+				time += job[1]; //누적시간
+			}
+		}
+        
+		return total/jobs.length;
+	}
+} //100%
+
+
+/*
+import java.util.*;
+
+public class Solution {
+	public static int solution(int[][] jobs) {
+        int index = 0;
+        int total = 0;
+		int time = 0;
+	    
+		PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2)->o1[1]-o2[1]);
+		Arrays.sort(jobs, (o1, o2)->o1[0]-o2[0]);
+        
+		while(index<jobs.length || !pq.isEmpty()){
+		    while(index<jobs.length && jobs[index][0]<=time) pq.offer(jobs[index++]);
+			//도착한 작업 디스크 컨트롤러에 삽입
+			if(pq.isEmpty()) time=jobs[index][0];
+			else{
+			    int[] job = pq.poll();
+				total += time+job[1]-job[0];  //총 시간
+				time += job[1]; //현재 시각
+			}
+		}
+        
+		return total/jobs.length;
+	}
+} //100%
+*/
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[][] jobs) {
+        int index=0;
+        int time=0; //현재시각
+        int total=0; //누적시간
+        
+        PriorityQueue<int[]>pq=new PriorityQueue<>((o1,o2)->o1[1]-o2[1]);
+        Arrays.sort(jobs,(o1,o2)->o1[0]-o2[0]);
+        
+        while(index<jobs.length || !pq.isEmpty()) {
+            while(index<jobs.length && jobs[index][0]<=time) pq.offer(jobs[index++]);
+            if(pq.isEmpty()) time=jobs[index][0]; //초기화
+            else {
+                int[] job=pq.poll();
+                total+=time+(job[1]-job[0]);
+                time+=job[1];
+            }
+        }
+        
+        
+        return total/jobs.length;
+    }
+} //100%
+
+
+import java.util.*;
+
+class Solution {
+    public int solution(int[][] jobs) {
+        int index=0;
+        int total=0; //누적시간
+        int time=0; //현재시각
+            
+        Arrays.sort(jobs, (o1,o2)->o1[0]-o2[0]);
+        PriorityQueue<int[]> pq=new PriorityQueue<>((o1,o2)->o1[1]-o2[1]);
+        
+        while(index<jobs.length || !pq.isEmpty()) {
+            while(index<jobs.length && jobs[index][0]<=time) pq.offer(jobs[index++]);
+            if(pq.isEmpty()) time=jobs[index][0]; //초기화
+            else {
+                int[] job=pq.poll();
+                total+=time+(job[1]-job[0]);
+                time+=job[1];
+            }
+        }
+            
+        return total/jobs.length;
+    }
+} //100%
