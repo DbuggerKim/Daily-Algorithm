@@ -1,0 +1,10 @@
+import math
+
+num, base = map(int, input().strip().split(' '))
+n=len(str(num))
+s=str(num)
+output=0
+for i in range (0,n):
+    output+=int(s[n-1-i])*math.pow(base,i)
+
+print(int(output))
