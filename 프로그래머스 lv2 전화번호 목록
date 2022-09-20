@@ -1,0 +1,109 @@
+import java.util.* ;
+class Solution {
+    public boolean solution(String[] phone_book) {
+        
+        boolean answer = true;
+        int k =0 ;
+     
+        Arrays.sort(phone_book); //이유는 잘 모르겠으나
+        
+        for(int i=0; i<phone_book.length; i++){
+            for(int j=i+1; j<phone_book.length; j++){
+                if(phone_book[i].length()<=phone_book[j].length())
+                    k=phone_book[i].length();
+                else
+                    k=phone_book[j].length();
+                
+                for(int x=0; x<=k-x ;x++)
+                    if(phone_book[i].equals(phone_book[j].substring(x,k-x))==true)
+                        answer=false; //접두어가 있으면
+            }
+        }
+        
+        return answer;
+    }
+}//정100% 효0%
+
+import java.util.*;
+class Solution{
+    public boolean solution(String[] phone_book) {
+        
+        boolean answer = true;
+        int count=0;
+        HashMap<String, Integer> map = new HashMap<>();
+        
+        for(String phone : phone_book)
+            map.put(phone, count++);
+        
+        for(int i=0; i<phone_book.length; i++) { 
+            for(int j=1; j<phone_book[i].length(); j++) { 
+                if(map.containsKey(phone_book[i].substring(0,j))) { 
+                    answer = false; 
+                    return answer; 
+                } 
+            } 
+        }
+
+        return answer;
+    }
+}//정100% 효100%
+
+//출처: https://coding-grandpa.tistory.com/entry/프로그래머스-전화번호-목록-해시-Lv-2-자바-Java [코딩하는 할아버지]
+
+
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phone_book) {
+        boolean answer = true;
+        
+        HashSet<String> set = new HashSet<>();
+        for(int i=0; i<phone_book.length; i++){
+            for(int j=1; j<phone_book[i].length(); j++){
+                String sub=phone_book[i].substring(0, j);
+                if(set.contains(sub)) return false;
+                set.add(sub); //큰 부하
+            }
+        }
+        
+        return answer;
+    }
+} //2차 풀이 : 54%
+
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phone_book) {
+        boolean answer = true;
+        
+        HashSet<String> set = new HashSet<>();
+        for(String phone : phone_book) set.add(phone);
+        
+        for(int i=0; i<phone_book.length; i++){
+            for(int j=1; j<phone_book[i].length(); j++){
+                if(set.contains(phone_book[i].substring(0, j))) return false;
+            }
+        }
+        
+        return answer;
+    }
+} //2차 풀이 : 100%
+
+
+import java.util.*;
+
+class Solution {
+    public boolean solution(String[] phone_book) {
+        HashSet<String> set = new HashSet<>();
+        for(String val : phone_book) set.add(val);
+        
+        for(int i=0; i<phone_book.length; i++) {
+            for(int j=1; j<phone_book[i].length(); j++) { //중복 없음
+                String num=phone_book[i].substring(0, j); //접두사임
+                if(set.contains(num)) return false;
+            }
+        }
+        
+        return true;
+    }
+} //3차풀이
