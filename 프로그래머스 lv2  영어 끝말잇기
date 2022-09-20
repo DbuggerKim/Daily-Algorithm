@@ -1,0 +1,139 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, String[] words) {
+        
+        int[] answer = new int [2];
+        Arrays.fill(answer, 0);
+        
+        char start;
+        char end = words[0].charAt(words[0].length()-1);
+        
+        HashSet<String> set = new HashSet<String>();
+        if(set.isEmpty()) set.add(words[0]);
+        
+        for(int i=1; i<words.length; i++){ 
+            set.add(words[i]);
+            start=words[i].charAt(0);
+            if(end!=start||set.size()!=i+1){
+                answer[0]=(i%n)+1;
+                answer[1]=(i/n)+1;
+                break;
+            }
+            end= words[i].charAt(words[i].length()-1);
+        }
+        
+        return answer;
+    }
+} //100%
+
+
+/*
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, String[] words) {
+        int[] answer = new int [2];
+        Arrays.fill(answer, 0);
+        char start='c';
+        char end='c';
+        
+        HashMap <String, Integer> map = new HashMap <> ();        
+        for(int i=0; i<words.length; i++) map.put(words[i], map.getOrDefault(words[i], 0)+1);
+        
+        for(int i=0; i<words.length-1; i++){
+            end=words[i].charAt(words[i].length()-1);
+            start=words[i+1].charAt(0);
+
+            for(String val : map.keySet()){
+                if(map.get(val)!=1){
+                    if((i+2)%n==0){
+                        answer[0]=n;
+                        answer[1]=(i+2)/n+(i+2)%n;
+                    }
+                    else if((i+2)%n!=0){
+                        answer[0]=(i+2)%n;
+                        answer[1]=(i+2)/n+(i+2)%n;
+                    }
+                    break;
+                }
+                else{
+                    if(end==start) continue;
+                    else{
+                        if((i+2)%n==0){
+                            answer[0]=n;
+                            answer[1]=(i+2)/n+(i+2)%n;
+                        }
+                        else if((i+2)%n!=0){
+                            answer[0]=(i+2)%n;
+                            answer[1]=(i+2)/n+(i+2)%n;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return answer;
+    }
+}
+*/ //15%
+
+/*import java.util.*;
+
+class Solution {
+    public int[] solution(int n, String[] words) {
+        int[] answer = new int [2];
+        Arrays.fill(answer, 0);
+        char start='c';
+        char end='c';
+        
+        HashMap <String, Integer> map = new HashMap <> ();        
+        for(int i=0; i<words.length; i++) map.put(words[i], map.getOrDefault(words[i], 0)+1);
+        
+        //for(String val : map.keySet()) System.out.println(val+":"+map.get(val));
+        
+        for(int i=0; i<words.length-1; i++){
+            end=words[i].charAt(words[i].length()-1);
+            start=words[i+1].charAt(0);
+            
+            //System.out.println(end+":"+start);
+
+            for(String val : map.keySet()){
+                if(map.get(val)==1 && end==start) continue;
+                else if(map.get(val)!=1 || end!=start){
+                    answer[0]=(i+1)%n+1;
+                    answer[1]=(i+1)/n+1;
+                    break;
+                }
+            }
+        }
+
+        return answer;
+    }
+}*/ //25%
+
+import java.util.*;
+
+class Solution {
+    public int[] solution(int n, String[] words) {
+        int[] answer=new int[2];
+        char start;
+        char end=words[0].charAt(words[0].length()-1); //시작 단어 첫글자 상관없음
+        
+        HashSet<String> set=new HashSet<>();
+        if(set.isEmpty()) set.add(words[0]);
+        
+        for(int i=1; i<words.length; i++){
+            set.add(words[i]);
+            start=words[i].charAt(0);
+            if(end!=start || set.size()!=i+1){
+                answer[0]=(i%n)+1;
+                answer[1]=(i/n)+1;
+                break;
+            }
+            end=words[i].charAt(words[i].length()-1);
+        }
+
+        return answer;
+    }
+} //100%
