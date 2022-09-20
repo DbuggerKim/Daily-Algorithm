@@ -1,0 +1,99 @@
+//https://arinnh.tistory.com/84
+
+import java.util.*;
+
+class Solution {
+
+    boolean[][] wire;
+    
+    public int bfs(int start, int n){
+        
+        Queue <Integer> queue = new LinkedList <>();
+        boolean[] visit = new boolean [n+1];
+        
+        queue.add(start);
+        visit[start]=true;
+        int count=1;
+        
+        while (!queue.isEmpty()) { //연결된 송전탑 전력망
+            int vertex=queue.poll();
+            visit[vertex]=true;
+            
+            for(int i=1; i<n+1; i++){
+                if(visit[i]==false && wire[vertex][i]==true){
+                    queue.add(i);
+                    count++;
+                }
+            }
+        }
+        
+        return Math.abs(count-(n-count));
+    }
+    
+    public int solution(int n, int[][] wires) {
+        
+        int answer=n;
+        wire=new boolean[n+1][n+1];
+        
+        for(int i=0; i<wires.length; i++){
+            wire[wires[i][0]][wires[i][1]]=true;
+            wire[wires[i][1]][wires[i][0]]=true;
+        }
+        
+        //송전탑 전선 해제 및 연결
+        for(int i=0; i<wires.length; i++){
+            int a=wires[i][0];
+            int b=wires[i][1];
+            
+            wire[a][b]=false;
+            wire[b][a]=false;
+            
+            answer= Math.min(answer, bfs(a, n));
+        
+            wire[a][b]=true;
+            wire[b][a]=true;
+            
+        }
+        
+        return answer;
+    }
+} //100%
+
+/*import java.util.*;
+
+class Solution {
+    boolean[] visit;
+    int answer=0;
+    
+    public void bfs(boolean [][] wire, int n){
+        Queue <Integer> queue = new LinkedList <>();
+        queue.add(0);
+        visit[0]=true;
+        
+        while (!queue.isEmpty()) {
+            int vertex=queue.poll();
+            visit[vertex]=true;
+            
+            for(int i=0; i<n; i++){
+                if(visit[i]==false && wire[vertex][i]==true){
+                    queue.add(i);
+                    visit[i]=true;
+                    answer++;
+                }
+            }
+            break;
+        }
+        
+    }
+    
+    public int solution(int n, int[][] wires) {
+        visit=new boolean[n];
+        boolean[][] wire=new boolean[n][n];
+        
+        for(int i=0; i<wires.length; i++) wire[wires[i][0]-1][wires[i][1]-1]=true;
+        
+        bfs(wire, n);
+        
+        return answer;
+    }
+}*/
