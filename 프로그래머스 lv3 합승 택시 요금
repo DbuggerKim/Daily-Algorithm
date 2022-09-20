@@ -1,0 +1,157 @@
+//https://howtolivelikehuman.tistory.com/184
+
+class Solution {
+    
+    public int[][] map;
+    public int answer=Integer.MAX_VALUE;
+
+    public int solution(int n, int s, int a, int b, int[][] fares) {
+        
+        map = new int[n][n];
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                map[i][j]=20000000;
+            }
+            map[i][i]=0;
+        }
+
+        for(int i=0; i<fares.length; i++) {
+            map[fares[i][0]-1][fares[i][1]-1] = fares[i][2];
+            map[fares[i][1]-1][fares[i][0]-1] = fares[i][2];
+        }
+        
+        floyd(n, map);
+
+        for(int i=0; i<n; i++) {
+            int current = map[s-1][i] + map[i][a-1] + map[i][b-1]; //a&b합동 + a따로 + b따로
+            answer=Math.min(answer, current);
+        }
+        return answer;
+    }
+
+    public static void floyd(int n, int[][] dist) {
+        for(int k=0; k<n; k++) {
+            for(int i=0; i<n; i++) {
+                if(k==i) continue;
+                for(int j=0; j<n; j++) {
+                    if(j==k || j==i) continue;
+                    dist[i][j] = Math.min(dist[i][j], dist[i][k]+dist[k][j]);
+                }
+            }
+        }
+    }
+} //100%
+
+
+/*import java.util.*;
+
+class Edge implements Comparable<Edge>{
+    int index;
+    int cost;
+    Edge(int index, int cost){
+        this.index = index;
+        this.cost = cost;
+    }
+    @Override
+    public int compareTo(Edge e){
+        return this.cost - e.cost;
+    }
+}
+
+class Solution {
+
+    static final int MAX = 20000001; // 200 * 100000 + 1
+    static ArrayList<ArrayList<Edge>> graph;
+
+    public int solution(int n, int s, int a, int b, int[][] fares) {
+        int answer = Integer.MAX_VALUE;
+
+        graph = new ArrayList<>();
+        for(int i = 0 ; i <= n ; i ++){
+            graph.add(new ArrayList<>());
+        }
+
+        for(int[] i : fares){
+            graph.get(i[0]).add(new Edge(i[1], i[2]));
+            graph.get(i[1]).add(new Edge(i[0], i[2]));
+        }
+
+        int[] startA = new int[n + 1];
+        int[] startB = new int[n + 1];
+        int[] start = new int[n + 1];
+
+        Arrays.fill(startA, MAX);
+        Arrays.fill(startB, MAX);
+        Arrays.fill(start, MAX);
+
+        startA = dijkstra(a, startA);
+        startB = dijkstra(b, startB);
+        start = dijkstra(s, start);
+
+        for(int i = 1; i <= n ; i ++) answer = Math.min(answer, startA[i] + startB[i] + start[i]);
+        return answer;
+    }
+
+    static int[] dijkstra (int start, int[] costs) {
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        pq.offer(new Edge(start, 0));
+        costs[start] = 0;
+
+        while (!pq.isEmpty()) {
+            Edge now = pq.poll();
+            int nIndex = now.index;
+            int nCost = now.cost;
+
+            if(nCost > costs[nIndex]) continue;
+
+            ArrayList<Edge> edges = graph.get(nIndex);
+            for (Edge edge : edges) {
+                int cost = costs[nIndex] + edge.cost;
+
+                if (cost < costs[edge.index]) {
+                    costs[edge.index] = cost;
+                    pq.offer(new Edge(edge.index, cost));
+                }
+            }
+        }
+        return costs;
+    }
+} //100%*/
+
+
+class Solution {
+    
+    public int[][] map;
+    public int answer=Integer.MAX_VALUE;
+    
+    public int solution(int n, int s, int a, int b, int[][] fares) {
+        map=new int[n][n];
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<n; j++) {
+                map[i][j]=20000000;
+            }
+            map[i][i]=0;
+        }
+        
+        for(int i=0; i<fares.length; i++) {
+            map[fares[i][0]-1][fares[i][1]-1]=fares[i][2];
+            map[fares[i][1]-1][fares[i][0]-1]=fares[i][2];
+        }
+        floyd(n);
+        for(int i=0; i<n; i++) answer=Math.min(answer, map[s-1][i]+map[i][a-1]+map[i][b-1]);
+        return answer;
+    }
+    
+    public void floyd(int n) {
+        for(int k=0; k<n; k++) {
+            for(int i=0; i<n; i++) {
+                if(i==k) continue;
+                for(int j=0; j<n; j++) {
+                    if(j==i || j==k) continue;
+                    map[i][j]=Math.min(map[i][j],map[i][k]+map[k][j]);
+                }
+            }
+        }
+    }
+    
+} //100%
