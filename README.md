@@ -21,6 +21,4 @@ resources
 
 > Programmers : https://programmers.co.kr/learn/challenges
 
-> 삼전기출 : https://www.youtube.com/watch?v=WiCbDg-S3CE&list=PLdHw4xVmS1psZInw07xdgZmnQcIrXru8J (comming up)
-
 > 동빈코딩 : 이것이 취업을 위한 코딩테스트다 with python (comming up)
