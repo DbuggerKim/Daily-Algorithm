@@ -1,6 +1,6 @@
 # Daily-Coding
 
-languages
+Languages
 
 > C++
 
@@ -11,7 +11,7 @@ languages
 > SQL
 
 
-resources
+Resources
 
 > Codility Exercises : https://app.codility.com/programmers/trainings/
 
