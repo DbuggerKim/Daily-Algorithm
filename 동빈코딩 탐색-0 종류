@@ -1,0 +1,167 @@
+#스택
+
+stack=[]
+stack.append(5)
+stack.append(2)
+stack.append(3)
+stack.append(7)
+stack.pop()
+stack.append(1)
+stack.append(4)
+stack.pop()
+print(stack) #top to bottom
+print(stack[::-1]) #bottom to top
+
+#큐
+
+from collections import deque #dequeue 이용하여 queue만들기
+queue=deque()
+queue.append(5)
+queue.append(2)
+queue.append(3)
+queue.popleft()
+queue.append(1)
+queue.append(4)
+queue.popleft()
+print(queue)
+queue.reverse() #출력 순 바뀌기
+print(queue)
+
+#재귀함수
+
+def recursive_function(i):
+  if i==100:
+    return
+  print(i, '번째 재귀 함수에서', i+1, '번째 재귀 함수 호출합니다.')
+  recursive_function(i+1)
+  print(i, '번째 재귀 함수를 종료합니다.')
+recursive_function(1)
+
+#반복적함수-팩토리얼
+
+def factorial_iterative(n):
+  result=1
+  for i in range(1, n+1):
+    result*=i
+  return result
+print('반복적으로 구현:', factorial_iterative(5))
+
+#재귀적함수-팩토리얼
+
+def factorial_recursive(n):
+  if n<=1:
+    return 1
+  return n*factorial_recursive(n-1)
+print('재귀적으로 구현:', factorial_recursive(5))
+
+#순차탐색
+
+def sequential_search(n,target,array):
+  for i in range(n):
+    if array[i]==target:
+      return i+1
+
+print("생성할 원소 개수를 입력한 다음 한 칸을 띄고 찾을 문자열을 입력하세요.")
+input_data=input().split()
+n=int(input_data[0])
+target=input_data[1]
+
+print("앞서 적은 원소 개수만큼 문자열을 입력하세요. 구분은 띄어쓰기 한칸으로 합니다.")
+array=input().split()
+print(sequential_search(n,target,array))
+
+#이진탐색_재귀함수
+
+def binary_search(array,target,start,end):
+  if start>end:
+    return None
+  mid=(start+end)//2
+  if array[mid]==target:
+    return mid
+  elif array[mid]>target:
+    return binary_search(array,target,start,mid-1)
+  else:
+    return binary_search(array,target,mid+1,end)
+
+n,target=list(map(int,input().split()))
+array=list(map(int,input().split()))
+result=binary_search(array,target,0,n-1)
+if result==None:
+  print("원소가 존재하지 않습니다.")
+else:
+  print(result)
+
+#이진탐색_반복함수
+
+def binary_search(array,target,start,end):
+  while start<=end:
+    mid=(start+end)//2
+    if array[mid]==target:
+      return mid
+    elif array[mid]>target:
+      end=mid-1
+    else:
+      start=mid+1
+  return None
+
+n,target=list(map(int,input().split()))
+array=list(map(int,input().split()))
+result=binary_search(array,target,0,n-1)
+if result==None:
+  print("원소가 존재하지 않습니다.")
+else:
+  print(result)
+
+#DFS
+
+def dfs(graph,v,visited):
+  visited[v]=True
+  print(v,end='') #한 줄 출력
+  for i in graph[v]:
+    if not visited[i]:
+      dfs(graph,i,visited)
+
+graph=[
+  [],
+  [2,3,8], #정점1
+  [1,7], #정점2
+  [1,4,5], #정점3
+  [3,5], #정점4
+  [3,4], #정점5
+  [7], #정점6
+  [2,6,8], #정점7
+  [1,7] #정점8
+]
+
+visited=[False]*9
+dfs(graph,1,visited)
+
+#BFS
+
+from collections import deque
+
+def bfs(graph,start,visited):
+  queue=deque([start])
+  visited[start]=True
+  while queue:
+    v=queue.popleft()
+    print(v,end='')
+    for i in graph[v]:
+      if not visited[i]:
+        queue.append(i)
+        visited[i]=True
+  
+graph=[
+  [],
+  [2,3,8], #정점1
+  [1,7], #정점2
+  [1,4,5], #정점3
+  [3,5], #정점4
+  [3,4], #정점5
+  [7], #정점6
+  [2,6,8], #정점7
+  [1,7] #정점8
+]
+
+visited=[False]*9
+bfs(graph,1,visited)
