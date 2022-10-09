@@ -1,0 +1,20 @@
+n=int(input())
+arr=list(map(int,input().split()))
+arr.sort()
+
+output=0
+start=0
+end=n-1
+
+while start<=end:
+  mid=(start+end)//2
+  if arr[mid]==mid:
+    output=mid
+    break
+  elif arr[mid]>mid:
+    end-=1
+  elif arr[mid]<mid:
+    start+=1
+
+if output==0: print(-1)
+else: print(output)
