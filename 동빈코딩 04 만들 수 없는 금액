@@ -1,0 +1,12 @@
+n=int(input())
+array=list(map(int,input().split()))
+array.sort()
+
+count=1
+
+for i in array:
+  if count<i:
+    break
+  count+=i
+
+print(count)
