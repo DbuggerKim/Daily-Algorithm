@@ -1,0 +1,40 @@
+# easier
+def solution(words, queries):
+    words.sort()
+    result=[0]*len(queries)
+    
+    for i in range(len(queries)):
+      for j in range(len(words)):
+        count=0
+        if len(queries[i])==len(words[j]):
+          for k in range(len(queries[i])):
+            if queries[i][k:k+1]==words[j][k:k+1] or queries[i][k:k+1]=='?': count+=1
+            else: continue
+          if count==len(words[j]): result[i]+=1
+
+    return result
+
+# harder
+from bisect import bisect_left, bisect_right
+
+def countrange(a,lvalue,rvalue):
+    rindex=bisect_right(a,rvalue)
+    lindex=bisect_left(a,lvalue)
+    return rindex-lindex
+
+arr=[[] for _ in range(10001)]
+rearr=[[] for _ in range(10001)]
+
+def solution(words, queries):
+    answer=[]
+    for word in words:
+        arr[len(word)].append(word)
+        rearr[len(word)].append(word[::-1])
+    for i in range(10001):
+        arr[i].sort()
+        rearr[i].sort()
+    for q in queries:
+        if q[0]!='?': num=countrange(arr[len(q)],q.replace('?','a'),q.replace('?','z'))
+        else: num=countrange(rearr[len(q)],q[::-1].replace('?','a'),q[::-1].replace('?','z'))
+        answer.append(num)
+    return answer
