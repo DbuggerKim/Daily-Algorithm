@@ -1,0 +1,55 @@
+from itertools import combinations
+
+n = int(input())
+board = []
+teacher = []
+space = []
+
+for i in range(n):
+    board.append(list(input().split()))
+    for j in range(n):
+        if board[i][j] == "T": teacher.append((i, j))
+        if board[i][j] == "X": space.append((i, j))
+
+#특정 방향으로 감시 진행 (학생발견:True, 학생미발견:False)
+def check(x, y, dir):
+    if dir == 0:  #아래쪽 감시
+        while y >= 0:
+            if board[x][y] == "S": return True
+            if board[x][y] == "O": return False
+            y -= 1
+    if dir == 1:  #위쪽 감시
+        while y < n:
+            if board[x][y] == "S": return True
+            if board[x][y] == "O": return False
+            y += 1
+    if dir == 2:  #오른쪽 감시
+        while x >=0:
+            if board[x][y] == "S": return True
+            if board[x][y] == "O": return False
+            x -= 1
+    if dir == 3:  #오른쪽 감시
+        while x < n:
+            if board[x][y] == "S": return True
+            if board[x][y] == "O": return False
+            x += 1
+
+#장애물 설치 후 한명의 학생이라도 감시되는지 검사
+def process():
+    for x, y in teacher:
+        for dir in range(4):
+            if check(x, y, dir): return True
+    return False
+
+
+#학생이 한명도 감지안되도록 빈공간에서 3개 설치하는 모든 조함
+find = False
+for data in combinations(space, 3):
+    for x, y in data: board[x][y] = "O"  #장애물 설치
+    if not process():  #학생 한명도 감지 안됨
+        find = True
+        break
+    for x, y in data: board[x][y] = "X"  #장애물 제거
+
+if find == True: print("YES")
+elif find == False: print("NO")
