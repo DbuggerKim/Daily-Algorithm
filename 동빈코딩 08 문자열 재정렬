@@ -1,0 +1,17 @@
+letter=input()
+
+num=0
+text=""
+for i in range (len(letter)):
+  flag=letter[i].isalpha()
+  if flag==False: num+=int(letter[i])
+  else: text+=letter[i]
+
+output=""
+text=list(text)
+text.sort()
+for i in range(len(text)):
+  output+=text[i]
+output+=str(num)
+
+print(output)
