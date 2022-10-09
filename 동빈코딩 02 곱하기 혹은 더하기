@@ -1,0 +1,27 @@
+data=input()
+result=int(data[0])
+
+for i in range(1,len(data)):
+  num=int(data[i])
+  if num<=1 or result<=1:
+    result+=num
+  else:
+    result*=num
+
+print(result)
+
+
+'''
+string=list(map(int,input().split()))
+string.sort()
+
+output=0
+for i in string:
+  if output==0:
+    output+=i
+  else:
+    output*=i
+    
+print(output)
+
+''' #0% 
