@@ -1,0 +1,13 @@
+n=int(input())
+status=list(map(int, input().split()))
+status.sort()
+
+group=0 #총 그룹 수
+count=0 #현재 그룹에 포함된 모험가 수
+for i in status:
+  count+=1
+  if count>=i:
+    count=0
+    group+=1
+
+print(group)
