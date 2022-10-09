@@ -1,0 +1,17 @@
+def rotate(a):
+  row=len(a)
+  col=len(a[0])
+
+  arr=[[0]*row for _ in range(col)]
+  for r in range(row):
+    for c in range(col):
+      arr[c][row-1-r]=a[r][c]
+  return arr
+
+a=[
+  [1,2,3,4],
+  [5,6,7,8],
+  [9,10,11,12]
+]
+
+print(rotate(a))
