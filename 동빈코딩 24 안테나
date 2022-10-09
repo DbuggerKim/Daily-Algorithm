@@ -1,0 +1,8 @@
+#중간값은 최솟값
+
+n=int(input())
+array=list(map(int,input().split()))
+
+array.sort()
+
+print(array[n-1]//2)
