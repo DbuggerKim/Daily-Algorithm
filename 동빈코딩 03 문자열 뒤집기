@@ -1,0 +1,36 @@
+#zero 또는 one 문자 한 뭉텅이로 개수를 세기
+data=input()
+zeroCount=0
+oneCount=0
+
+if data[0]==0:
+  zeroCount+=1
+elif data[0]==1:
+  oneCount+=1
+
+for i in range(len(data)-1):
+  if data[i]!=data[i+1]:
+    if data[i+1]=="1":
+      zeroCount+=1
+    else:
+      oneCount+=1
+
+print(min(zeroCount,oneCount))
+
+‘’’
+string=input()
+
+temp=string[0]
+
+for i in string:
+  zeroCount=0
+  oneCount=0
+  if i==0 && temp==0:
+    zeroCount+=1
+  elif i==1:
+    oneCount+=1
+  
+
+print(string)
+
+‘’’ #0%
