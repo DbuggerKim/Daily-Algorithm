@@ -1,0 +1,23 @@
+n,m=map(int, input().split())
+arr=list(map(int,input().split()))
+arr.sort()
+
+output=[]
+start=0
+end=len(arr)-1
+output.append(arr[start])
+output.append(arr[end])
+
+while start<=end and len(output)<m:
+  mid=(start+end)//2
+  output.append(arr[mid])
+
+output.sort()
+
+num=[]
+temp=output[0]
+for i in range(1,len(output)):
+  num.append(output[i]-temp)
+  temp=output[i]
+
+print(min(num))
