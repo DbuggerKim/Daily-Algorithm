@@ -1,0 +1,20 @@
+n=int(input())
+dp=[0]*n
+dp[0]=1
+now2,now3,now5=0,0,0
+next2,next3,next5=2,3,5
+
+for i in range(1,n):
+  dp[i]=min(next2,next3,next5)
+  if dp[i]==next2:
+    now2+=1
+    next2=dp[now2]*2
+  if dp[i]==next3:
+    now3+=1
+    next3=dp[now3]*3
+  if dp[i]==next5:
+    now5+=1
+    next5=dp[now5]*5
+
+#print(dp)
+print(dp[n-1])
