@@ -1,0 +1,187 @@
+from collections import deque
+
+def bfs(graph, vertex, visit):
+  q=deque([vertex])
+  while q:
+    v=q.popleft()
+    for i in graph[v]:
+      if visit[i]==-1:
+        visit[i]=visit[v]+1
+        q.append(i)
+
+n,m,k,x=map(int,input().split())
+graph=[[] for _ in range(n+1)]
+for _ in range(m):
+  a,b=map(int, input().split())
+  graph[a].append(b)
+visit=[-1]*(n+1)
+visit[x]=0
+
+bfs(graph, x, visit)
+
+flag=False
+for i in range(len(visit)):
+  if visit[i]==k:
+    print(i)
+    flag=True
+if(flag==False): print(-1)
+
+‘’’
+from collections import deque
+
+def bfs(graph, vertex, visit):
+  queue=deque([vertex]) # deq = deque([1, 2, 3, 4, 5]) 데크 초기화
+  while queue:
+    v=queue.popleft()
+    for i in range(len(graph)):
+      if visit[i]==-1 and graph[v][i] == 1:
+        visit[i]=visit[v]+1
+        queue.append(i)
+
+n, m, k, x = map(int, input().split())
+arr = [[0] * 2 for _ in range(m)]
+for i in range(m):
+    arr[i] = list(map(int, input().split()))
+
+graph = [[0 for j in range(n)] for i in range(n)]
+for i in range(len(arr)):
+    graph[arr[i][0]][arr[i][1]] = 1
+    graph[arr[i][1]][arr[i][0]] = 1
+
+visit = [-1]*n
+visit[x] = 0
+
+bfs(graph, x, visit)
+
+check=False
+for i in range(n):
+  if visit[i]==k:
+    print(i+1)
+    check=True
+
+if check==False: print(-1)
+‘’’
+
+‘’’
+from collections import deque
+
+def bfs(graph, vertex, visit):
+  queue=deque([vertex])
+  while queue:
+    v=queue.popleft()
+    for i in range(len(graph)):
+      if(graph[v][i]==1 and visit[v]==-1):
+        visit[i]=visit[v]+1
+        queue.append(i)
+
+n, m, k, x = map(int, input().split())
+arr = [[0 for i in range(2)] for j in range(m)]
+for i in range(m):
+    arr[i]=list(map(int, input().split()))
+
+graph = [[0 for i in range(n)] for j in range(n)]
+for i in range(m):
+  graph[arr[i][0]][arr[i][1]] = 1
+  graph[arr[i][1]][arr[i][0]] = 1
+
+visit=[-1 for i in range(n)]
+visit[x]=0
+
+bfs(graph, x, visit)
+
+check=False
+for i in range(n):
+  if visit[i]==k:
+    print(i+1)
+    check=True
+if check==False: print(-1)
+‘’’
+
+
+‘’’
+from collections import deque
+
+def bfs(graph, vertex, visit):
+  queue=deque([vertex])
+  visit[vertex] = True
+  while queue:
+    v=queue.popleft()
+    print(v,end=' ')
+    for i in range(len(graph)):
+      if visit[i] == False and graph[v][i] == 1:
+        queue.append(i)
+        visit[i] = True
+
+n, m, k, x = map(int, input().split())
+arr = [[0] * 2 for _ in range(m)]
+for i in range(m):
+    arr[i] = list(map(int, input().split()))
+
+graph = [[0 for j in range(n)] for i in range(n)]
+for i in range(len(arr)):
+    graph[arr[i][0]][arr[i][1]] = 1
+    graph[arr[i][1]][arr[i][0]] = 1
+
+visit = [False] * n
+bfs(graph, x, visit)
+‘’’
+
+‘’’
+def dfs(graph,vertex,visit):
+  visit[vertex]=True
+  print(vertex, end=' ')
+  for i in range(len(graph)):
+    if visit[i]==False and graph[vertex][i]==1:
+      dfs(graph,i,visit)
+
+n,m,k,x=map(int,input().split())
+
+arr=[[0]*2 for _ in range(m)]
+for i in range(m): 
+  arr[i]=list(map(int,input().split()))
+
+graph=[[0 for j in range(n)] for i in range(n)]
+for i in range(len(arr)):
+  graph[arr[i][0]][arr[i][1]]=1
+  graph[arr[i][1]][arr[i][0]]=1
+
+visit=[False]*n
+print(dfs(graph,x,visit))
+‘’’
+
+‘’’
+def dfs(arr2,start,visit,shortest,val,result):
+  for i in range(len(arr2)):
+    if val==shortest: 
+      result.append(i+1)
+      break
+    if visit[i]==False and arr2[start][i]==1 and arr2[i][start]==1:
+      val+=1
+      visit[i]=True
+      dfs(arr2,i,visit,shortest,val,result)
+
+n,m,k,x=map(int,input().split())
+
+arr=[[0]*2 for _ in range(m)]
+for i in range(m): 
+  arr[i]=input().split()
+print(arr)
+
+arr2=[[0 for j in range(n)] for i in range(n)]
+for i in range(len(arr)): 
+  a=int(arr[i][0])
+  b=int(arr[i][1])
+  arr2[a][b]=1
+  arr2[b][a]=1
+print(arr2)
+
+visit=[False]*n
+visit[x]=True
+result=[]
+val=0
+dfs(arr2,x,visit,k,val,result)
+  
+result.sort()
+if len(result)==0: print(-1)
+else: print(result)
+‘’’
