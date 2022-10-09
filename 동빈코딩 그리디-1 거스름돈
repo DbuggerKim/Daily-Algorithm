@@ -1,0 +1,9 @@
+n=1260
+count=0
+coin_types=[500,100,50,10]
+
+for coin in coin_types:
+  count+=n//coin #소숫점이하 버리는 나누기
+  n%=coin
+
+print(count)
