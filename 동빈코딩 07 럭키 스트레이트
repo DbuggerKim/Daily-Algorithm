@@ -1,0 +1,10 @@
+n=int(input())
+num=str(n)
+
+left=right=0
+for i in range(len(num)):
+  if i<len(num)/2: left+=int(num[i])
+  else: right+=int(num[i])
+
+if left==right: print("LUCKY")
+else: print("READY")
