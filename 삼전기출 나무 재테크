@@ -1,0 +1,119 @@
+from collections import deque
+
+dx=[-1,-1,-1,0,0,1,1,1]
+dy=[-1,0,1,-1,1,-1,0,1]
+
+n,m,k=map(int,input().split())
+A=[[5]*n for _ in range(n)]
+add=[]
+tree=[[deque() for _ in range(n)] for _ in range(n)]
+
+for i in range(n): 
+  add.append(list(map(int,input().split())))
+  
+for i in range(m): 
+  x,y,z=map(int,input().split())
+  tree[x-1][y-1].append(z) #r번째행 c번째열
+
+while k>0:
+  for i in range(n):
+    for j in range(n):
+      tlen=len(tree[i][j]) #한 토지에 여러개 나무 심기 가능
+      for t in range(tlen):
+        if A[i][j]>=tree[i][j][t]:
+          A[i][j]-=tree[i][j][t]
+          tree[i][j][t]+=1
+        else:
+          for _ in range(t,tlen):
+            A[i][j]+=tree[i][j].pop()//2
+          break
+
+  for i in range(n):
+    for j in range(n):
+      for t in tree[i][j]:
+        if t%5==0:
+          for d in range(8):
+            nx=i+dx[d]
+            ny=j+dy[d]
+            if 0<=nx<n and 0<=ny<n:
+              tree[nx][ny].append(1)
+      A[i][j]+=add[i][j]
+  k-=1
+
+result=0
+for i in range(n):
+  for j in range(n):
+    result+=len(tree[i][j]) #남아있는 나무의수
+print(result)
+
+# https://hillier.tistory.com/61
+
+‘’’
+from collections import deque
+
+n,m,k=map(int,input().split())
+alive=deque()
+temp=deque()
+dead=deque()
+
+A=[[5]*n for _ in range(n)]
+add=[[0]*n for _ in range(n)]
+for i in range(n): 
+  add[i]=list(map(int,input().split()))
+for i in range(m): 
+  x,y,z=map(int,input().split())
+  deque.append(alive,(x,y,z))  
+
+def spring():
+  while alive:
+    arr=alive.popleft()
+    x,y,z=arr[0],arr[1],arr[2]
+    if add[x][y]>=z:
+      add[x][y]-=z
+      if z>0:
+        deque.append(temp,(x,y,z+1))
+      else:
+        deque.append(dead,(x,y,z))
+  while temp:
+    arr=temp.popleft()
+    x,y,z=arr[0],arr[1],arr[2]
+    deque.append(alive,(x,y,z))
+  
+def summer():
+  while dead:
+    arr=dead.popleft()
+    x,y,z=arr[0],arr[1],arr[2]
+    add[x][y]+=z//2
+
+def autumn():
+  dx=[-1,-1,-1,0,0,1,1,1]
+  dy=[-1,0,1,-1,1,-1,0,1]
+  while alive:
+    arr=alive.popleft()
+    x,y,z=arr[0],arr[1],arr[2]
+    if z%5==0:
+      for i in range(8):
+        nx,ny=x+dx[i],y+dy[i]
+        if 0<=nx<n and 0<=ny<n:
+          deque.append(alive,(nx,ny,1))
+    deque.append(temp,(x,y,z))
+  while temp:
+    arr=temp.popleft()
+    x,y,z=arr[0],arr[1],arr[2]
+    deque.append(alive,(x,y,z))
+
+def winter():
+  for i in range(n):
+    for j in range(n):
+      A[i][j]+=add[i][j]
+
+while k>0:
+  k-=1
+  spring()
+  summer()
+  autumn()
+  winter()
+
+print(alive)
+print(len(alive))
+‘’’
