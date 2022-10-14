@@ -1,0 +1,62 @@
+# https://jjangsungwon.tistory.com/57
+
+# 우, 상, 좌, 하
+dx = [1, 0, -1, 0]
+dy = [0, -1, 0, 1]
+
+# 드래곤 커브의 개수
+n = int(input())
+data = [list(map(int, input().split())) for _ in range(n)]
+# 드래곤 커브 연결된 선분 모음
+connect = [[] for _ in range(n)]
+
+# 드래곤 커브 이동
+for i in range(n):
+  x, y, d, g = data[i]
+  # 드래곤 커브별 방향 삽입
+  connect[i].append(d)
+  # 세대 수 만큼 반복
+  for _ in range(g):
+    reverse = list(reversed(connect[i]))
+    for j in reverse:
+      if j + 1 == 4:
+        connect[i].append(0)
+      else:
+        connect[i].append(j + 1)
+
+# 지도 초기화
+arr = [[False] * 101 for _ in range(101)]
+
+# 드래곤 커브 끝점 기준 90도 시계 방향 회전
+for i in range(n):
+  x, y, d, g = data[i]
+  arr[y][x] = True
+  for j in connect[i]:
+    x, y = x + dx[j], y + dy[j]
+    if 0 <= x <= 100 and 0 <= y <= 100:
+      arr[y][x] = True
+
+# 1x1 정사각형 네 꼭지점 모두 드래곤 커브의 일부인 것 개수 파악
+answer = 0
+for i in range(100):
+  for j in range(100):
+    if arr[i][j] and arr[i][j+1] and arr[i+1][j] and arr[i+1][j+1]:
+      answer += 1
+
+print(answer)
+
+'''
+d 방향은 0, 1, 2, 3 중 하나이고, 다음을 의미한다.
+0: x좌표가 증가하는 방향 (→)
+1: y좌표가 감소하는 방향 (↑)
+2: x좌표가 감소하는 방향 (←)
+3: y좌표가 증가하는 방향 (↓)
+
+0세대: 0
+1세대: 0, 1
+2세대: 0, 1, 2, 1
+3세대: 0, 1, 2, 1, 2, 3, 2, 1
+4세대: 0, 1, 2, 1, 2, 3, 2, 1, 2, 3, 0, 3, 2, 3, 2, 1
+ 
+진하게 표현된 값이 추가된 값인데 특별한 규칙이 있는 것을 발견할 수 있다. 바로 이전 세대 방향 정보를 리버스 순서로 가져와서 1을 더하고 추가하면 된다. 만약 +1 한 값이 4라면 0 값을 추가한다.
+'''
