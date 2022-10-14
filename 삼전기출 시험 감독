@@ -1,0 +1,18 @@
+n=int(input())
+A=list(map(int,input().split()))
+B,C=map(int,input().split())
+
+total=0
+for i in range(len(A)): 
+  if A[i]>0: 
+    A[i]-=B
+    total+=1
+
+for i in range(len(A)):
+  if A[i]>0:
+    if A[i]>C:
+      total+=A[i]//C+1
+    else:
+      total+=1
+
+print(total)
