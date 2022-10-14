@@ -1,0 +1,72 @@
+from collections import deque
+
+#인풋 설정 n행 m열
+n, m = list(map(int, input().split()))
+temp=[[0] * m for _ in range(n)]
+data = [[0] * m for _ in range(n)]
+for i in range(n): data[i] = list(map(int, input().split()))
+
+result=0
+
+#상하좌우 좌표
+dx = [0, 0, -1, 1]
+dy = [1, -1, 0, 0]
+
+#func 바이러스 퍼지기
+def virus(x, y):
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        if nx >= 0 and nx < n and ny >= 0 and ny < n:
+            if temp[nx][ny] == 0:
+                temp[nx][ny] = 2
+                virus(nx, ny)
+
+
+#func 안전영역 크기 카운팅
+def score():
+    num = 0
+    for i in range(n):
+        for j in range(m):
+            if temp[i][j] == 0:
+                num += 1
+    return num
+
+
+#깊이우선탐색
+def dfs(count):
+  global result
+  if count==3:
+    for i in range(n):
+      for j in range(m):
+        temp[i][j]=data[i][j]
+    for i in range(n):
+      for j in range(m):
+        if temp[i][j]==2:
+          virus(i,j)
+    result=max(result,score())
+    return
+  #빈공간에 울타리 설치 및 제거
+  for i in range(n):
+    for j in range(m):
+      if data[i][j]==0:
+        data[i][j]=1
+        count+=1
+        dfs(count)
+        data[i][j]=0
+        count-=1
+
+dfs(0)
+print(result)
+
+
+‘’’
+7 7
+2 0 0 0 1 1 0
+0 0 1 0 1 2 0
+0 1 1 0 1 0 0
+0 1 0 0 0 0 0
+0 0 0 0 0 1 1
+0 1 0 0 0 0 0
+0 1 0 0 0 0 0
+‘’’
