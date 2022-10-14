@@ -1,0 +1,189 @@
+n = int(input())
+data = [list(map(int, input().split())) for _ in range(n)]
+
+x, y = n//2, n//2
+dx = [0, 1, 0, -1]
+dy = [-1, 0, 1, 0]
+windx = [
+    # left
+    [-1, 1, -2, 2, 0, -1, 1, -1, 1],
+    # down
+    [-1, -1, 0, 0, 2, 0, 0, 1, 1],
+    # right
+    [1, -1, 2, -2, 0, 1, -1, 1, -1],
+    # up
+    [1, 1, 0, 0, -2, 0, 0, -1, -1]
+]
+windy = [
+    # left
+    [1, 1, 0, 0, -2, 0, 0, -1, -1],
+    # down
+    [-1, 1, -2, 2, 0, -1, 1, -1, 1],
+    # right
+    [-1, -1, 0, 0, 2, 0, 0, 1, 1],
+    # up
+    [1, -1, 2, -2, 0, 1, -1, 1, -1]
+]
+rate = [1, 1, 2, 2, 5, 7, 7, 10, 10]
+
+def wind(x, y, dir) :
+    value = 0
+    sand = data[x][y]
+    sum_value = 0
+    for i in range(9) :
+        nx = x + windx[dir][i]
+        ny = y + windy[dir][i]
+        wind_sand = (sand * rate[i]) // 100
+        sum_value += wind_sand
+
+        if not (0 <= nx < n and 0 <= ny < n) :
+            value += wind_sand
+            continue
+        data[nx][ny] += wind_sand
+
+    nx = x + dx[dir]
+    ny = y + dy[dir]
+    a = sand - sum_value
+    if not (0 <= nx < n and 0 <= ny < n): value += a
+    else : data[nx][ny] += a
+
+    data[x][y] = 0
+    return value
+
+def solve(x, y) :
+    value = 0
+    visited = [[False] * n for _ in range(n)]
+    dir = -1
+    while True :
+        if x == 0 and y == 0 :
+            break
+        visited[x][y] = True
+        nd = (dir + 1) % 4
+        nx = x + dx[nd]
+        ny = y + dy[nd]
+
+        if visited[nx][ny] :
+            nd = dir
+            nx = x + dx[nd]
+            ny = y + dy[nd]
+        value += wind(nx, ny, nd)
+        x, y, dir = nx, ny, nd
+
+    return value
+
+print(solve(x, y))
+
+
+#https://unie2.tistory.com/992
+
+‘’’
+#모래 분배하기
+def divide(arr,val,direct):
+  if direct=="left":
+    if x-2>=0: arr[x-2][y]+=val*0.05
+    if x-1>=0 and y-1>=0: arr[x-1][y-1]+=val*0.1
+    if y-1>=0: arr[x][y-1]+=val*0.07
+    if y-2>=0: arr[x][y-2]+=val*0.02
+    if x+1<n and y-1>=0: arr[x+1][y-1]+=val*0.01
+    if x+1<n and y+1<n: arr[x+1][y+1]+=val*0.01
+    if y+1<n: arr[x][y+1]+=val*0.07
+    if y+2<n: arr[x][y+2]+=val*0.02
+    if x-1>=0 and y+1<n: arr[x-1][y+1]+=val*0.1
+    if x-1>=0: arr[x-1][y]+=val*0.55
+  if direct=="up":
+    if x-1>=0 and y+1<n: arr[x-1][y+1]+=val*0.01
+    if x-1>=0: arr[x-1][y]+=val*0.07
+    if x-2>=0: arr[x-2][y]+=val*0.02
+    if x-1>=0 and y-1>=0: arr[x-1][y-1]+=val*0.1
+    if y-2>=0: arr[x][y-2]+=val*0.05
+    if x+1<n and y-1>=0: arr[x+1][y-1]+=val*0.1
+    if y+1<n: arr[x][y+1]+=val*0.07
+    if y+2<n: arr[x][y+2]+=val*0.02
+    if x+1<n and y+1<n: arr[x+1][y+1]+=val*0.01
+    if y-1>=0: arr[x][y-1]+=val*0.55
+  if direct=="right":
+    if x-1>=0 and y-1>=0: arr[x-1][y-1]+=val*0.01
+    if y-1>=0: arr[x][y-1]+=val*0.07
+    if y-2>=0: arr[x][y-2]+=val*0.02
+    if x+1<n and y-1>=0: arr[x+1][y-1]+=val*0.1
+    if x+2<n: arr[x+2][y]+=val*0.05
+    if x+1<n and y+1<n: arr[x+1][y+1]+=val*0.1
+    if y+1<n: arr[x][y+1]+=val*0.07
+    if y+2<n: arr[x][y+2]+=val*0.02
+    if x-1>=0 and y+1<n: arr[x-1][y+1]+=val*0.01
+    if x+1<n: arr[x+1][y]+=val*0.55
+  if direct=="down":
+    if x+1<n and y-1>=0: arr[x+1][y-1]+=val*0.01
+    if x+1<n: arr[x+1][y]+=val*0.07
+    if x+2<n: arr[x+2][y]+=val*0.02
+    if x+1<n and y+1<n: arr[x+1][y+1]+=val*0.1
+    if y+2<n: arr[x][y+2]+=val*0.05
+    if x-1>=0 and y+1<n: arr[x-1][y+1]+=val*0.1
+    if x-1>=0: arr[x-1][y]+=val*0.07
+    if x-2>=0: arr[x-2][y]+=val*0.02
+    if x-1>=0 and y-1>=0: arr[x-1][y-1]+=val*0.01
+    if y+1<n: arr[x][y+1]+=val*0.55
+
+n=int(input())
+arr=[[0]*n for _ in range(n)]
+for i in range(len(arr)):
+  arr[i]=list(map(int,input().split()))
+
+pre=0
+for i in range(n):
+  for j in range(n): 
+    pre+=arr[i][j]
+
+#달팽이 탐색
+visit=[[0]*n for _ in range(n)]
+x,y=n//2,n//2
+while x!=0 and y!=0:
+  while x-1>=0 and visit[x][y]==0: #
+    visit[x-1][y]=1
+    divide(arr,arr[x-1][y],"left")
+    x-=1
+  while y-1>=0 and visit[x][y]==0: #
+    visit[x][y-1]=1
+    divide(arr,arr[x][y-1],"up")
+    y-=1
+  while x+1<n and visit[x][y]==0: #
+    visit[x+1][y]=1
+    divide(arr,arr[x+1][y],"right")
+    x+=1
+  while y+1<n and visit[x][y]==0: #
+    visit[x][y+1]=1
+    divide(arr,arr[x][y+1,"down"])
+    y+=1
+
+post=0
+for i in range(n):
+  for j in range(n): 
+    post+=arr[i][j]
+
+print(pre-post)
+
+'''
+def make_outer(arr, st, length, num):
+    last = st+length-1 # 사각형 : (st,st)~(last,last)
+    for c in range(st, last + 1): 
+    # 해당 최외각 사각형에서 첫째 행을 처리 -> (st,st)~(st,last)까지 작업
+        arr[st][c] = num
+        num += 1
+    for r in range(st + 1, last + 1): 
+    # 해당 최외각 사각형에서 마지막 열을 처리
+    #(st,last)은 이미 차있음 -> (st+1,l)~(last,last)까지 작업
+        arr[r][last] = num
+        num += 1
+    for c in range(last - 1, st - 1,-1): 
+    # 해당 최외각 사각형에서 마지막 행을 처리
+    #(last,last)은 이미 차있음 -> (last,last-1)~(last,st)까지 작업
+        arr[last][c] = num
+        num += 1
+    for r in range(last - 1, st, -1): 
+    # 해당 최외각 사각형에서 첫번째 열을 처리
+    #(last,st), (st,st)은 이미 차있음 -> (last-1,st)~(st+1,st)까지 작업
+        arr[r][st] = num
+        num += 1
+    return num
+'''
+‘’’ #스스로 생각
