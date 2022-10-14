@@ -1,0 +1,66 @@
+# https://jeongchul.tistory.com/667
+
+from collections import deque
+
+n=int(input())
+board=[list(map(int,input().split())) for _ in range(n)]
+answer=0
+q=deque()
+
+def get(i,j):
+  if board[i][j]!=0:
+    q.append(board[i][j])
+    board[i][j]=0
+
+def merge(i,j,di,dj): #row인덱스, col인덱스, x방향, y방향
+  while q:
+    #움직이려는 값 가져옴
+    v=q.popleft()
+    #빈칸이라면 값을 그대로 저장
+    if board[i][j]==0:
+      board[i][j]=v
+    #두 값이 일치하면 움직인 후 2배 증가하여 저장
+    elif board[i][j]==v:
+      i,j=i+di,j+dj
+      board[i][j]=v*2
+    #값이 일치하지 않으면 움직인 후 그대로 저장
+    elif board[i][j]!=v:
+      i,j=i+di,j+dj
+      board[i][j]=v
+
+def move(k):
+  if k==0: #up
+    for j in range(n):
+      for i in range(n):
+        get(i,j)
+      merge(0,j,1,0) #row인덱스 1씩 증가하며 아래쪽 블락들 합침
+  elif k==1: #down
+    for j in range(n):
+      for i in range(n-1,-1,-1):
+        get(i,j)
+      merge(n-1,j,-1,0) #row인덱스 1씩 감소하며 위쪽 블락들 합침
+  elif k==2: #right
+    for i in range(n):
+      for j in range(n):
+        get(i,j)
+      merge(i,0,0,1) #col인덱스 1씩 증가하며 오른쪽 블락들 합침
+  elif k==3: #left
+    for i in range(n):
+      for j in range(n-1,-1,-1):
+        get(i,j)
+      merge(i,n-1,0,-1) #col인덱스 1씩 감소하며 왼쪽 블락들 합침
+
+def dfs(count):
+  global board,answer #함수 선언하였다면 함수내에서 global 선언해야함
+  if count==5:
+    for i in range(n):
+      answer=max(answer,max(board[i]))
+    return
+  b=[x[:] for x in board] #방향 바꾸기 전 원래 보드 상태를 기억함
+  for i in range(4):
+    move(i)
+    dfs(count+1)
+    board=[x[:] for x in b] #방향 바꾸기 전 원래 보드 상태 복귀함
+
+dfs(0)
+print(answer)
