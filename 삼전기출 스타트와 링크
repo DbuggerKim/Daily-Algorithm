@@ -1,0 +1,56 @@
+def dfs(depth):
+    global diff
+    if depth == n//2:
+        team1, team2 = 0, 0
+        for i in range(n):
+            for j in range(n):
+                if visit[i] and visit[j]:
+                    team1 += graph[i][j]
+                elif not visit[i] and not visit[j]:
+                    team2 += graph[i][j]
+        diff = min(diff, abs(team1-team2))
+        return
+
+    for i in range(depth, n):
+        if not visit[i]:
+            visit[i] = True
+            dfs(depth+1)
+            visit[i] = False
+
+n = int(input())
+visit = [False for _ in range(n)]
+graph = [list(map(int, input().split())) for _ in range(n)]
+diff = int(1e9)
+dfs(0)
+print(diff)
+
+‘’’
+def dfs(depth, idx):
+    global mini
+    if depth == n//2:
+        sum1, sum2 = 0, 0
+        for i in range(n):
+            for j in range(n):
+                if visit[i] and visit[j]:
+                    sum1 += graph[i][j]
+                elif not visit[i] and not visit[j]:
+                    sum2 += graph[i][j]
+        mini = min(mini, abs(sum1-sum2))
+        return
+
+    for i in range(idx, n):
+        if not visit[i]:
+            visit[i] = True
+            dfs(depth+1, i+1)
+            visit[i] = False
+
+
+n = int(input())
+visit = [False for _ in range(n)]
+graph = [list(map(int, input().split())) for _ in range(n)]
+mini = int(1e9)
+dfs(0, 0)
+print(mini)
+
+# https://developer-ellen.tistory.com/50
+‘’’
