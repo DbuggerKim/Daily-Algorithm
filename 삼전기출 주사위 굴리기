@@ -1,0 +1,90 @@
+# https://hongcoding.tistory.com/128
+
+n, m, x, y, k = map(int, input().split())
+
+board = []
+dx = [0, 0, -1, 1]
+dy = [1, -1, 0, 0]
+dice = [0, 0, 0, 0, 0, 0]
+
+def turn(dir):
+  #dir 우1 좌2 하3 상4
+  #dice 윗면[0] 뒷면[1] 오른면[2] 왼면[3] 앞면[4] 바닥면[5]
+    a, b, c, d, e, f = dice[0], dice[1], dice[2], dice[3], dice[4], dice[5]
+    if dir == 1: #동
+        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = d, b, a, f, e, c
+
+    elif dir == 2: #서
+        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = c, b, f, a, e, d
+
+    elif dir == 3: #북
+        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = e, a, c, d, f, b
+
+    else:
+        dice[0], dice[1], dice[2], dice[3], dice[4], dice[5] = b, f, c, d, a, e
+
+for i in range(n):
+    board.append(list(map(int, input().split())))
+
+comm = list(map(int, input().split()))
+
+nx, ny = x, y
+for i in comm:
+    nx += dx[i-1]
+    ny += dy[i-1]
+
+    if nx < 0 or nx >= n or ny < 0 or ny >= m:
+        nx -= dx[i-1]
+        ny -= dy[i-1]
+        continue
+    turn(i)
+    if board[nx][ny] == 0:
+        board[nx][ny] = dice[-1] #배열의 가장 오른쪽에서 첫번째 값 즉, 바닥면[5]
+    else:
+        dice[-1] = board[nx][ny]
+        board[nx][ny] = 0
+    #dice 윗면[0] 출력
+    print(dice[0])
+
+
+‘’’
+n,m,x,y,k=map(int,input().split())
+board=[list(map(int,input().split())) for _ in range(n)]
+direction=list(map(int,input().split()))
+
+dx=[0,0-1,1]
+dy=[1,-1,0,0]
+dice=[0,0,0,0,0,0]
+
+def turn(dir): 
+  #dir 우1 좌2 하3 상4
+  #dice 윗면[0] 뒷면[1] 오른면[2] 왼면[3] 앞면[4] 바닥면[5]
+  a,b,c,d,e,f=dice[0],dice[1],dice[2],dice[3],dice[4],dice[5]
+  if dir==1:
+    dice[0],dice[1],dice[2],dice[3],dice[4],dice[5]=d,b,a,f,e,c
+  elif dir==2:
+    dice[0],dice[1],dice[2],dice[3],dice[4],dice[5]=c,b,f,a,e,d
+  elif dir==3:
+    dice[0],dice[1],dice[2],dice[3],dice[4],dice[5]=e,a,c,d,f,b
+  elif dir==4:
+    dice[0],dice[1],dice[2],dice[3],dice[4],dice[5]=b,f,c,d,a,e
+
+nx,ny=x,y
+
+for i in range(len(direction)):
+  index=direction[i]-1
+  nx+=dx[index]
+  ny+=dy[index]
+  if nx<0 and nx>=n and ny<0 and ny>=m:
+    nx-=dx[index]
+    ny-=dy[index]
+    continue
+  turn(i)
+  if board[nx][ny]==0:
+    board[nx][ny]=dice[-1] #배열의 가장 오른쪽에서 첫번째 값 즉, 바닥면[5]
+  elif board[nx][ny]!=0:
+    dice[-1]=board[nx][ny]
+    board[nx][ny]=0
+  #dice 윗면[0] 출력
+  print(dice[0]) 
+‘’’
