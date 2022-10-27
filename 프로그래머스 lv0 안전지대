@@ -1,0 +1,49 @@
+def solution(board):
+    answer=0
+    dx=[0,0,-1,1,-1,1,1,-1]
+    dy=[-1,1,0,0,-1,-1,1,1]
+    n=len(board)
+    visit=[[0]*n for _ in range(n)]
+
+    for x in range(n):
+        for y in range(n):
+            if board[x][y]==1:
+                visit[x][y]=1
+                for d in range(8):
+                    nx=x+dx[d]
+                    ny=y+dy[d]
+                    if 0<=nx<n and 0<=ny<n and visit[nx][ny]==0: 
+                        visit[nx][ny]=1
+    
+    total=0
+    for i in range(n):
+        for j in range(n):
+            total+=visit[i][j]
+    answer=n**2-total
+
+    return answer
+
+‘’’
+def solution(board):
+    answer=0
+    dx=[0,0,-1,1,-1,1,1,-1]
+    dy=[-1,1,0,0,-1,-1,1,1]
+    
+    n=len(board)
+    for x in range(n):
+        for y in range(n):
+            if board[x][y]==1:
+                for d in range(8):
+                    nx=x+dx[d]
+                    ny=y+dy[d]
+                    if 0<=nx<n and 0<=ny<n and board[nx][ny]==0:
+                        board[nx][ny]=1
+    
+    total=0
+    for i in range(n):
+        for j in range(n):
+            total+=board[i][j]
+    print(n**2,total)
+    answer=n**2-total
+    return answer
+‘’’
