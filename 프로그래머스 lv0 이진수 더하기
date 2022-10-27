@@ -1,0 +1,20 @@
+def solution(bin1, bin2):
+    answer=""
+    ans1,ans2=0,0
+    for i in range(len(bin1)-1,-1,-1):
+        num=int(bin1[i])
+        ans1+=num*(2**(len(bin1)-i-1))
+        
+    for i in range(len(bin2)-1,-1,-1):
+        num=int(bin2[i])
+        ans2+=num*(2**(len(bin2)-i-1))
+    
+    sum=ans1+ans2
+    binnum=format(sum,'b')
+    '''
+    while sum>0:
+        answer=str(sum%2)+answer
+        sum//=2
+    '''
+    answer=str(binnum)
+    return answer
