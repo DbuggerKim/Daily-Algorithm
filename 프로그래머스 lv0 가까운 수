@@ -1,0 +1,11 @@
+def solution(array, n):
+    answer=0
+    min=1e9
+    for i in range(len(array)):
+        if min>abs(n-array[i]):
+            min=abs(n-array[i])
+            answer=array[i]    
+        if min==abs(n-array[i]):
+            if answer>array[i]:
+                answer=array[i]
+    return answer
