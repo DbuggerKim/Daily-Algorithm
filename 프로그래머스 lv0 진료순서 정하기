@@ -1,0 +1,7 @@
+def solution(emergency):
+    clone=sorted(emergency,reverse=True)
+    answer=[0]*(len(emergency))
+    for i in range (len(emergency)):
+        if clone[i] in emergency:
+            answer[emergency.index(clone[i])]=i+1
+    return answer
