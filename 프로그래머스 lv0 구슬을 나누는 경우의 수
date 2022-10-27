@@ -1,0 +1,29 @@
+import math
+
+def solution(balls, share):
+    answer=math.factorial(balls)//(math.factorial(balls-share)*math.factorial(share))
+    return answer
+
+‘’’
+def factorial(n):
+    if n==1: return 1
+    elif n==2: return 2
+    return factorial(n-1)*n
+
+def solution(balls, share):
+    answer=factorial(balls)/(factorial(balls-share)*factorial(share))
+    return answer
+‘’’ #시간초과
+
+
+‘’’
+from itertools import combinations
+
+def solution(balls, share):
+    answer=0
+    num=[0]*balls
+    for i in range(balls): num[i]=i+1
+    result=list(combinations(num,share))
+    answer=len(result)
+    return answer
+‘’’ #시간초과
