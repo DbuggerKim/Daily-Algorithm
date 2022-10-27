@@ -1,0 +1,10 @@
+import math
+
+def solution(denum1, num1, denum2, num2):
+    answer = []
+    first=num1*denum2+num2*denum1
+    second=num1*num2
+    min=math.gcd(first,second)
+    answer.append(first/min)
+    answer.append(second/min)
+    return answer
