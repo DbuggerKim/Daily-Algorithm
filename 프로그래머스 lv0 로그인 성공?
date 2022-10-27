@@ -1,0 +1,34 @@
+def solution(id_pw, db):
+    answer=""
+    uid,upw=id_pw[0],id_pw[1]
+    f1,f2=False,False
+    
+    for i in range(len(db)):
+        if db[i][0]==uid and db[i][1]==upw: f1=True
+        if db[i][0]==uid and db[i][1]!=upw: f2=True
+    
+    if f1==True: answer="login"
+    elif f1==False and f2==True: answer="wrong pw"
+    elif f1==False and f2==False: answer="fail"
+    
+    return answer
+
+
+‘’’
+def solution(id_pw, db):
+    answer = ''
+    
+    for i in range(len(db)):
+        if id_pw[0] in db[i][0] and id_pw[1] in db[i][1]: 
+            answer="login"
+            break
+        else:
+            if id_pw[0] not in db[i][0]: 
+                answer="fail"
+                break
+            elif id_pw[0] in db[i][0] and id_pw[1] not in db[i][1]: 
+                answer="wrong pw"
+                break
+            
+    return answer
+‘’’
