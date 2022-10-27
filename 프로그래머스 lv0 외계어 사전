@@ -1,0 +1,12 @@
+def solution(spell, dic):
+    answer=2
+    for j in range(len(dic)):
+        count=0
+        for i in range(len(spell)): 
+            if spell[i] in dic[j]: count+=1
+            else: break
+        if count==len(spell): 
+            answer=1
+            break
+    
+    return answer
