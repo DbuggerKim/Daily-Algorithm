@@ -1,0 +1,10 @@
+def solution(my_string):
+    answer=""
+    for i in range(len(my_string)):
+        if my_string[i]=="a": continue
+        elif my_string[i]=="e": continue
+        elif my_string[i]=="i": continue
+        elif my_string[i]=="o": continue
+        elif my_string[i]=="u": continue
+        answer+=my_string[i]
+    return answer
