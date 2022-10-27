@@ -1,0 +1,8 @@
+def solution(order):
+    answer=0
+    arr=str(order)
+    for i in range(len(arr)):
+        if arr[i]=="3": answer+=1
+        elif arr[i]=="6": answer+=1
+        elif arr[i]=="9": answer+=1
+    return answer
