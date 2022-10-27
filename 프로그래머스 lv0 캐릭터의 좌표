@@ -1,0 +1,67 @@
+def solution(keyinput, board):
+    answer = []
+    
+    #down up left right
+    dx=[0,0,-1,1]
+    dy=[-1,1,0,0]
+    nx,ny=0,0
+    
+    startx=-(board[0]//2)
+    endx=board[0]//2
+    starty=-(board[1]//2)
+    endy=board[1]//2
+    
+    for i in range(len(keyinput)):
+        if startx<=nx+dx[0]<=endx and starty<=ny+dy[0]<=endy:
+            if keyinput[i]=="down": 
+                nx+=dx[0]
+                ny+=dy[0]
+        if startx<=nx+dx[1]<=endx and starty<=ny+dy[1]<=endy:
+            if keyinput[i]=="up":
+                nx+=dx[1]
+                ny+=dy[1]
+        if startx<=nx+dx[2]<=endx and starty<=ny+dy[2]<=endy:
+            if keyinput[i]=="left": 
+                nx+=dx[2]
+                ny+=dy[2]
+        if startx<=nx+dx[3]<=endx and starty<=ny+dy[3]<=endy:
+            if keyinput[i]=="right":
+                nx+=dx[3]
+                ny+=dy[3]
+        else: continue
+
+    answer.append(nx)
+    answer.append(ny)
+    
+    return answer
+
+‘’’
+def solution(keyinput, board):
+    answer = []
+    
+    #down up left right
+    dx=[0,0,-1,1]
+    dy=[-1,1,0,0]
+    nx,ny=0,0
+    
+    for i in range(len(keyinput)):
+        if 0<=nx<=board[0] and 0<=ny<=board[1]:
+            if keyinput[i]=="down": 
+                nx+=dx[0]
+                ny+=dy[0]
+            elif keyinput[i]=="up":
+                nx+=dx[1]
+                ny+=dy[1]
+            elif keyinput[i]=="left": 
+                nx+=dx[2]
+                ny+=dy[2]
+            elif keyinput[i]=="right":
+                nx+=dx[3]
+                ny+=dy[4]
+        else: continue
+        
+    answer.append(nx)
+    answer.append(ny)
+    
+    return answer
+‘’’
