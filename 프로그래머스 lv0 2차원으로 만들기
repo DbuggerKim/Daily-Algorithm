@@ -1,0 +1,8 @@
+def solution(num_list, n):
+    answer = [[0]*n for _ in range(len(num_list)//n)]
+    count=0
+    for j in range(len(answer)):
+        for k in range(n):
+            answer[j][k]=num_list[count]
+            count+=1
+    return answer
