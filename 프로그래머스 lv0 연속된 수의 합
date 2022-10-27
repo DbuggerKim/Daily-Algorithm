@@ -1,0 +1,17 @@
+def solution(num, total):
+    answer = []
+    start=0
+    mid=0
+    if num%2==0:
+        mid=total//(num//2)
+        mid=(mid-1)//2
+        start=mid-(num//2)+1
+    else:
+        mid=total//num
+        start=mid-(num//2)
+        
+    for i in range(num):
+        answer.append(start)
+        start+=1
+        
+    return answer
