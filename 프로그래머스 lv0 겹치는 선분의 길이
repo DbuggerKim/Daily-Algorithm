@@ -1,0 +1,67 @@
+def solution(lines):
+    arr = []
+    for line in lines: line.sort()
+    count = 0
+    for line in lines:
+        for dot in range(line[0], line[1]):
+            if dot not in arr:
+                arr.append(dot)
+            else:
+                arr.remove(dot)
+                count += 1
+    return count
+
+‘’’
+def solution(lines):    
+    answer=0
+    arr=[]
+    
+    #first and second
+    start,end=0,0
+    if lines[0][0]<=lines[1][0]<lines[0][1]: 
+        start=lines[1][0]
+        if lines[1][1]>=lines[0][1]: end=lines[0][1]
+        else: end=lines[1][1]
+    elif lines[1][0]<=lines[0][0]<lines[1][1]: 
+        start=lines[0][0]
+        if lines[1][1]>=lines[0][1]: end=lines[0][1]
+        else: end=lines[1][1]
+    if start!=0 and end!=0: arr.append((start,end))
+    
+    #second and third
+    start,end=0,0
+    if lines[1][0]<=lines[2][0]<lines[1][1]: 
+        start=lines[2][0]
+        if lines[2][1]>=lines[1][1]: end=lines[1][1]
+        else: end=lines[2][1]
+    elif lines[2][0]<=lines[1][0]<lines[2][1]: 
+        start=lines[1][0]
+        if lines[2][1]>=lines[1][1]: end=lines[1][1]
+        else: end=lines[2][1]
+    if start!=0 and end!=0: arr.append((start,end))
+    
+    #first and third
+    start,end=0,0
+    if lines[0][0]<=lines[2][0]<lines[0][1]: 
+        start=lines[2][0]
+        if lines[2][1]>=lines[0][1]: end=lines[0][1]
+        else: end=lines[2][1]
+    elif lines[2][0]<=lines[0][0]<lines[2][1]: 
+        start=lines[0][0]
+        if lines[2][1]>=lines[0][1]: end=lines[0][1]
+        else: end=lines[2][1]
+    if start!=0 and end!=0: arr.append((start,end))
+    
+    print(arr)
+    small,big=[],[]
+    for i in range(len(arr)):
+        small.append(arr[i][0])
+        big.append(arr[i][1])
+    
+    s,b=0,0
+    if s<=b:
+        if len(small)!=0: s=min(small)
+        if len(big)!=0: b=max(big)
+        answer=abs(b-s)
+    return answer
+‘’’
