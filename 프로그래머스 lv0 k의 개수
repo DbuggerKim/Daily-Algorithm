@@ -1,0 +1,7 @@
+def solution(i, j, k):
+    answer = 0
+    for num in range(i,j+1):
+        snum=str(num)
+        for n in range(len(snum)):
+            if snum[n]==str(k): answer+=1
+    return answer
