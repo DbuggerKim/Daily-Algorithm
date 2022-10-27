@@ -1,0 +1,69 @@
+def solution(numlist, n):
+    answer = []
+    
+    flag=[False]*(len(numlist))
+    numlist=sorted(numlist, reverse=True)
+    temp=[0]*len(numlist)
+    for i in range(len(numlist)):
+        temp[i]=abs(numlist[i]-n)
+    
+    for i in range(len(temp)):
+        while flag[i]==False:
+            small=min(temp)
+            index=temp.index(small)
+            answer.append(numlist[index])
+            temp[index]=int(1e9)
+            numlist[index]=int(1e9)
+            flag[index]=True
+    
+    return answer
+
+
+‘’’
+def solution(numlist, n):
+    
+    big=int(1e9)
+    answer=[]
+    temp=[]
+    temp2=[]
+    flag=[False]*(len(numlist))
+    
+    for i in range(len(numlist)):
+        temp.append(abs(numlist[i]-n))
+        
+    for i in range(len(temp)):
+        while flag[i]==False:
+            small=min(temp)
+            for j in range(len(temp)):
+                if small==temp[j]:
+                    temp2.append(temp.index(small))
+                sorted(temp2,reverse=True)
+                while temp2:
+                    index=temp2.pop()
+                    answer.append(numlist[index])
+                    temp[index]=big
+                    flag[index]=True
+    return answer
+‘’’
+
+‘’’
+def solution(numlist, n):
+    
+    big=int(1e9)
+    answer=[]
+    temp=[]
+    flag=[False]*(len(numlist))
+    
+    for i in range(len(numlist)):
+        temp.append(abs(numlist[i]-n))
+    
+    for i in range(len(temp)):
+        while flag[i]==False:
+            small=min(temp)
+            index=temp.index(small)
+            answer.append(numlist[index])
+            temp[index]=big
+            flag[index]=True
+
+    return answer
+‘’’
