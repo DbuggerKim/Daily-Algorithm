@@ -1,0 +1,95 @@
+import math
+
+def isprime(n):
+    for i in range(2,int(math.sqrt(n))+1):
+        if n%i==0: return False
+    return True
+
+def solution(a, b):
+    if a>=b and a%b==0: return 1
+    upper=a//math.gcd(a,b)
+    lower=b//math.gcd(a,b)
+    
+    arr=[]
+    for i in range(2,lower+1):
+        if lower%i==0 and isprime(i)==True: arr.append(i)
+    
+    answer=0
+    if 2 in arr or 5 in arr: answer=1
+    while arr:
+        num=arr.pop()
+        if num!=2 and num!=5: answer=2
+
+        
+    return answer
+
+‘’’
+import math
+
+def isprime(n):
+    for i in range(2,int(math.sqrt(n))+1):
+        if n%i==0: return False
+    return True
+
+def solution(a, b):
+    upper=a//math.gcd(a,b)
+    lower=b//math.gcd(a,b)
+    
+    arr=[]
+    for i in range(2,lower+1):
+        if lower%i==0 and isprime(i)==True: arr.append(i)
+    
+    if 2 in arr or 5 in arr: answer=1
+    while arr:
+        num=arr.pop()
+        if num!=2 and num!=5: answer=2
+    
+    return answer
+‘’’
+
+‘’’
+import math
+
+def isprime(n):
+    flag=True
+    for i in range(2,int(math.sqrt(n))):
+        if n%i==0: 
+            flag=False
+            break
+    return flag
+
+def solution(a, b):
+    answer=0
+    upper=a//math.gcd(a,b)
+    lower=b//math.gcd(a,b)
+    
+    if lower%2==0 or lower%5==0: answer=1
+    for i in range(lower):
+        if i!=2 and i!=5 and isprime(i)==True: answer=2
+    
+    return answer
+‘’’
+
+‘’’
+import math
+
+def isprime(n): #하나라도 나오면 안됨
+    flag=False
+    for i in range(2,n):
+        if i!=2 and i!=5 and n%i==0: 
+            flag=True
+            break
+    return flag
+
+def solution(a, b):
+    answer=0
+    upper=a//math.gcd(a,b)
+    lower=b//math.gcd(a,b)
+    
+    if b%2==0 or b%5==0: answer=1
+    for i in range(3,b):
+        if isprime(i)==True: answer=2
+    
+    return answer
+‘’’
+
