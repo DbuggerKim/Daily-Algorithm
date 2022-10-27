@@ -1,0 +1,12 @@
+def solution(common):
+    answer=0
+    num3=common[2]
+    num2=common[1]
+    num1=common[0]
+    
+    if num2-num1==num3-num2: 
+        answer=common[len(common)-1]+(num2-num1)
+    elif num2/num1==num3/num2: 
+        answer=common[len(common)-1]*(num2/num1)
+    
+    return answer
