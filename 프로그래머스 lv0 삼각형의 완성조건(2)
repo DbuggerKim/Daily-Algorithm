@@ -1,0 +1,5 @@
+def solution(sides):
+    small=min(sides)
+    big1=max(sides)
+    big2=small+big1-1
+    return big2-(big1-small)
