@@ -1,0 +1,12 @@
+def solution(array):
+    answer = []
+    
+    index=0
+    big=max(array)
+    for i in range(len(array)):
+        if array[i]==big: index=i
+    
+    answer.append(big)
+    answer.append(index)
+    
+    return answer
