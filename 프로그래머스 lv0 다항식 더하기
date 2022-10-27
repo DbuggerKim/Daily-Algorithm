@@ -1,0 +1,101 @@
+def solution(polynomial):
+    
+    coef,const=0,0
+    for ch in polynomial.split("+"):
+        sub=ch.strip() #공백제거
+        if 'x' in sub:
+            sub=sub.replace("x","")
+            if sub.isdigit(): coef+=int(sub)
+            else: coef+=1
+        elif sub.isdigit(): const+=int(sub)
+    
+    answer=""
+    if coef==1:
+        if const==0: answer="x"
+        if const!=0: answer="x"+" + "+str(const)
+    elif coef==0:
+        if const==0: answer="0"
+        if const!=0: answer=str(const)
+    else:
+        if const==0: answer=str(coef)+"x"
+        if const!=0: answer=str(coef)+"x"+" + "+str(const)
+    
+    return answer
+
+‘’’
+def solution(polynomial):
+
+    coef = 0; const = 0
+    for ch in polynomial.split("+"):
+        _ch = ch.strip()
+        if 'x' in _ch:
+            _ch = _ch.replace("x","")
+            if _ch.isdigit():
+                coef += int(_ch)
+            else:
+                coef += 1
+
+        elif _ch.isdigit():
+            const += int(_ch)
+
+    if coef == 0 and const != 0:
+        return str(const)
+    elif coef != 0 and const == 0:
+        return str(coef) + "x"
+    elif coef != 0 and const != 0:
+        return str(coef) + "x" + " + " + str(const)
+    elif coef == 0 and const == 0:
+        return "0"
+‘’’
+
+‘’’
+def solution(polynomial):
+    arr=[]
+    arr=polynomial.split()
+    
+    num1,num2=0,0
+    for i in range(len(arr)):
+        if i%2==0:
+            if "x" in arr[i]:
+                sub=arr[i][0]
+                if sub=="x": num1+=1
+                else: num1+=int(sub)
+            else: 
+                num2+=int(arr[i][0])
+                
+    answer=""
+    if num1==1:
+        if num2==0: answer="x"
+        if num2!=0: answer="x"+" + "+str(num2)
+    elif num1==0:
+        if num2==0: answer="0"
+        if num2!=0: answer=str(num2)
+    else:
+        if num2==0: answer=str(num1)+"x"
+        if num2!=0: answer=str(num1)+"x"+" + "+str(num2)
+    
+    return answer
+‘’’
+
+‘’’
+def solution(polynomial):
+    arr=[]
+    arr=polynomial.split()
+    
+    num1=0
+    num2=0
+    for i in range(len(arr)):
+        if i%2==0:
+            if "x" in arr[i]:
+                sub=arr[i][0]
+                if sub=="x": num1+=1
+                else: num1+=int(sub)
+            else: num2+=int(arr[i][0])
+                
+    answer=""
+    if num1==0 and num2!=0: answer=str(num2)
+    elif num1!=0 and num2==0: answer=str(num1)+"x"
+    elif num1!=0 and num2!=0: answer=str(num1)+"x"+" + "+str(num2)
+    else: answer="0"
+    return answer
+‘’’
