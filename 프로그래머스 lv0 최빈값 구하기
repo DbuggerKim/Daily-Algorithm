@@ -1,0 +1,68 @@
+def solution(array):
+    answer = 0
+        
+    val=list(set(array))
+    num=[0]*len(val)
+    
+    for i in range(len(val)):
+        count=0
+        for j in range(len(array)):
+            if val[i]==array[j]:
+                count+=1
+        num[i]=count
+    
+    big=max(num)
+    count=0
+    for i in range(len(num)):
+        if num[i]==big:
+            count+=1
+    
+    if count==1:
+        idx=num.index(big)
+        answer=val[idx]
+    elif count>=2:
+        answer=-1
+    
+    return answer
+
+‘’’
+from collections import deque
+ 
+def solution(array):
+    answer = 0
+    big=max(array)
+    small=min(array)
+    period=big-small+1
+    output=[0]*period
+    if len(array)==1: return array[0]
+    else:
+        for i in range(len(array)):
+            output[array[i]-small]+=1
+        count=0
+        num=max(output)
+        for i in range(len(output)):
+            if output[i]==num:
+                count+=1
+        if count>=2: answer=-1
+        else: answer=num
+    return answer
+‘’’
+ 
+‘’’
+def solution(array):
+    big=max(array)
+    small=min(array)
+    arr=[0]*(abs(big-small)+1)
+    
+    for i in range(len(array)):
+        arr[array[i]-1]+=1
+    
+    count=0
+    answer=max(arr)
+    if len(arr)!=1:
+        for i in range(len(arr)):
+            if answer==arr[i]: count+=1
+    if count>1: return -1
+            
+    return answer
+‘’’
