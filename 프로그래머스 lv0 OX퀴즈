@@ -1,0 +1,18 @@
+def solution(quiz):
+    answer = []
+    
+    arr=[0]*len(quiz)
+    for i in range(len(quiz)):
+        arr[i]=quiz[i].split()
+    
+    for i in range(len(arr)):
+        x=int(arr[i][0])
+        opr=arr[i][1]
+        y=int(arr[i][2])
+        z=int(arr[i][4])
+        if opr=='-' and x-y==z: answer.append('O')
+        elif opr=='-' and x-y!=z: answer.append('X')
+        if opr=='+' and x+y==z: answer.append('O')
+        elif opr=='+' and x-y!=z: answer.append('X')
+        
+    return answer
