@@ -1,0 +1,6 @@
+def solution(before, after):
+    answer=0
+    b="".join(sorted(before))
+    a="".join(sorted(after))
+    if b==a: answer=1
+    return answer
