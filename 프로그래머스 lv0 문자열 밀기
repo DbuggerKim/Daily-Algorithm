@@ -1,0 +1,23 @@
+from collections import deque
+
+def solution(A, B):
+    answer = 0
+    queue=deque()
+    for i in range(len(A)): queue.append(A[i])
+    count=0
+    
+    if A==B: return 0
+    
+    while True:
+        count+=1
+        str=""
+        val=queue.pop()
+        queue.appendleft(val)
+        arr=list(queue)
+        for i in range(len(arr)): str+=arr[i]
+        if str==B or str==A: break
+            
+    if str!=B: answer=-1
+    elif str==B: answer=count
+    
+    return answer
