@@ -1,0 +1,9 @@
+def solution(my_string):
+    arr=[]
+    answer = ''
+    for i in range(len(my_string)):
+        if my_string[i] not in arr:
+            arr.append((my_string[i]))
+
+    for i in range(len(arr)): answer+=arr[i]
+    return answer
