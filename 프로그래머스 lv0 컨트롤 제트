@@ -1,0 +1,59 @@
+
+from collections import deque
+
+def solution(s):
+    answer = 0
+    arr=deque(s.split())
+    arr2=deque()
+    
+    while arr:
+        num=arr.popleft()
+        if num!='Z':
+            answer+=int(num)
+            arr2.appendleft(num)
+        if num=='Z' and arr2:
+            num2=arr2.popleft()
+            answer-=int(num2)
+            
+    return answer
+
+‘’’
+from collections import deque
+
+def solution(s):
+    answer = 0
+    arr=deque(s.split())
+    arr2=deque()
+    
+    
+    num=arr.popleft()
+    arr2.appendleft(num)
+    
+    while arr:
+        num=arr.popleft()
+        if num!='z':
+            answer+=int(num)
+            arr2.appendleft(num)
+        if num=='z':
+            if arr2:
+                num2=arr2.popleft()
+                answer-=int(num2)
+    return answer
+‘’’
+
+
+‘’’
+def solution(s):
+    answer = 0
+    arr=[]
+    for i in range(len(s)):
+        arr=s.split()
+    
+    for i in range(len(arr)):
+        if arr[i]!='Z':
+            answer+=int(arr[i])
+        else:
+            answer-=int(arr[i-1])
+    
+    return answer
+‘’’
