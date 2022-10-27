@@ -1,0 +1,7 @@
+def solution(array):
+    answer = 0
+    for i in range(len(array)):
+        num=str(array[i])
+        for j in range(len(num)):
+            if num[j]=="7": answer+=1
+    return answer
