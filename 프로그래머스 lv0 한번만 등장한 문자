@@ -1,0 +1,12 @@
+def solution(s):
+    answer = ''
+    arr=[0]*26
+    
+    for letter in s:
+        arr[ord(letter)-97]+=1
+    
+    for i in range(len(arr)):
+        if arr[i]==1:
+            answer+=chr(i+97)
+    
+    return answer
