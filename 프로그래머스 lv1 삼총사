@@ -1,0 +1,22 @@
+def dfs(total,count,substring,number,num,visit):
+    if count==3: 
+        if total==0:
+            sub=substring.split()
+            sub.sort()
+            substring=""
+            for i in range(len(sub)): substring+=sub[i]+" "
+            num.add(substring)
+        return
+    for i in range(len(number)):
+        if visit[i]==False:
+            total+=number[i]
+            visit[i]=True
+            dfs(total,count+1,substring+" "+str(i),number,num,visit)
+            total-=number[i]
+            visit[i]=False
+
+def solution(number):
+    num=set([])
+    visit=[False]*len(number)
+    dfs(0,0,"",number,num,visit)
+    return len(num)
