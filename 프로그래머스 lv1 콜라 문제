@@ -1,0 +1,21 @@
+def solution(a, b, n):
+    answer=0
+    while n>=a:
+        sub1=n-n%a
+        sub2=n//a
+        sub3=n-sub1+b*sub2
+        n=sub3
+        answer+=b*sub2
+    return answer
+
+‘’’
+def solution(a, b, n):
+    answer = 0
+    while n>=a:
+        sub1=n%a
+        sub2=n//a
+        sub3=n-sub1+b*sub2
+        n=sub3
+    answer=n
+    return answer
+‘’’
