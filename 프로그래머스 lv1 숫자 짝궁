@@ -1,0 +1,116 @@
+def solution(X, Y):
+    answer=""
+    
+    X="".join(sorted(X))
+    Y="".join(sorted(Y))
+    xnum,ynum=0,0
+    while xnum<len(X) and ynum<len(Y):
+        if X[xnum]==Y[ynum]:
+            answer+=X[xnum]
+            xnum+=1
+            ynum+=1
+        elif X[xnum]<Y[ynum]: xnum+=1
+        elif X[xnum]>Y[ynum]: ynum+=1
+    
+    answer=answer[::-1]
+    if len(answer)==0: return "-1"
+    if answer[0]=="0": return "0"
+    
+    return answer
+
+‘’’
+def solution(X, Y):
+    answer=""
+    
+    X="".join(sorted(X))
+    Y="".join(sorted(Y))
+    xnum,ynum=0,0
+    while xnum<len(X) and ynum<len(Y):
+        if X[xnum]==Y[ynum]:
+            answer+=X[xnum]
+            xnum+=1
+            ynum+=1
+        elif X[xnum]<Y[ynum]: xnum+=1
+        elif X[xnum]>Y[ynum]: ynum+=1
+    
+    answer=answer[::-1]
+    if len(answer)==0: return "-1"
+    if answer[:-1]=="0": return "0"
+    
+    return answer
+‘’’
+
+
+‘’’
+def solution(X, Y):
+    answer=""
+    xnum,ynum=0,0
+    
+    if len(X)<len(Y): 
+        while xnum<len(X):
+            if X[xnum]==Y[ynum]:
+                answer+=X[xnum]
+                xnum+=1
+                ynum+=1
+            else:
+                ynum+=1
+    else:
+        while ynum<len(Y):
+            if X[xnum]==Y[ynum]:
+                answer+=X[xnum]
+                xnum+=1
+                ynum+=1
+            else:
+                xnum+=1
+    
+    return answer
+‘’’
+
+‘’’
+
+def solution(X, Y):
+    answer=""
+    arr=[]
+    flagy=[False]*len(Y)
+    
+    for i in range(len(X)):
+        for j in range(len(Y)):
+            if X[i]==Y[j] and flagy[j]==False:
+                flagy[j]=True
+                arr.append(X[i])
+    
+    arr.sort()
+    sum=0
+    if len(arr)==0: return "-1"
+    for i in range(len(arr)): sum+=int(arr[i])
+    if sum==0: return "0"
+    for i in range(len(arr)-1,-1,-1): 
+        answer+=arr[i]
+    return answer
+‘’’
+
+‘’’
+def solution(X, Y):
+    answer=""
+    arr=[]
+    flagy=[False]*len(Y)
+    
+    for i in range(len(X)):
+        for j in range(len(Y)):
+            if X[i]==Y[j] and flagy[j]==False:
+                flagy[j]=True
+                arr.append(X[i])
+    
+    arr.sort()
+    out=False
+    if len(arr)==0: return "-1"
+    for i in range(len(arr)):
+        if arr[i]=="0": continue
+        else: 
+            out=True 
+            break
+    if out==False: return "0"
+    for i in range(len(arr)-1,-1,-1): 
+        answer+=arr[i]
+    return answer
+‘’’
