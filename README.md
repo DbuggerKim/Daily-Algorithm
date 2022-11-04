@@ -11,6 +11,7 @@ Languages
 > SQL
 
 
+
 Resources
 
 > Codility Exercises : https://app.codility.com/programmers/trainings/
