@@ -1,0 +1,8 @@
+def solution(elements):
+    answer=set()
+    num=len(elements)
+    elements=elements*2 #배열을 동일하게 두배로 늘려줌
+    for i in range(num):
+        for j in range(num):
+            answer.add(sum(elements[j:j+i+1]))
+    return len(answer)
