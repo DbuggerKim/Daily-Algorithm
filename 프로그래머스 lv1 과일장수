@@ -1,0 +1,18 @@
+def solution(k, m, score):
+    answer=0
+    count=0
+    small=int(1e9)
+    sub=[]
+    score.sort()
+    
+    for i in range(len(score)-1,-1,-1):
+        small=min(small,score[i])
+        count+=1
+        if score[i]<=k and count==m:
+            sub.append(small)
+            count=0
+            small=int(1e9)
+    
+    for i in range(len(sub)): answer+=sub[i]*m
+    
+    return answer
