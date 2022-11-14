@@ -1,0 +1,31 @@
+
+#https://honeynyancat.tistory.com/44
+from collections import Counter
+
+def solution(topping):
+    answer = 0
+    me = Counter(topping) # 내가 모든 토핑을 가지고 있다
+    bro = {} # 동생 아직 토핑이 없다
+    
+    # 순회하면서 토핑을 하나씩 동생한테도 나눠준다
+    for i in range(len(topping)):
+        if topping[i] in bro: bro[topping[i]]+=1
+        else: bro[topping[i]]=1
+        me[topping[i]]-=1
+        if not me[topping[i]]: del(me[topping[i]])
+        if len(me)==len(bro): answer+=1
+
+    return answer
+
+# TO
+def solution(topping):
+    answer=0
+    
+    for i in range(len(topping)):
+        A=set(topping[0:i+1:1])
+        B=set(topping[i+1:len(topping):1])
+        countA=len(A)
+        countB=len(B)
+        if countA==countB: answer+=1
+        
+    return answer
