@@ -8,6 +8,8 @@ Languages
 
 > PYTHON
 
+> JSP/CSS
+
 > SQL
 
 
