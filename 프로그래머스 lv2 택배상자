@@ -1,0 +1,79 @@
+def solution(order):
+    temp=[]
+    count,now=0,0
+    while count!=len(order):
+        temp.append(count+1)
+        while temp[-1]==order[now]:
+            now+=1
+            temp.pop()
+            if len(temp)==0: break
+        count+=1
+        
+    return now
+
+‘’’
+from collections import deque
+
+def solution(order):
+    answer = 0
+    main=deque()
+    sub=deque()
+    truck=deque()
+    m,s=0,0
+    
+    for i in range(len(order)): main.append(order[i])
+    
+    for i in range(len(order)):
+        if main: m=main.popleft()
+        if sub: s=sub.pop()
+        if order[i]==m:
+            sub.append(s)
+            truck.append(m)
+            m,s=0,0
+        elif order[i]==s:
+            main.appendleft(m)
+            truck.append(s)
+            m,s=0,0
+        else: 
+            if s!=0: sub.append(s)
+            if m!=0: main.appendleft(m)
+            continue
+    
+    print(main)
+    print(sub)
+    print(truck)
+    answer=len(list(truck))
+    return answer
+‘’’
+
+‘’’
+from collections import deque
+
+def solution(order):
+    answer = 0
+    main=deque()
+    sub=deque()
+    truck=deque()
+    m,s=0,0
+    
+    for i in range(len(order)): main.append(order[i])
+    for i in range(len(order)):
+        if main: m=main.popleft()
+        if sub: s=sub.pop()
+        if order[i]==m:
+            sub.append(s)
+            truck.append(m)
+            m,s=0,0
+        else:
+            if order[i]==s:
+                main.appendleft(m)
+                truck.append(s)
+                m,s=0,0
+    
+    print(main)
+    print(sub)
+    print(truck)
+    
+    answer=len(list(truck))
+    return answer
+‘’’
