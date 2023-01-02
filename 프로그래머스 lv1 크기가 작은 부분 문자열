@@ -1,0 +1,57 @@
+//TO
+/*import java.util.*;
+
+class Solution {
+    public int solution(String t, String p) {
+        int answer = 0;
+        
+        ArrayList<String> list = new ArrayList<>();
+        int size = p.length();
+        for(int i=0; i<t.length()-size+1; i++) {
+            list.add(t.substring(i,i+size));
+        }
+        
+        for(int i=0; i<list.size(); i++) {
+            //System.out.println(list.get(i));
+            int num1=Integer.parseInt(list.get(i));
+            int num2=Integer.parseInt(p);
+            if(num1<=num2) answer++;
+        }
+        
+        return answer;
+    }
+}*/
+
+//TO
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(String t, String p) {
+        int answer = 0;
+        int size = p.length();
+        int num2=Integer.parseInt(p);
+        for(int i=0; i<t.length()-size+1; i++) {
+            String sub=t.substring(i,i+size);
+            int num1=Integer.parseInt(sub);
+            if(num1<=num2) answer+=1;            
+        }
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public int solution(String t, String p) {
+        int answer = 0;
+        long num2=Long.parseLong(p);
+        for(int i=0; i<t.length()-p.length()+1; i++) {
+            String sub=t.substring(i,i+p.length());
+            long num1=Long.parseLong(sub);
+            if(num1<=num2) answer+=1;            
+        }
+        return answer;
+    }
+}
