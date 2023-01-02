@@ -1,0 +1,80 @@
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String s) {
+        int[] answer=new int[s.length()];
+        Arrays.fill(answer,-1);
+        for(int i=0; i<s.length(); i++) {
+            String sub1=s.substring(0,i);
+            String sub2=s.substring(i,i+1);
+            if(sub1.contains(sub2)) {
+                for(int j=sub1.length()-1; j>=0; j--) {
+                    String comp1=sub1.charAt(j)+"";
+                    int num=sub1.indexOf(comp1);
+                    if(comp1.equals(sub2)) {
+                        if(answer[i]!=-1 && answer[i]<=Math.abs(i-num)) break;
+                        else answer[i]=Math.abs(i-num);
+                    }
+                }
+            }
+            else continue;
+        }
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String s) {
+        int[] answer=new int[s.length()];
+        Arrays.fill(answer,-1);
+        for(int i=0; i<s.length(); i++) {
+            String sub1=s.substring(0,i);
+            String sub2=s.substring(i,i+1);
+            if(sub1.contains(sub2)) {
+                for(int j=sub1.length()-1; j>=0; j--) {
+                    String comp1=sub1.charAt(j)+"";
+                    int num=sub1.indexOf(comp1);
+                    if(comp1.equals(sub2)) {
+                        answer[i]=i-num;
+                        break;
+                    }
+                }
+            }
+            else continue;
+        }
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String s) {
+        int[] answer=new int[s.length()];
+        Arrays.fill(answer,-1);
+        for(int i=0; i<s.length(); i++) {
+            String sub1=s.substring(0,i);
+            String sub2=s.substring(i,i+1);
+            if(sub1.contains(sub2)) {
+                for(int j=sub1.length()-1; j>=0; j--) {
+                    String comp1=sub1.charAt(j)+"";
+                    if(comp1.equals(sub2)) {
+                        answer[i]=i-j;
+                        break;
+                    }
+                }
+            }
+            else continue;
+        }
+        return answer;
+    }
+}
