@@ -1,0 +1,42 @@
+/*
+import java.util.*;
+
+class Solution {
+    public int[] solution(int k, int[] score) {
+        int[] answer = new int[score.length];
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(score[0]);
+        int num=score[0];
+        
+        for(int i=0; i<score.length; i++) {
+            if(i<k-1) {
+                answer[i]=num;
+                if(score[i]>num) pq.add(score[i]);
+            }
+            else{
+                if(score[i]>num) pq.add(score[i]);
+                answer[i]=pq.poll();
+            }
+        }
+        
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public static int[] solution(int k, int[] score) {
+        int[] answer = new int[score.length];
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for (int i = 0; i < score.length; i++) {
+            pq.add(score[i]);
+            if(pq.size()>k) pq.poll();
+            answer[i]=pq.peek();
+        }
+        return answer;
+    }
+}
