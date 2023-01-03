@@ -1,0 +1,50 @@
+/*
+ 출처: https://www.acmicpc.net/problem/2309
+ 제목: 일곱 난쟁 (브론즈1)
+ */
+
+package sample;
+import java.util.*;
+import java.lang.Integer;
+
+public class Main {
+	
+	public static String[] output;
+	public static void dfs(boolean[] visit, int[] arr, String order, int total, int count) {
+		if(count==7) {
+			if(total==100) output = order.split(" ");
+			return;
+		}
+		for(int i=0; i<arr.length; i++) {
+			if(visit[i]==false) {
+				total+=arr[i];
+				visit[i]=true;
+				dfs(visit, arr, order+" "+arr[i], total, count+1);
+				total-=arr[i];
+				visit[i]=false;
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int[] arr = new int[9];
+		boolean[] visit = new boolean[9];
+		for(int i=0; i<9; i++) arr[i] = sc.nextInt();
+		dfs(visit,arr,"-1",0,0);
+		
+		int[] total=new int[output.length];
+		try {		
+			for(int i=1; i<total.length; i++) {
+				total[i]=Integer.valueOf(output[i]);
+			}
+		} catch (NumberFormatException e) {
+			//error 처리
+		} catch (Exception e) {
+			//error 처리
+		}
+		Arrays.sort(total);
+		for(int i=1; i<total.length; i++) System.out.println(total[i]);
+        sc.close();
+	}
+}
