@@ -1,0 +1,25 @@
+/*
+ 출처: https://www.acmicpc.net/problem/10818
+ 제목: 최소, 최대 (브론즈3)
+ */
+
+package sample;
+
+import java.util.*;
+
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		int[] arr = new int[T];
+		
+		for(int i=0; i<T; i++) arr[i] = sc.nextInt();
+		Arrays.sort(arr);
+		System.out.print(arr[0]+" ");
+		System.out.print(arr[arr.length-1]);
+		
+        sc.close();
+	}
+}
