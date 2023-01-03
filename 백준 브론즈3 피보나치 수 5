@@ -1,0 +1,24 @@
+/*
+ 출처: https://www.acmicpc.net/problem/10870
+ 제목: 피보나치 수 5 (브론즈2)
+ */
+
+package sample;
+import java.util.*;
+
+public class Main {
+	
+	public static int fib(int n) {
+		if(n==0) return 0;
+		if(n==1) return 1;
+		return fib(n-2)+fib(n-1);
+	}
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int num = sc.nextInt();
+		int output=fib(num);
+		System.out.println(output);
+        sc.close();
+	}
+}
