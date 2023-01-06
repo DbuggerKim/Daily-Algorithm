@@ -1,0 +1,65 @@
+/*
+import java.util.*;
+
+class Solution {
+    public int solution(int[][] ability) {
+        int answer=0;
+        
+        int row=ability[0].length;
+        int col=ability.length;
+        boolean[] people=new boolean[col];
+        Arrays.fill(people,false);
+        int[] health= new int[row];
+        Arrays.fill(health,0);
+        
+        for(int i=0; i<row; i++) {
+            for(int j=0; j<col; j++) {
+                if(people[j]=false && health[i]<=ability[j][i]) {
+                    people[j]=true;
+                    health[i]=Math.max(health[i],ability[j][i]);
+                }
+            }
+        }
+        
+        for(int i=0; i<health.length; i++) {
+            System.out.println(health[i]);
+            answer+=health[i];
+        }
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    
+    public boolean[] flag;
+    public int answer=0;
+    public int sum=0;
+    
+    public void dfs(int count, int[][] ability, boolean[] flag) {
+        int n=ability.length; //학생수
+        int m=ability[0].length; //종목수
+        if(count==m) {
+            answer=Math.max(answer,sum);
+            return;
+        }
+        for(int i=0; i<n; i++) {
+            if(flag[i]==false) {
+                flag[i]=true;
+                sum+=ability[i][count];
+                dfs(count+1,ability,flag);
+                sum-=ability[i][count];
+                flag[i]=false;
+            }
+        }
+    }
+    
+    public int solution(int[][] ability) {
+        flag = new boolean[ability.length];
+        dfs(0,ability,flag);
+        return answer;
+    }
+}
