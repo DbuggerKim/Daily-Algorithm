@@ -1,0 +1,34 @@
+import java.util.*;
+
+class Solution {
+    public String solution(String input_string) {
+        String answer = "";
+        char init=input_string.charAt(0);
+        ArrayList<Character> list1=new ArrayList<>();
+        list1.add(init);
+        
+        for(int i=1; i<input_string.length(); i++) {
+            char next=input_string.charAt(i);
+            if(init!=next) list1.add(next);
+            init=next;
+        }
+        
+        HashSet<Character> set=new HashSet<>(list1);
+        ArrayList<Character> list2=new ArrayList<>(set);
+        int[] arr=new int[list2.size()];
+        for(int i=0; i<list2.size(); i++) {
+            for(int j=0; j<list1.size(); j++) {
+                if(list2.get(i)==list1.get(j)) arr[i]++;
+            }
+        }
+        
+        for(int i=0; i<arr.length; i++) {
+            if(arr[i]>1) answer+=list2.get(i);
+        }
+        
+        if(answer=="") answer="N";
+        //Collections.sort(answer);
+        
+        return answer;
+    }
+}
