@@ -1,0 +1,86 @@
+/*
+import java.util.*;
+
+class Solution {
+    public String[] solution(int[][] queries) {
+        
+        int index=0;
+        String[] answer=new String[queries.length]; 
+        
+        for(int i=0; i<answer.length; i++){
+            int height=queries[i][0];
+            int leaf=queries[i][1];
+            int num=(int)Math.pow(4,height-1)+leaf;
+            //answer[i]=num;
+            //System.out.println(num);
+        }
+        
+        return answer;
+    }
+}
+*/
+
+/*
+import java.util.*;
+
+class Solution {
+    public String[] solution(int[][] queries) {
+        
+        int index=0;
+        String[] result=new String[queries.length];
+        
+        for(int i=0; i<queries.length; i++){
+            int height=queries[i][0];
+            int leaf=queries[i][1];
+            int num=(int)Math.pow(4,height-1)+leaf;
+            
+            while(num>=5) {
+                int n=(int)(num/4);
+                if(n==2) result[index++]="RR";
+                else if(n==3) result[index++]="Rr";
+                else if(n==4) result[index++]="Rr";
+                else if(n==5) result[index++]="rr";
+            }
+        }
+        
+        return result;
+    }
+}
+*/
+
+import java.util.*;
+
+class Solution {
+    public String[] solution(int[][] queries) {
+        
+        String[] result=new String[queries.length];
+        
+        for(int i=0; i<queries.length; i++){
+            int gen=queries[i][0];
+            int num=queries[i][1]-1;
+            Stack<Integer> stack=new Stack<>();
+            if(gen == 1) result[i]="Rr";
+            else {
+                while(gen > 1) {
+                    gen--;
+                    stack.push(num%4);
+                    num/=4;
+                }
+                while(!stack.isEmpty()) {
+                    int out=stack.pop();
+                    if(out==0) {
+                        result[i]="RR";
+                        break;
+                    }
+                    else if(out==1 || out==2) result[i]="Rr";
+                    else if(out==3) {
+                        result[i]="rr";
+                        break;
+                    }
+                }   
+            }
+        }
+        
+        return result;
+    }
+}
