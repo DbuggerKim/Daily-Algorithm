@@ -1,0 +1,200 @@
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String today, String[] terms, String[] privacies) {
+        
+        ArrayList<Integer> list=new ArrayList<>();
+        
+        int year=Integer.parseInt(today.substring(0,4));
+        int month=Integer.parseInt(today.substring(5,7));
+        int day=Integer.parseInt(today.substring(8,10));
+        
+        HashMap<String, Integer> map=new HashMap<>();
+        for(int i=0; i<terms.length; i++) {
+            String[] term=terms[i].split(" ");
+            map.put(term[0],Integer.parseInt(term[1]));
+        }
+        
+        for(int i=0; i<privacies.length; i++) {
+            String[] privacy=privacies[i].split(" ");
+            int period=map.get(privacy[1]);
+            int py=period/12;
+            int pm=period%12;
+            
+            int y=Integer.parseInt(privacy[0].substring(0,4));
+            int m=Integer.parseInt(privacy[0].substring(5,7));
+            int d=Integer.parseInt(privacy[0].substring(8,10));
+            
+            if(m+pm>12) y=y+py+1;
+            else y+=py;
+            
+            if((m+pm)%12==0) m=12;
+            else m=(m+pm)%12;
+    
+            if(d==1) {
+                if(m==1){
+                    y-=1;
+                    m=12;
+                    d=28;
+                } else{
+                    m-=1;
+                    d=28;
+                }
+            } else d-=1;
+            
+            //System.out.println(y+"."+m+"."+d);
+            
+            if(year>y) list.add(i+1);
+            else{
+                if(month>m) list.add(i+1);
+                else {
+                    if(day>d) list.add(i+1);
+                }
+            }
+        }
+        
+        int[] answer=new int[list.size()];
+        for(int i=0; i<list.size(); i++) {
+            answer[i]=list.get(i);
+        }
+        
+        return answer;
+    }
+}*/
+
+/*
+import java.util.*;
+import java.lang.*;
+
+class Solution {
+    public int[] solution(String today, String[] terms, String[] privacies) {
+        
+        ArrayList<Integer> list=new ArrayList<>();
+        
+        int year=Integer.parseInt(today.substring(0,4));
+        int month=Integer.parseInt(today.substring(5,7));
+        int day=Integer.parseInt(today.substring(8,10));
+        
+        HashMap<String, Integer> map=new HashMap<>();
+        for(int i=0; i<terms.length; i++) {
+            String[] term=terms[i].split(" ");
+            map.put(term[0],Integer.parseInt(term[1]));
+        }
+        
+        for(int i=0; i<privacies.length; i++) {
+            String[] privacy=privacies[i].split(" ");
+            int period=map.get(privacy[1]);
+            
+            int pm=period%12;
+            int py=period/12;
+            
+            int y=Integer.parseInt(privacy[0].substring(0,4));
+            int m=Integer.parseInt(privacy[0].substring(5,7));
+            int d=Integer.parseInt(privacy[0].substring(8,10));
+            
+            if(d==1) {
+                if(m==1){
+                    y-=1;
+                    m=12;
+                    d=28;
+                } else{
+                    m-=1;
+                    d=28;
+                }
+            } else d-=1;
+            
+            if((m+pm)>12) {
+                m=(m+pm)%12;
+                y+=1;
+            }
+            else m+=pm;
+            
+            y+=py;
+            
+            //System.out.println(y+"."+m+"."+d);
+            
+            if(year>y) list.add(i+1);
+            else{
+                if(month>m) list.add(i+1);
+                else {
+                    if(day>d) list.add(i+1);
+                }
+            }
+        }
+        
+        int[] answer=new int[list.size()];
+        for(int i=0; i<list.size(); i++) {
+            answer[i]=list.get(i);
+        }
+        
+        return answer;
+    }
+}
+*/
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Solution {
+    private static int[] addDays(int year,int month, int day,int term) {
+        int[] days = new int[3];
+        days[0] = year+(month+term)/12;
+        days[1] = (month+term)%12;
+        days[2] = day;
+        if(day == 0) {
+            days[1] -=1;
+            days[2] = 28;
+        }
+        if(days[1] == 0) {
+            days[0]-=1;
+            days[1] = 12;
+        }
+        return days;
+    }
+
+    private static boolean isLonnger(int[] A,int[] B) {
+        for(int i = 0; i < 3; i++) {
+            if(A[i] < B[i]) {
+                return true;
+            }else if(A[i] > B[i]) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private static int[] transDayToInt(String day) {
+        int[] answer = new int[3];
+        String[] days = day.split("[.]");
+        for(int i = 0; i < 3; i++) {
+            answer[i] = Integer.parseInt(days[i]);
+        }
+        return answer;
+    }
+
+    public int[] solution(String today, String[] terms, String[] privacies) {
+        HashMap<String,Integer> map = new HashMap<>();
+        ArrayList<Integer> answer = new ArrayList<>();
+
+        for(int i = 0; i < terms.length; i++) {
+            String[] cur = terms[i].split(" ");
+            map.put(cur[0], Integer.parseInt(cur[1]));
+        }
+
+        int[] todays = transDayToInt(today);
+
+        for(int i = 0; i < privacies.length; i++) {
+            String[] cur = privacies[i].split(" ");
+            int[] day = transDayToInt(cur[0]);
+            int[] curDay = addDays(day[0],day[1],day[2]-1,map.get(cur[1]));
+
+            if(isLonnger(curDay,todays)) {
+                answer.add(i+1);
+            }
+        }
+        return answer.stream().mapToInt(i -> i).toArray();
+    }
+
+}
