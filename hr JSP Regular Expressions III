@@ -27,8 +27,19 @@ function regexVar() {
      * Declare a RegExp object variable named 're'
      * It must match ALL occurrences of numbers in a string.
      */
-    
-    let re = new RegExp('\\d+','g')
+    //  ^ => first item matches:
+    // () => stores matching value captured within
+    // [aeiou] => matches any of the characters in the brackets
+    // . => matches any character:
+    // + => for 1 or more occurrances (this ensures str length > 3)
+    // \1 => matches to previously stored match.
+    // \2 looks for matched item stored 2 instances ago
+    // \3 looks for matched item stored 3 ago, etc
+    //  $ ensures that matched item is at end of the sequence
+    // 정규식 시작 /로 끝도 /로
+
+    //g로 소숫점점 제거
+    const re = /([0-9])+/g;
     /*
      * Do not remove the return statement
      */
