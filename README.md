@@ -10,6 +10,8 @@ Languages
 
 > JSP/CSS
 
+> HTML
+
 > SQL
 
 
