@@ -1,0 +1,57 @@
+
+//그래도 JAVA 기반이니 Math.max 등 기본적인 내장함수 비슷함
+
+'use strict';
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', _ => {
+    inputString = inputString.trim().split('\n').map(string => {
+        return string.trim();
+    });
+    
+    main();    
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+
+/**
+*   Return the second largest number in the array.
+*   @param {Number[]} nums - An array of numbers.
+*   @return {Number} The second largest number in the array.
+**/
+function getSecondLargest(nums) {
+    // Complete the function
+    let big=0;
+    
+    for(let i=0; i<nums.length; i++) {
+        big=Math.max(big,nums[i]);
+    }
+    
+    let max=big;
+    big=0;
+    for(let i=0; i<nums.length; i++) {
+        if(max!=nums[i]) {
+            big=Math.max(big,nums[i]);
+        }
+    }
+    return big;
+}
+
+
+function main() {
+    const n = +(readLine());
+    const nums = readLine().split(' ').map(Number);
+    
+    console.log(getSecondLargest(nums));
+}
