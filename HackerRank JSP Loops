@@ -1,0 +1,52 @@
+'use strict';
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', _ => {
+    inputString = inputString.trim().split('\n').map(string => {
+        return string.trim();
+    });
+    
+    main();    
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+
+/*
+ * Complete the vowelsAndConsonants function.
+ * Print your output using 'console.log()'.
+ */
+function vowelsAndConsonants(s) {
+    
+    let vowel=['a','e','i','o','u'];
+    let consonant=['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
+    
+    for(let i=0; i<s.length; i++){
+        let v=s.charAt(i);
+        if(vowel.includes(v)) console.log(v);
+    }
+    
+    for(let i=0; i<s.length; i++){
+        let c=s.charAt(i);
+        if(consonant.includes(c)) console.log(c);
+        //if(!vowel.includes(c)) console.log(c);
+    }
+    
+}
+
+
+function main() {
+    const s = readLine();
+    
+    vowelsAndConsonants(s);
+}
