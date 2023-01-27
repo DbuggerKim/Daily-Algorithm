@@ -1,4 +1,4 @@
-# Daily-Coding
+# Daily-Algorithm
 
 
 Languages
